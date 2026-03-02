@@ -10,10 +10,10 @@
   overflow: hidden;
 }
 
-/* 背景装饰 */
+/* 背景装饰 - 延伸到页面最顶部 */
 .home-page::before {
   content: '';
-  position: absolute;
+  position: fixed; /* 改为 fixed，让背景固定并延伸到视口顶部 */
   top: 0;
   left: 0;
   right: 0;

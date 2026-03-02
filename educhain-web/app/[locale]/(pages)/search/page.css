@@ -13,7 +13,7 @@
 
 /* ==================== 背景装饰 ==================== */
 .search-background {
-  position: absolute;
+  position: fixed; /* 改为 fixed，让背景固定并延伸到视口顶部 */
   top: 0;
   left: 0;
   right: 0;
