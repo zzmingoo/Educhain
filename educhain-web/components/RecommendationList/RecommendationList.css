@@ -35,12 +35,12 @@
   transition: all var(--transition-base) ease;
   cursor: pointer;
   border: none;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--color-text-tertiary), 0.08);
   color: rgb(var(--color-text-secondary));
 }
 
 .refresh-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(var(--color-text-tertiary), 0.12);
 }
 
 .refresh-btn svg {
@@ -62,7 +62,7 @@
   display: flex;
   width: 100%;
   margin: 0 auto var(--spacing-xl);
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(var(--color-text-tertiary), 0.05);
   border-radius: var(--radius-xl);
   padding: var(--spacing-xs);
 }
@@ -89,17 +89,17 @@
 }
 
 .tab-btn.active {
-  background: white;
+  background: rgb(var(--color-background));
   color: rgb(var(--color-text-primary));
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .dark .tabs-nav {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(var(--color-text-primary), 0.05);
 }
 
 .dark .tab-btn.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.1);
 }
 
 .tabs-content {
@@ -196,23 +196,23 @@
 }
 
 .type-tag.type-text {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-info-dark), 0.1);
+  color: rgb(var(--color-info-dark));
 }
 
 .type-tag.type-video {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .type-tag.type-pdf {
-  background: rgba(251, 146, 60, 0.1);
-  color: rgb(251, 146, 60);
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .type-tag.type-image {
-  background: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
+  background: rgba(var(--color-success-dark), 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 .tag {
@@ -439,7 +439,7 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(var(--color-text-tertiary), 0.05);
   color: rgb(var(--color-text-secondary));
 }
 
@@ -464,48 +464,48 @@
 
 /* 喜欢按钮 */
 .action-like {
-  color: #10b981;
+  color: rgb(var(--color-success-dark));
 }
 
 .action-like:hover {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
+  background: rgb(var(--color-success-dark) / 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 /* 不喜欢按钮 */
 .action-dislike {
-  color: #f59e0b;
+  color: rgb(var(--color-warning-dark));
 }
 
 .action-dislike:hover {
-  background: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+  background: rgb(var(--color-warning-dark) / 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 /* 移除按钮 */
 .action-remove {
-  color: #ef4444;
+  color: rgb(var(--color-error-dark));
 }
 
 .action-remove:hover {
-  background: rgba(239, 68, 68, 0.1);
-  color: #dc2626;
+  background: rgb(var(--color-error-dark) / 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .dark .action-btn {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(var(--color-text-primary), 0.05);
 }
 
 .dark .action-like:hover {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(var(--color-success-dark), 0.15);
 }
 
 .dark .action-dislike:hover {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(var(--color-warning-dark), 0.15);
 }
 
 .dark .action-remove:hover {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(var(--color-error-dark), 0.15);
 }
 
 /* ==================== 反馈状态 ==================== */
@@ -515,13 +515,13 @@
   font-size: var(--text-sm);
   font-weight: 500;
   color: rgb(var(--color-text-secondary));
-  background: rgba(244, 114, 182, 0.05);
+  background: rgba(var(--color-accent), 0.05);
   border-radius: var(--radius-lg);
   margin-top: var(--spacing-md);
 }
 
 .dark .feedback-status {
-  background: rgba(249, 168, 212, 0.1);
+  background: rgba(var(--color-primary-hover), 0.1);
 }
 
 /* 已反馈的卡片 */

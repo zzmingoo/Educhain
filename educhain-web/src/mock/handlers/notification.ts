@@ -20,10 +20,18 @@ export const notificationHandlers = [
 
     let items = [...mockNotifications];
 
+    // 类型筛选
     if (type) {
-      items = items.filter(n => n.type === type);
+      const upperType = type.toUpperCase();
+      if (upperType === 'INTERACTION') {
+        // 互动类型包含：点赞、评论、关注
+        items = items.filter(n => ['LIKE', 'COMMENT', 'FOLLOW'].includes(n.type));
+      } else {
+        items = items.filter(n => n.type === upperType);
+      }
     }
 
+    // 已读状态筛选
     if (isRead !== null) {
       items = items.filter(n => n.isRead === (isRead === 'true'));
     }

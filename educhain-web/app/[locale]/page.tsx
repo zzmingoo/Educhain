@@ -1,6 +1,8 @@
 'use client';
 
-import { useIntlayer } from 'next-intlayer';
+import { useIntlayer, useLocale } from 'next-intlayer';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import RecommendationList from '../../components/RecommendationList/RecommendationList';
@@ -8,6 +10,23 @@ import './Home.css';
 
 export default function HomePage() {
   const content = useIntlayer('home');
+  const { locale } = useLocale();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/${locale}/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push(`/${locale}/search`);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <>
@@ -50,12 +69,15 @@ export default function HomePage() {
                     type="text"
                     placeholder={content.hero.searchPlaceholder.value}
                     className="hero-search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={handleKeyPress}
                   />
-                  <button className="hero-search-button motion-hover-lift">
+                  <button 
+                    className="hero-search-button motion-hover-lift"
+                    onClick={handleSearch}
+                  >
                     <span>{content.hero.searchButton.value}</span>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
                   </button>
                 </div>
               </div>

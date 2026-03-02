@@ -9,39 +9,39 @@
 
 .comment-item.level-0 {
   padding: var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgb(var(--color-border-light));
   border-radius: var(--radius-xl);
   transition: all var(--transition-base) ease;
 }
 
 .dark .comment-item.level-0 {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.05);
+  border-color: rgba(var(--color-text-primary), 0.1);
 }
 
 .comment-item.level-0:hover {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(var(--color-background), 0.8);
+  box-shadow: var(--shadow-md);
 }
 
 .dark .comment-item.level-0:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(var(--color-text-primary), 0.08);
 }
 
 .comment-item.level-1,
 .comment-item.level-2 {
   padding: var(--spacing-md);
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(var(--color-text-tertiary), 0.03);
   border-radius: var(--radius-lg);
   border-left: 2px solid rgba(var(--color-accent), 0.3);
 }
 
 .dark .comment-item.level-1,
 .dark .comment-item.level-2 {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(var(--color-text-primary), 0.03);
 }
 
 /* 评论主体 */
@@ -78,7 +78,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary)));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-weight: 600;
   font-size: var(--text-sm);
 }
@@ -147,11 +147,11 @@
 
 .action-btn:hover:not(:disabled) {
   color: rgb(var(--color-text-primary));
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--color-text-tertiary), 0.08);
 }
 
 .dark .action-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-tertiary), 0.15);
 }
 
 .action-btn:disabled {
@@ -160,7 +160,7 @@
 }
 
 .like-btn.liked {
-  color: rgb(239, 68, 68);
+  color: rgb(var(--color-error-dark));
 }
 
 .like-btn.liked svg {
@@ -168,32 +168,32 @@
 }
 
 .delete-btn {
-  color: rgb(239, 68, 68);
+  color: rgb(var(--color-error-dark));
 }
 
 .delete-btn:hover:not(:disabled) {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(var(--color-error), 0.1);
 }
 
 /* 回复输入框 */
 .reply-input-wrapper {
   margin-top: var(--spacing-md);
   padding: var(--spacing-md);
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(var(--color-text-tertiary), 0.03);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgb(var(--color-border-light));
 }
 
 .dark .reply-input-wrapper {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.03);
+  border-color: rgba(var(--color-text-primary), 0.1);
 }
 
 .reply-input {
   width: 100%;
   min-height: 80px;
   padding: var(--spacing-sm);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   line-height: 1.5;
@@ -224,7 +224,7 @@
 .reply-btn-submit {
   padding: var(--spacing-xs) var(--spacing-md);
   background: rgb(var(--color-accent));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   border: none;
   border-radius: var(--radius-md);
   font-size: var(--text-sm);

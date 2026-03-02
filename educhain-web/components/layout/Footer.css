@@ -74,25 +74,25 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-full);
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--color-text-tertiary), 0.08);
   color: rgb(var(--color-text-secondary));
   text-decoration: none;
   transition: all var(--transition-fast) ease;
 }
 
 .social-link:hover {
-  background: rgba(244, 114, 182, 0.1);
-  color: #DB2777;
+  background: rgb(var(--color-accent) / 0.1);
+  color: rgb(var(--color-accent-hover));
   transform: translateY(-2px);
 }
 
 .dark .social-link {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.1);
 }
 
 .dark .social-link:hover {
-  background: rgba(244, 114, 182, 0.2);
-  color: #F9A8D4;
+  background: rgb(var(--color-accent) / 0.2);
+  color: rgb(var(--color-primary));
 }
 
 /* 链接区域 */
@@ -138,11 +138,11 @@
 }
 
 .footer-link:hover {
-  color: #DB2777;
+  color: rgb(var(--color-accent-hover));
 }
 
 .dark .footer-link:hover {
-  color: #F9A8D4;
+  color: rgb(var(--color-primary));
 }
 
 /* 底部版权信息 */

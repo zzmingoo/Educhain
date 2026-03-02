@@ -16,7 +16,7 @@
   background: rgba(var(--color-background), 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 2px solid rgba(244, 114, 182, 0.3);
+  border: 2px solid rgba(var(--color-accent), 0.3);
   box-shadow: var(--shadow-lg);
   box-sizing: border-box;
 }
@@ -234,12 +234,12 @@
     rgb(var(--color-primary-dark))
   );
   border-color: rgb(var(--color-accent));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-weight: 700;
   box-shadow: 
     0 4px 12px rgba(var(--color-accent), 0.3),
     0 0 20px rgba(var(--color-accent), 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
   position: relative;
 }
 
@@ -429,10 +429,10 @@
 
 .dark .search-filter-container {
   background: rgba(var(--color-background), 0.8);
-  border: 2px solid rgba(244, 114, 182, 0.4);
+  border: 2px solid rgba(var(--color-accent), 0.4);
   box-shadow: 
     var(--shadow-lg),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.05);
 }
 
 .dark .filter-header {
@@ -535,7 +535,7 @@
 
   .filter-option.active {
     background: rgb(var(--color-text-primary));
-    color: white;
+    color: rgb(var(--color-background));
     box-shadow: none;
   }
 }

@@ -30,13 +30,13 @@ export default function NotificationsPage() {
 
   // 时间单位国际化
   const timeUnits: RelativeTimeUnits = useMemo(() => ({
-    justNow: String(content.timeUnits.justNow),
-    minutesAgo: String(content.timeUnits.minutesAgo),
-    hoursAgo: String(content.timeUnits.hoursAgo),
-    daysAgo: String(content.timeUnits.daysAgo),
-    weeksAgo: String(content.timeUnits.weeksAgo),
-    monthsAgo: String(content.timeUnits.monthsAgo),
-    yearsAgo: String(content.timeUnits.yearsAgo),
+    justNow: String(content.timeUnits.justNow.value),
+    minutesAgo: String(content.timeUnits.minutesAgo.value),
+    hoursAgo: String(content.timeUnits.hoursAgo.value),
+    daysAgo: String(content.timeUnits.daysAgo.value),
+    weeksAgo: String(content.timeUnits.weeksAgo.value),
+    monthsAgo: String(content.timeUnits.monthsAgo.value),
+    yearsAgo: String(content.timeUnits.yearsAgo.value),
   }), [content.timeUnits]);
 
   // 获取通知列表
@@ -155,10 +155,10 @@ export default function NotificationsPage() {
     <>
       <Navbar />
       <main className="notifications-page">
-        <div className="page-content">
+        <div className="page-content-narrow">
           <header className="notifications-header">
-            <h1 className="notifications-title">{content.title}</h1>
-            <p className="notifications-subtitle">{content.subtitle}</p>
+            <h1 className="notifications-title">{content.title.value}</h1>
+            <p className="notifications-subtitle">{content.subtitle.value}</p>
           </header>
 
           <div className="notifications-toolbar">
@@ -173,7 +173,7 @@ export default function NotificationsPage() {
                 className={`tab-button ${activeTab === 'all' ? 'active' : ''}`} 
                 onClick={() => setActiveTab('all')}
               >
-                {content.all}
+                {content.all.value}
               </button>
               <button 
                 role="tab"
@@ -181,7 +181,7 @@ export default function NotificationsPage() {
                 className={`tab-button ${activeTab === 'unread' ? 'active' : ''}`} 
                 onClick={() => setActiveTab('unread')}
               >
-                {content.unread}
+                {content.unread.value}
                 {unreadCount > 0 && (
                   <span className="unread-badge" aria-label={`${unreadCount}`}>
                     {unreadCount}
@@ -194,7 +194,7 @@ export default function NotificationsPage() {
                 className={`tab-button ${activeTab === 'system' ? 'active' : ''}`} 
                 onClick={() => setActiveTab('system')}
               >
-                {content.system}
+                {content.system.value}
               </button>
               <button 
                 role="tab"
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
                 className={`tab-button ${activeTab === 'interaction' ? 'active' : ''}`} 
                 onClick={() => setActiveTab('interaction')}
               >
-                {content.interaction}
+                {content.interaction.value}
               </button>
             </nav>
 
@@ -221,7 +221,7 @@ export default function NotificationsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
-                <span>{content.markAllRead}</span>
+                <span>{content.markAllRead.value}</span>
               </button>
               <button 
                 className="action-btn danger" 
@@ -237,7 +237,7 @@ export default function NotificationsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 )}
-                <span>{content.clearAll}</span>
+                <span>{content.clearAll.value}</span>
               </button>
             </div>
           </div>
@@ -295,8 +295,8 @@ export default function NotificationsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </div>
-              <h3 className="empty-title">{content.noNotifications}</h3>
-              <p className="empty-description">{content.noNotificationsDesc}</p>
+              <h3 className="empty-title">{content.noNotifications.value}</h3>
+              <p className="empty-description">{content.noNotificationsDesc.value}</p>
             </div>
           )}
         </div>

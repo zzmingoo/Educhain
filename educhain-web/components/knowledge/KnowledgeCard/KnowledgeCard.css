@@ -146,28 +146,28 @@
 }
 
 .type-tag.type-text {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-info-dark), 0.1);
+  color: rgb(var(--color-info-dark));
 }
 
 .type-tag.type-image {
-  background: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
+  background: rgba(var(--color-success-dark), 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 .type-tag.type-video {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .type-tag.type-pdf {
-  background: rgba(251, 146, 60, 0.1);
-  color: rgb(251, 146, 60);
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .type-tag.type-link {
-  background: rgba(168, 85, 247, 0.1);
-  color: rgb(168, 85, 247);
+  background: rgba(var(--color-secondary), 0.1);
+  color: rgb(var(--color-secondary-hover));
 }
 
 .tag {

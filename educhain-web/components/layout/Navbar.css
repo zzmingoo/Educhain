@@ -4,11 +4,7 @@
    仅保留桌面端样式
    ================================== */
 
-/* 导航栏专用变量 */
-:root {
-  --color-pink-500: 219, 39, 119;
-  --color-pink-300: 249, 168, 212;
-}
+/* 导航栏专用变量 - 使用全局主题变量 */
 
 /* 工具类 */
 .hidden {
@@ -23,29 +19,29 @@
   width: calc(100% - 32px);
   max-width: 1400px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(var(--color-background), 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgb(var(--color-border-light));
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   transition: box-shadow 0.2s ease, background 0.2s ease;
   will-change: box-shadow, background;
 }
 
 .dark .navbar {
-  background: rgba(28, 28, 30, 0.85);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-background-secondary), 0.85);
+  border-color: rgba(var(--color-text-primary), 0.1);
 }
 
 .navbar.scrolled {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-lg);
+  background: rgba(var(--color-background), 0.95);
 }
 
 .dark .navbar.scrolled {
-  background: rgba(28, 28, 30, 0.95);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  background: rgba(var(--color-background-secondary), 0.95);
+  box-shadow: var(--shadow-xl);
 }
 
 /* 导航栏容器 */
@@ -81,12 +77,21 @@
   position: relative;
 }
 
-/* Logo 双色设计 */
+/* Logo 双色设计 - Apple 风格粉色渐变 */
 .navbar-logo-text .logo-edu {
-  background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-accent)) 100%);
+  background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent)) 50%, rgb(var(--color-primary-hover)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 2px 4px rgb(var(--color-accent-hover) / 0.15));
+}
+
+.dark .navbar-logo-text .logo-edu {
+  background: linear-gradient(135deg, rgb(var(--color-accent)) 0%, rgb(var(--color-primary-hover)) 50%, rgb(var(--color-primary)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 6px rgb(var(--color-accent) / 0.25));
 }
 
 .navbar-logo-text .logo-chain {
@@ -95,7 +100,7 @@
   opacity: 0.85;
 }
 
-/* Logo 装饰点 */
+/* Logo 装饰点 - Apple 风格粉色光晕 */
 .navbar-logo-text::after {
   content: '';
   position: absolute;
@@ -103,8 +108,14 @@
   top: 8px;
   width: 5px;
   height: 5px;
-  background: rgb(var(--color-accent));
+  background: linear-gradient(135deg, rgb(var(--color-accent-hover)), rgb(var(--color-accent)));
   border-radius: 50%;
+  box-shadow: 0 0 8px rgb(var(--color-accent-hover) / 0.4);
+}
+
+.dark .navbar-logo-text::after {
+  background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary-hover)));
+  box-shadow: 0 0 10px rgb(var(--color-accent) / 0.5);
 }
 
 /* 左侧区域 */
@@ -126,24 +137,24 @@
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(var(--color-text-tertiary), 0.06);
   border: 1px solid transparent;
   border-radius: 10px;
   transition: all 0.15s ease;
 }
 
 .dark .navbar-search-wrapper {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(var(--color-text-primary), 0.08);
 }
 
 .navbar-search-wrapper.focused {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--color-background), 0.95);
   border-color: rgba(var(--color-accent), 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .dark .navbar-search-wrapper.focused {
-  background: rgba(40, 40, 42, 0.95);
+  background: rgba(var(--color-background-tertiary), 0.95);
   border-color: rgba(var(--color-accent), 0.4);
 }
 
@@ -208,7 +219,7 @@
 }
 
 .navbar-search-clear:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(var(--color-text-tertiary), 0.12);
   color: rgb(var(--color-text-primary));
 }
 
@@ -224,19 +235,19 @@
   left: 0;
   right: 0;
   min-width: 280px;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--color-background), 0.98);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgb(var(--color-border));
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-xl);
   padding: 6px;
   z-index: var(--z-dropdown);
   animation: fadeInDown 0.15s ease;
 }
 
 .dark .navbar-search-dropdown {
-  background: rgba(30, 30, 32, 0.98);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-background-secondary), 0.98);
+  border-color: rgba(var(--color-text-primary), 0.1);
 }
 
 .navbar-search-suggestion {
@@ -292,13 +303,13 @@
 .suggestion-count {
   font-size: 11px;
   color: rgb(var(--color-text-tertiary));
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--color-text-tertiary), 0.08);
   padding: 2px 6px;
   border-radius: 10px;
 }
 
 .dark .suggestion-count {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.1);
 }
 
 .navbar-search-empty {
@@ -340,36 +351,36 @@
 }
 
 .navbar-link:hover {
-  background: rgba(var(--color-accent), 0.08);
+  background: rgb(var(--color-accent-hover) / 0.08);
   color: rgb(var(--color-text-primary));
 }
 
 .dark .navbar-link:hover {
-  background: rgba(var(--color-accent), 0.12);
+  background: rgb(var(--color-accent) / 0.12);
 }
 
-/* 选中状态 - Apple 风格：立体感 + 层次 */
+/* 选中状态 - Apple 风格：立体感 + 层次 - 粉色系 */
 .navbar-link.active {
-  color: rgb(var(--color-accent));
-  background: rgba(255, 255, 255, 0.95);
+  color: rgb(var(--color-accent-hover));
+  background: rgba(var(--color-background), 0.95);
   font-weight: 600;
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-  border: 0.5px solid rgba(0, 0, 0, 0.06);
+    var(--shadow-sm),
+    0 4px 12px rgb(var(--color-accent-hover) / 0.15),
+    inset 0 1px 0 rgba(var(--color-background), 0.8),
+    inset 0 -1px 0 rgba(var(--color-text-tertiary), 0.04);
+  border: 0.5px solid rgb(var(--color-accent-hover) / 0.2);
 }
 
 .dark .navbar-link.active {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgb(var(--color-accent) / 0.15);
   color: rgb(var(--color-accent));
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
+    var(--shadow-sm),
+    0 4px 12px rgb(var(--color-accent) / 0.3),
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.15),
+    inset 0 -1px 0 rgba(var(--color-text-primary), 0.2);
+  border: 0.5px solid rgb(var(--color-accent) / 0.3);
 }
 
 /* 右侧操作区 */
@@ -392,7 +403,7 @@
   border-radius: var(--radius-full);
   background: transparent;
   border: none;
-  color: rgb(60, 60, 67);
+  color: rgb(var(--color-text-secondary));
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
   position: relative;
@@ -410,15 +421,15 @@
 }
 
 .dark .navbar-action-btn {
-  color: rgb(229, 229, 234);
+  color: rgb(var(--color-text-primary));
 }
 
 .navbar-action-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(var(--color-text-tertiary), 0.08);
 }
 
 .dark .navbar-action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.1);
 }
 
 /* 通知徽章 */
@@ -430,7 +441,7 @@
   height: 20px;
   padding: 0 4px;
   background: rgb(var(--color-accent));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: var(--radius-full);
@@ -492,32 +503,32 @@
 }
 
 .navbar-login-btn {
-  background: rgba(244, 114, 182, 0.1);
-  color: rgb(var(--color-pink-500));
+  background: rgba(var(--color-accent), 0.1);
+  color: rgb(var(--color-accent-hover));
   border: none;
 }
 
 .navbar-login-btn:hover {
-  background: rgba(244, 114, 182, 0.15);
+  background: rgba(var(--color-accent), 0.15);
 }
 
 .dark .navbar-login-btn {
-  background: rgba(244, 114, 182, 0.15);
-  color: rgb(var(--color-pink-300));
+  background: rgba(var(--color-accent), 0.15);
+  color: rgb(var(--color-primary-hover));
 }
 
 .dark .navbar-login-btn:hover {
-  background: rgba(244, 114, 182, 0.2);
+  background: rgba(var(--color-accent), 0.2);
 }
 
 .navbar-publish-btn {
-  background: rgba(244, 114, 182, 0.1);
-  color: rgb(var(--color-pink-500));
+  background: rgba(var(--color-accent), 0.1);
+  color: rgb(var(--color-accent-hover));
   border: none;
 }
 
 .navbar-publish-btn:hover {
-  background: rgba(244, 114, 182, 0.15);
+  background: rgba(var(--color-accent), 0.15);
 }
 
 /* ==================== 用户菜单样式 ==================== */
@@ -553,7 +564,7 @@
   height: 32px;
   border-radius: var(--radius-full);
   background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary-dark)));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -576,19 +587,19 @@
   top: calc(100% + var(--spacing-xs));
   right: 0;
   min-width: 180px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--color-background), 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgb(var(--color-border));
   border-radius: var(--radius-xl);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-2xl);
   padding: var(--spacing-xs);
   animation: fadeInDown var(--transition-fast) ease;
   z-index: var(--z-dropdown);
 }
 
 .dark .user-dropdown {
-  background: rgba(30, 30, 30, 0.95);
+  background: rgba(var(--color-background-secondary), 0.95);
 }
 
 .dropdown-item {
@@ -761,7 +772,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(var(--color-text-primary), 0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: var(--z-modal-backdrop);
@@ -770,7 +781,7 @@
 }
 
 .dark .mobile-menu-overlay {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(var(--color-text-primary), 0.6);
 }
 
 @keyframes fadeIn {
@@ -786,12 +797,12 @@
   left: 0;
   right: 0;
   max-height: 85vh;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--color-background), 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-2xl);
   z-index: var(--z-modal);
   overflow: hidden;
   transform: translateY(-100%);
@@ -799,8 +810,8 @@
 }
 
 .dark .mobile-menu-container {
-  background: rgba(28, 28, 30, 0.98);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  background: rgba(var(--color-background-secondary), 0.98);
+  box-shadow: var(--shadow-2xl);
 }
 
 @keyframes slideDown {
@@ -895,7 +906,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-weight: 700;
   font-size: 1.25rem;
 }
@@ -975,27 +986,27 @@
 
 /* 选中状态 - Apple 风格：白色卡片 + 立体阴影 */
 .mobile-nav-item.active {
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--color-background), 0.98);
   color: rgb(var(--color-accent));
   font-weight: 600;
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    0 8px 24px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-  border: 0.5px solid rgba(0, 0, 0, 0.06);
+    var(--shadow-sm),
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(var(--color-background), 1),
+    inset 0 -1px 0 rgba(var(--color-text-tertiary), 0.04);
+  border: 0.5px solid rgba(var(--color-text-tertiary), 0.06);
   transform: translateY(-1px);
 }
 
 .dark .mobile-nav-item.active {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(var(--color-text-primary), 0.15);
   color: rgb(var(--color-accent));
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  border: 0.5px solid rgba(255, 255, 255, 0.15);
+    var(--shadow-sm),
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.2),
+    inset 0 -1px 0 rgba(var(--color-text-primary), 0.3);
+  border: 0.5px solid rgba(var(--color-text-primary), 0.15);
 }
 
 .mobile-nav-item.active::before {
@@ -1073,7 +1084,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   grid-column: 1 / -1;
   box-shadow: 0 4px 12px rgba(var(--color-accent), 0.3);
 }
@@ -1096,16 +1107,16 @@
 
 /* 登出按钮 */
 .mobile-action-logout {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(220, 38, 38);
-  border: 1px solid rgba(220, 38, 38, 0.2);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
+  border: 1px solid rgba(var(--color-error-dark), 0.2);
   grid-column: 1 / -1;
 }
 
 .dark .mobile-action-logout {
-  background: rgba(239, 68, 68, 0.15);
-  color: rgb(252, 165, 165);
-  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(var(--color-error-dark), 0.15);
+  color: rgb(var(--color-error));
+  border-color: rgba(var(--color-error-dark), 0.3);
 }
 
 /* 主题和语言切换 */

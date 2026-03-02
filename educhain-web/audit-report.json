@@ -1,0 +1,195 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@intlayer/webpack": {
+      "name": "@intlayer/webpack",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "webpack",
+        "webpack-dev-server"
+      ],
+      "effects": [
+        "next-intlayer"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@intlayer/webpack"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "next-intlayer": {
+      "name": "next-intlayer",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@intlayer/webpack",
+        "node-loader"
+      ],
+      "effects": [],
+      "range": ">=1.2.0",
+      "nodes": [
+        "node_modules/next-intlayer"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "node-loader": {
+      "name": "node-loader",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "webpack"
+      ],
+      "effects": [
+        "next-intlayer"
+      ],
+      "range": ">=2.0.0",
+      "nodes": [
+        "node_modules/node-loader"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "serialize-javascript": {
+      "name": "serialize-javascript",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1113633,
+          "name": "serialize-javascript",
+          "dependency": "serialize-javascript",
+          "title": "Serialize JavaScript is Vulnerable to RCE via RegExp.flags and Date.prototype.toISOString()",
+          "url": "https://github.com/advisories/GHSA-5c6j-r48x-rmvq",
+          "severity": "high",
+          "cwe": [
+            "CWE-96"
+          ],
+          "cvss": {
+            "score": 8.1,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+          },
+          "range": "<=7.0.2"
+        }
+      ],
+      "effects": [
+        "terser-webpack-plugin"
+      ],
+      "range": "<=7.0.2",
+      "nodes": [
+        "node_modules/serialize-javascript"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "terser-webpack-plugin": {
+      "name": "terser-webpack-plugin",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "serialize-javascript",
+        "webpack"
+      ],
+      "effects": [
+        "webpack"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/terser-webpack-plugin"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "webpack": {
+      "name": "webpack",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "terser-webpack-plugin"
+      ],
+      "effects": [
+        "@intlayer/webpack",
+        "node-loader",
+        "terser-webpack-plugin",
+        "webpack-dev-middleware",
+        "webpack-dev-server"
+      ],
+      "range": ">=4.26.0",
+      "nodes": [
+        "node_modules/@intlayer/webpack/node_modules/webpack",
+        "node_modules/webpack"
+      ],
+      "fixAvailable": {
+        "name": "next-intlayer",
+        "version": "3.5.9",
+        "isSemVerMajor": true
+      }
+    },
+    "webpack-dev-middleware": {
+      "name": "webpack-dev-middleware",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "webpack"
+      ],
+      "effects": [
+        "webpack-dev-server"
+      ],
+      "range": ">=6.0.0",
+      "nodes": [
+        "node_modules/webpack-dev-middleware"
+      ],
+      "fixAvailable": true
+    },
+    "webpack-dev-server": {
+      "name": "webpack-dev-server",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "webpack",
+        "webpack-dev-middleware"
+      ],
+      "effects": [],
+      "range": ">=4.0.0-beta.0",
+      "nodes": [
+        "node_modules/webpack-dev-server"
+      ],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 8,
+      "critical": 0,
+      "total": 8
+    },
+    "dependencies": {
+      "prod": 493,
+      "dev": 452,
+      "optional": 109,
+      "peer": 3,
+      "peerOptional": 0,
+      "total": 1010
+    }
+  }
+}

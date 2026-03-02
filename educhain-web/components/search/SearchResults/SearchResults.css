@@ -11,7 +11,7 @@
   background: rgba(var(--color-background), 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 2px solid rgba(244, 114, 182, 0.3);
+  border: 2px solid rgba(var(--color-accent), 0.3);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-lg);
   padding: var(--spacing-xl);
@@ -87,13 +87,13 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-size: var(--text-sm);
   font-weight: 700;
   border-radius: var(--radius-xl);
   box-shadow: 
     0 4px 12px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
   white-space: nowrap;
   position: relative;
 }
@@ -177,10 +177,10 @@
     rgb(var(--color-primary-dark))
   );
   border-color: rgb(var(--color-accent));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 
     0 2px 8px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
 }
 
 .view-mode-btn.active::before {
@@ -327,7 +327,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-size: var(--text-base);
   font-weight: 700;
   border: none;
@@ -336,7 +336,7 @@
   transition: all var(--transition-fast) ease;
   box-shadow: 
     0 4px 12px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -350,7 +350,7 @@
   height: 100%;
   background: linear-gradient(90deg, 
     transparent, 
-    rgba(255, 255, 255, 0.3), 
+    rgba(var(--color-background), 0.3), 
     transparent
   );
   transition: left var(--transition-slow) ease;
@@ -365,7 +365,7 @@
   box-shadow: 
     0 6px 20px rgba(var(--color-accent), 0.4),
     0 0 30px rgba(var(--color-accent), 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    inset 0 1px 0 rgba(var(--color-background), 0.3);
 }
 
 .load-more-btn:active:not(:disabled) {
@@ -628,10 +628,10 @@
 /* ==================== 深色模式优化 ==================== */
 .dark .search-results-container {
   background: rgba(var(--color-background), 0.8);
-  border: 2px solid rgba(244, 114, 182, 0.4);
+  border: 2px solid rgba(var(--color-accent), 0.4);
   box-shadow: 
     var(--shadow-lg),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.05);
 }
 
 .dark .search-results-container::before {
@@ -645,7 +645,7 @@
 .dark .view-mode-btn.active {
   box-shadow: 
     0 2px 8px rgba(var(--color-accent), 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    inset 0 1px 0 rgba(var(--color-background), 0.25);
 }
 
 .dark .loading-state {
@@ -731,12 +731,12 @@
   .search-results-container {
     box-shadow: none;
     border: 1px solid rgb(var(--color-border));
-    background: white;
+    background: rgb(var(--color-background));
   }
 
   .results-count {
     background: rgb(var(--color-text-primary));
-    color: white;
+    color: rgb(var(--color-background));
     box-shadow: none;
   }
 
@@ -747,7 +747,7 @@
 
   .highlight {
     background: rgb(var(--color-text-primary));
-    color: white;
+    color: rgb(var(--color-background));
     box-shadow: none;
   }
 }

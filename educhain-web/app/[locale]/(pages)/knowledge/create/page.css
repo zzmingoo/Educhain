@@ -482,6 +482,6 @@
 
   .create-form {
     box-shadow: none;
-    border: 1px solid #000;
+    border: 1px solid rgb(var(--color-text-primary));
   }
 }

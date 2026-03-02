@@ -153,7 +153,7 @@
     rgb(var(--color-success-dark)), 
     rgb(var(--color-success))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   border: 2px solid rgb(var(--color-success-dark));
   box-shadow: 0 4px 12px rgba(var(--color-success-dark), 0.3);
 }
@@ -164,7 +164,7 @@
     rgb(var(--color-error-dark)), 
     rgb(var(--color-error))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   border: 2px solid rgb(var(--color-error-dark));
   box-shadow: 0 4px 12px rgba(var(--color-error-dark), 0.3);
 }
@@ -309,7 +309,7 @@
   font-size: var(--text-sm);
   font-weight: 600;
   background: rgb(var(--color-error-dark));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   border: none;
   border-radius: var(--radius-lg);
   cursor: pointer;
@@ -360,7 +360,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 0 4px 12px rgba(var(--color-accent), 0.25);
 }
 

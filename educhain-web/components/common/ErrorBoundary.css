@@ -113,7 +113,7 @@
     rgb(var(--color-accent)) 0%,
     rgb(var(--color-primary-dark)) 100%
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 0 4px 14px rgb(var(--color-accent) / 0.3);
 }
 
@@ -142,7 +142,7 @@
 }
 
 .dark .error-boundary-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.1);
 }
 
 /* 错误代码 */

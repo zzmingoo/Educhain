@@ -99,7 +99,7 @@
   font-family: var(--font-mono);
   font-weight: 600;
   color: rgb(var(--color-text-tertiary));
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast) ease;
 }
 
@@ -192,7 +192,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-size: var(--text-base);
   font-weight: 700;
   border: none;
@@ -201,7 +201,7 @@
   transition: all var(--transition-fast) ease;
   box-shadow: 
     0 4px 12px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -215,7 +215,7 @@
   height: 100%;
   background: linear-gradient(90deg, 
     transparent, 
-    rgba(255, 255, 255, 0.3), 
+    rgba(var(--color-background), 0.3), 
     transparent
   );
   transition: left var(--transition-slow) ease;
@@ -230,14 +230,14 @@
   box-shadow: 
     0 6px 20px rgba(var(--color-accent), 0.4),
     0 0 30px rgba(var(--color-accent), 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    inset 0 1px 0 rgba(var(--color-background), 0.3);
 }
 
 .search-btn:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 
     0 2px 8px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
 }
 
 .search-btn:disabled {
@@ -368,7 +368,7 @@
 .dark .search-input-wrapper {
   box-shadow: 
     var(--shadow-lg),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.05);
 }
 
 .dark .search-input-container.focused .search-input-wrapper {
@@ -376,7 +376,7 @@
     var(--shadow-2xl),
     0 0 0 4px rgba(var(--color-accent), 0.15),
     0 0 40px rgba(var(--color-accent), 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.08);
 }
 
 .dark .clear-btn::before {

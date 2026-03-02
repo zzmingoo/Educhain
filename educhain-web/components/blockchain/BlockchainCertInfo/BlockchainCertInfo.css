@@ -246,7 +246,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 0 4px 12px rgba(var(--color-accent), 0.25);
 }
 
@@ -278,8 +278,8 @@
 .btn-spinner {
   width: 1rem;
   height: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  border: 2px solid rgba(var(--color-background), 0.3);
+  border-top-color: rgb(var(--color-background));
   border-radius: var(--radius-full);
   animation: motion-spin 0.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }

@@ -61,8 +61,8 @@
   border-radius: var(--radius-full);
   opacity: 0;
   transition: all var(--transition-fast) ease;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
+  background: rgba(var(--color-text-primary), 0.8);
+  color: rgb(var(--color-background));
   border: none;
 }
 

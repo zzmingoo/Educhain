@@ -91,14 +91,18 @@
   }
 
   .dark .glass-card {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(244, 114, 182, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .glass-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
-    border-color: rgba(244, 114, 182, 0.3);
+  }
+
+  .dark .glass-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
   }
 
   .glass-button {

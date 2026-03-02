@@ -323,10 +323,10 @@
     rgb(var(--color-primary-dark))
   );
   border-color: rgb(var(--color-accent));
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 
     0 2px 8px rgba(var(--color-accent), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(var(--color-background), 0.2);
   position: relative;
 }
 
@@ -600,7 +600,7 @@
   box-shadow: 
     var(--shadow-2xl),
     0 0 0 1px rgba(var(--color-border), 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(var(--color-text-primary), 0.05);
 }
 
 /* 深色模式下覆盖 glass-card */

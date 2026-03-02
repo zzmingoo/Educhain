@@ -55,7 +55,7 @@
 }
 
 .interaction-btn.active.favorited {
-  color: rgb(251, 191, 36);
+  color: rgb(var(--color-warning-dark));
 }
 
 .interaction-btn.active.favorited svg {
