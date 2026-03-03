@@ -223,6 +223,17 @@
   cursor: pointer;
   transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
+  outline: none;
+}
+
+.hero-action-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.hero-action-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent) / 0.5);
+  outline-offset: 2px;
 }
 
 .hero-action-btn svg {
@@ -231,46 +242,65 @@
   flex-shrink: 0;
 }
 
+/* 主按钮：浏览全部（Apple 经典风格 - 深色填充） */
 .hero-action-primary {
-  background: rgba(var(--color-accent), 0.08);
-  color: rgb(var(--color-accent));
+  background: rgb(var(--color-text-primary));
+  color: rgb(var(--color-background));
+  box-shadow: var(--shadow-sm);
+  letter-spacing: -0.3px;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-action-primary:hover {
-  background: rgba(var(--color-accent), 0.12);
+  background: rgb(var(--color-text-secondary));
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
-.dark .hero-action-primary {
-  background: rgba(var(--color-accent-light), 0.15);
-  color: rgb(var(--color-accent-light));
+.hero-action-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-sm);
 }
 
-.dark .hero-action-primary:hover {
-  background: rgba(var(--color-accent-light), 0.2);
+.hero-action-primary:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
 }
 
+/* 次按钮：发布知识（Apple 经典风格 - 链接样式） */
 .hero-action-secondary {
-  background: rgba(var(--color-text-tertiary), 0.05);
-  color: rgb(var(--color-text-primary));
-  border: none;
-}
-
-.dark .hero-action-secondary {
-  background: rgba(var(--color-text-primary), 0.1);
+  background: transparent;
+  color: rgb(var(--color-accent));
+  border: none !important;
+  box-shadow: none;
+  letter-spacing: -0.3px;
+  position: relative;
+  outline: none !important;
 }
 
 .hero-action-secondary:hover {
-  background: rgba(var(--color-text-tertiary), 0.08);
+  color: rgb(var(--color-accent-hover));
+  transform: translateX(2px);
+  box-shadow: none;
+}
+
+.hero-action-secondary:active {
+  transform: translateX(0) scale(0.98);
+}
+
+.hero-action-secondary:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+.dark .hero-action-secondary {
+  color: rgb(var(--color-primary));
 }
 
 .dark .hero-action-secondary:hover {
-  background: rgba(var(--color-text-primary), 0.15);
-}
-
-.hero-action-primary:active,
-.hero-action-secondary:active {
-  transform: scale(0.98);
+  color: rgb(var(--color-primary-hover));
 }
 
 /* 统计数据 */

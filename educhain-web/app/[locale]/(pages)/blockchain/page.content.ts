@@ -5,8 +5,8 @@ const blockchainExplorerContent = {
   content: {
     hero: {
       badge: t({
-        'zh-CN': '🔗 区块链技术',
-        en: '🔗 Blockchain Technology',
+        'zh-CN': '区块链技术',
+        en: 'Blockchain Technology',
       }),
       title: t({
         'zh-CN': '区块链浏览器',

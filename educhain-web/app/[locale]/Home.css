@@ -5,7 +5,7 @@
 /* 页面容器 */
 .home-page {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: rgb(var(--color-background));
   position: relative;
   overflow: hidden;
 }
@@ -19,18 +19,18 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgb(var(--color-accent) / 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgb(var(--color-accent) / 0.05) 0%, transparent 50%);
-  opacity: 0.6;
+    radial-gradient(circle at 20% 20%, rgb(var(--color-primary) / 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgb(var(--color-accent) / 0.1) 0%, transparent 50%);
+  opacity: 1;
   z-index: 0;
   pointer-events: none;
 }
 
 .dark .home-page::before {
   background:
-    radial-gradient(circle at 20% 20%, rgb(var(--color-accent) / 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 20%, rgb(var(--color-primary) / 0.08) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgb(var(--color-accent) / 0.05) 0%, transparent 50%);
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .home-content {
@@ -192,6 +192,17 @@
   cursor: pointer;
   transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
+  outline: none;
+}
+
+.hero-action-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.hero-action-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent) / 0.5);
+  outline-offset: 2px;
 }
 
 .hero-action-btn svg {
@@ -200,41 +211,65 @@
   flex-shrink: 0;
 }
 
-/* 主按钮：探索（粉色渐变 - Apple 风格） */
+/* 主按钮：开始学习（Apple 经典风格 - 深色填充） */
 .hero-action-primary {
-  background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent)) 100%);
-  color: rgb(var(--color-text-on-primary));
-  box-shadow: 0 4px 12px rgb(var(--color-accent-hover) / 0.25);
+  background: rgb(var(--color-text-primary));
+  color: rgb(var(--color-background));
+  box-shadow: var(--shadow-sm);
+  letter-spacing: -0.3px;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-action-primary:hover {
-  background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent-hover)) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgb(var(--color-accent-hover) / 0.35);
+  background: rgb(var(--color-text-secondary));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .hero-action-primary:active {
   transform: translateY(0) scale(0.98);
-  box-shadow: 0 2px 8px rgb(var(--color-accent-hover) / 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
-/* 次按钮：开始学习（粉色渐变） */
+.hero-action-primary:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 次按钮：分享知识（Apple 经典风格 - 链接样式） */
 .hero-action-secondary {
-  background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent)) 100%);
-  color: rgb(var(--color-text-on-primary));
-  border: none;
-  box-shadow: 0 2px 8px rgb(var(--color-accent-hover) / 0.2);
+  background: transparent;
+  color: rgb(var(--color-accent));
+  border: none !important;
+  box-shadow: none;
+  letter-spacing: -0.3px;
+  position: relative;
+  outline: none !important;
 }
 
 .hero-action-secondary:hover {
-  background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent-hover)) 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgb(var(--color-accent-hover) / 0.35);
+  color: rgb(var(--color-accent-hover));
+  transform: translateX(2px);
+  box-shadow: none;
 }
 
 .hero-action-secondary:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 2px 8px rgb(var(--color-accent-hover) / 0.3);
+  transform: translateX(0) scale(0.98);
+}
+
+.hero-action-secondary:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+.dark .hero-action-secondary {
+  color: rgb(var(--color-primary));
+}
+
+.dark .hero-action-secondary:hover {
+  color: rgb(var(--color-primary-hover));
 }
 
 /* 统计数据 */
@@ -333,11 +368,18 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto var(--spacing-lg);
-  font-size: 2rem;
-  color: rgb(var(--color-text-on-primary));
-  box-shadow: 0 10px 15px -3px rgba(var(--color-shadow), 0.15);
+  color: white;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
+}
+
+.feature-icon-wrapper svg {
+  width: 36px;
+  height: 36px;
+  stroke-width: 1.5;
+  position: relative;
+  z-index: 1;
 }
 
 .feature-icon-wrapper::before {
@@ -348,12 +390,12 @@
   right: 0;
   bottom: 0;
   background: inherit;
-  opacity: 0.9;
-  z-index: -1;
+  opacity: 0.95;
+  z-index: 0;
 }
 
 .dark .feature-icon-wrapper {
-  color: rgb(var(--color-text-primary));
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
 }
 
 .feature-title {
@@ -441,7 +483,11 @@
   .feature-icon-wrapper {
     width: 70px;
     height: 70px;
-    font-size: 1.75rem;
+  }
+
+  .feature-icon-wrapper svg {
+    width: 32px;
+    height: 32px;
   }
 }
 
@@ -559,8 +605,12 @@
   .feature-icon-wrapper {
     width: 64px;
     height: 64px;
-    font-size: 1.5rem;
     margin-bottom: var(--spacing-md);
+  }
+
+  .feature-icon-wrapper svg {
+    width: 30px;
+    height: 30px;
   }
 
   .feature-title {

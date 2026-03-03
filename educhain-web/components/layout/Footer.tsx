@@ -84,8 +84,7 @@ export default function Footer() {
           {/* 品牌信息 */}
           <div className="footer-brand">
             <div className="brand-logo">
-              <span className="logo-icon">📚</span>
-              <span className="logo-text text-gradient-pink">{content.brand.name.value}</span>
+              <span className="logo-text">{content.brand.name.value}</span>
             </div>
             <p className="brand-description">{content.brand.description.value}</p>
             <div className="social-links">

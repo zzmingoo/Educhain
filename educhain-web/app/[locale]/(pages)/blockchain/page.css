@@ -153,6 +153,17 @@
   cursor: pointer;
   transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
+  outline: none;
+}
+
+.hero-action-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.hero-action-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent) / 0.5);
+  outline-offset: 2px;
 }
 
 .hero-action-btn svg {
@@ -161,46 +172,65 @@
   flex-shrink: 0;
 }
 
+/* 主按钮：探索区块（Apple 经典风格 - 深色填充） */
 .hero-action-primary {
-  background: rgba(var(--color-accent), 0.08);
-  color: rgb(var(--color-accent));
+  background: rgb(var(--color-text-primary));
+  color: rgb(var(--color-background));
+  box-shadow: var(--shadow-sm);
+  letter-spacing: -0.3px;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-action-primary:hover {
-  background: rgba(var(--color-accent), 0.12);
+  background: rgb(var(--color-text-secondary));
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
-.dark .hero-action-primary {
-  background: rgba(var(--color-primary-hover), 0.15);
-  color: rgb(var(--color-primary-hover));
+.hero-action-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-sm);
 }
 
-.dark .hero-action-primary:hover {
-  background: rgba(var(--color-primary-hover), 0.2);
+.hero-action-primary:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
 }
 
+/* 次按钮：搜索（Apple 经典风格 - 链接样式） */
 .hero-action-secondary {
-  background: rgba(0, 0, 0, 0.05);
-  color: rgb(var(--color-text-primary));
-  border: none;
-}
-
-.dark .hero-action-secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: rgb(var(--color-accent));
+  border: none !important;
+  box-shadow: none;
+  letter-spacing: -0.3px;
+  position: relative;
+  outline: none !important;
 }
 
 .hero-action-secondary:hover {
-  background: rgba(0, 0, 0, 0.08);
+  color: rgb(var(--color-accent-hover));
+  transform: translateX(2px);
+  box-shadow: none;
+}
+
+.hero-action-secondary:active {
+  transform: translateX(0) scale(0.98);
+}
+
+.hero-action-secondary:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+.dark .hero-action-secondary {
+  color: rgb(var(--color-primary));
 }
 
 .dark .hero-action-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.hero-action-primary:active,
-.hero-action-secondary:active {
-  transform: scale(0.98);
+  color: rgb(var(--color-primary-hover));
 }
 
 /* 统计数据 */
@@ -821,18 +851,16 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-sm);
-    max-width: 400px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
   }
 
   .stat-card {
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
   }
 
   .stat-value {
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
   }
 
   .blockchain-main-section {

@@ -8,6 +8,7 @@ import Navbar from '../../../../components/layout/Navbar';
 import Footer from '../../../../components/layout/Footer';
 import { KnowledgeCard, KnowledgeFilter, type FilterValues } from '../../../../components/knowledge';
 import { knowledgeService } from '@/services';
+import { useAuth } from '../../../../src/contexts/auth-context';
 import type { KnowledgeItem } from '@/types';
 import './page.css';
 
@@ -15,6 +16,7 @@ export default function KnowledgeListPage() {
   const content = useIntlayer('knowledge-list-page');
   const { locale } = useLocale();
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(true);
   const [knowledgeList, setKnowledgeList] = useState<KnowledgeItem[]>([]);
   const [showFilter, setShowFilter] = useState(false);
@@ -137,7 +139,12 @@ export default function KnowledgeListPage() {
   };
 
   const handleCreate = () => {
-    router.push(getLocalizedUrl('/knowledge/create', locale));
+    if (isAuthenticated) {
+      router.push(getLocalizedUrl('/knowledge/create', locale));
+    } else {
+      const redirectUrl = getLocalizedUrl('/knowledge/create', locale);
+      router.push(getLocalizedUrl(`/login?redirect=${encodeURIComponent(redirectUrl)}`, locale));
+    }
   };
 
   return (
@@ -206,9 +213,6 @@ export default function KnowledgeListPage() {
                   }}
                 >
                   <span>{content.hero.searchButton.value}</span>
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
                 </button>
               </div>
             </div>
@@ -219,16 +223,9 @@ export default function KnowledgeListPage() {
                 onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
                 className="hero-action-btn hero-action-primary motion-hover-lift"
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
                 {content.hero.exploreButton.value}
               </button>
               <button onClick={handleCreate} className="hero-action-btn hero-action-secondary motion-hover-scale">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
                 {content.hero.createButton.value}
               </button>
             </div>

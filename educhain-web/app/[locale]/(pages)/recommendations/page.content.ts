@@ -5,8 +5,8 @@ const recommendationPageContent = {
   content: {
     hero: {
       badge: t({
-        'zh-CN': '✨ 智能推荐',
-        en: '✨ Smart Recommendations',
+        'zh-CN': '智能推荐',
+        en: 'Smart Recommendations',
       }),
       title: t({
         'zh-CN': '为您推荐',
@@ -25,7 +25,7 @@ const recommendationPageContent = {
         en: 'Explore Recommendations',
       }),
       personalizeButton: t({
-        'zh-CN': '个性化设置',
+        'zh-CN': '偏好设置',
         en: 'Personalize',
       }),
     },
