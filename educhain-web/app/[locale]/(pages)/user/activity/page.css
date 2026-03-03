@@ -7,9 +7,9 @@
 .activity-page {
   min-height: 100vh;
   background: linear-gradient(135deg, 
-    rgb(254, 252, 253) 0%, 
-    rgb(255, 255, 255) 50%, 
-    rgb(253, 249, 251) 100%
+    rgb(var(--color-background)) 0%, 
+    rgb(var(--color-background-secondary)) 50%, 
+    rgb(var(--color-background)) 100%
   );
   padding: var(--spacing-2xl) 0;
 }
@@ -225,18 +225,18 @@
 }
 
 .timeline-type.like {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .timeline-type.comment {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-tertiary-hover), 0.1);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .timeline-type.follow {
-  background: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
+  background: rgba(var(--color-success-dark), 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 .timeline-type svg {

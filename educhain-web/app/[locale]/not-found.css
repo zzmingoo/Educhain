@@ -140,18 +140,18 @@
   justify-content: center;
   border-radius: var(--radius-full);
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(var(--color-border-light), 0.3);
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 8px 32px rgba(var(--color-shadow), 0.1),
+    inset 0 1px 0 rgba(var(--color-background), 0.5);
 }
 
 .dark .not-found-icon {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(var(--color-text-primary), 0.08);
+  border-color: rgba(var(--color-text-primary), 0.15);
 }
 
 .not-found-icon svg {
@@ -216,37 +216,37 @@
     rgb(var(--color-accent)),
     rgb(var(--color-accent-hover))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 
     0 4px 12px rgba(var(--color-accent), 0.3),
-    0 2px 4px rgba(0, 0, 0, 0.1);
+    0 2px 4px rgba(var(--color-shadow), 0.1);
 }
 
 .not-found-btn-primary:hover {
   box-shadow: 
     0 6px 20px rgba(var(--color-accent), 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.15);
+    0 4px 8px rgba(var(--color-shadow), 0.15);
 }
 
 .not-found-btn-secondary {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: rgb(var(--color-text-primary));
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(var(--color-border), 0.1);
 }
 
 .dark .not-found-btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(var(--color-text-primary), 0.08);
+  border-color: rgba(var(--color-text-primary), 0.15);
 }
 
 .not-found-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--color-background), 0.8);
 }
 
 .dark .not-found-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(var(--color-text-primary), 0.12);
 }
 
 /* 推荐链接 */
@@ -282,25 +282,25 @@
   text-decoration: none;
   color: rgb(var(--color-text-primary));
   transition: all var(--transition-base) ease;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(var(--color-border), 0.06);
 }
 
 .dark .suggestion-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-text-primary), 0.05);
+  border-color: rgba(var(--color-text-primary), 0.1);
 }
 
 .suggestion-card:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--color-background), 0.8);
   border-color: rgba(var(--color-accent), 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(var(--color-shadow), 0.1);
 }
 
 .dark .suggestion-card:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(var(--color-text-primary), 0.08);
 }
 
 .suggestion-card svg {

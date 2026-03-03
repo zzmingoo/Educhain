@@ -32,7 +32,7 @@
 .block-blob-1 {
   width: 500px;
   height: 500px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(96, 165, 250, 0.3));
+  background: linear-gradient(135deg, rgba(var(--color-tertiary), 0.4), rgba(var(--color-tertiary-hover), 0.3));
   top: -150px;
   right: -150px;
 }
@@ -40,7 +40,7 @@
 .block-blob-2 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(196, 181, 253, 0.2));
+  background: linear-gradient(135deg, rgba(var(--color-secondary), 0.3), rgba(var(--color-secondary-hover), 0.2));
   bottom: -100px;
   left: -100px;
 }
@@ -99,20 +99,20 @@
   height: 4rem;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, 
-    rgba(59, 130, 246, 0.15), 
-    rgba(96, 165, 250, 0.1)
+    rgba(var(--color-tertiary), 0.15), 
+    rgba(var(--color-tertiary-hover), 0.1)
   );
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 8px 24px rgba(var(--color-tertiary), 0.2);
 }
 
 .header-icon svg {
   width: 2rem;
   height: 2rem;
-  color: rgb(59, 130, 246);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .header-content {
@@ -124,8 +124,8 @@
   font-weight: 800;
   margin: 0 0 var(--spacing-xs) 0;
   background: linear-gradient(135deg, 
-    rgb(59, 130, 246), 
-    rgb(96, 165, 250)
+    rgb(var(--color-tertiary-hover)), 
+    rgb(var(--color-tertiary))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -157,11 +157,11 @@
 
 .status-badge.confirmed {
   background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.15), 
-    rgba(74, 222, 128, 0.1)
+    rgba(var(--color-success-dark), 0.15), 
+    rgba(var(--color-success), 0.1)
   );
-  color: rgb(34, 197, 94);
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+  color: rgb(var(--color-success-dark));
+  box-shadow: 0 4px 12px rgba(var(--color-success-dark), 0.2);
 }
 
 .block-details {
@@ -202,16 +202,13 @@
 .detail-value.hash {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: rgb(59, 130, 246);
-  background: rgba(59, 130, 246, 0.08);
+  color: rgb(var(--color-tertiary-hover));
+  background: rgba(var(--color-tertiary), 0.08);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-md);
 }
 
 /* ==================== 交易列表部分 ==================== */
-.transactions-section {
-}
-
 .section-header {
   margin-bottom: var(--spacing-xl);
 }
@@ -337,8 +334,8 @@
 .loading-spinner {
   width: 3rem;
   height: 3rem;
-  border: 4px solid rgba(59, 130, 246, 0.2);
-  border-top-color: rgb(59, 130, 246);
+  border: 4px solid rgba(var(--color-tertiary), 0.2);
+  border-top-color: rgb(var(--color-tertiary-hover));
   border-radius: var(--radius-full);
 }
 

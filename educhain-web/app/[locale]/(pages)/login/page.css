@@ -8,9 +8,9 @@
   min-height: 100vh;
   display: flex;
   background: linear-gradient(135deg, 
-    rgb(254, 252, 253) 0%, 
-    rgb(255, 255, 255) 50%, 
-    rgb(253, 249, 251) 100%
+    rgb(var(--color-background-light)) 0%, 
+    rgb(var(--color-background)) 50%, 
+    rgb(var(--color-background-light)) 100%
   );
   position: relative;
   overflow: hidden;
@@ -130,7 +130,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 
     0 10px 40px rgba(var(--color-accent), 0.4),
     0 0 60px rgba(var(--color-accent), 0.2);
@@ -247,13 +247,13 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .dark .login-form-section {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(var(--color-background-secondary), 0.3);
 }
 
 .form-container {
@@ -399,7 +399,7 @@
     rgb(var(--color-accent)), 
     rgb(var(--color-primary-dark))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   font-size: var(--text-lg);
   font-weight: 600;
   border: none;
@@ -421,8 +421,8 @@
 .loading-spinner {
   width: 1.25rem;
   height: 1.25rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  border: 2px solid rgba(var(--color-text-on-primary), 0.3);
+  border-top-color: rgb(var(--color-text-on-primary));
   border-radius: var(--radius-full);
 }
 
@@ -447,13 +447,13 @@
   position: relative;
   display: inline-block;
   padding: 0 var(--spacing-md);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(var(--color-background), 0.7);
   color: rgb(var(--color-text-tertiary));
   font-size: var(--text-sm);
 }
 
 .dark .divider-text {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--color-background-secondary), 0.5);
 }
 
 /* 底部链接 */
@@ -525,43 +525,43 @@
   align-items: center;
   gap: var(--spacing-xs);
   padding: 0 var(--spacing-md);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(var(--color-background), 0.7);
   color: rgb(var(--color-text-tertiary));
   font-size: var(--text-xs);
 }
 
 .dark .mock-divider-text {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--color-background-secondary), 0.5);
 }
 
 .mock-login-card {
   padding: var(--spacing-lg);
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, 
-    rgba(14, 165, 233, 0.08) 0%, 
-    rgba(59, 130, 246, 0.05) 100%
+    rgba(var(--color-info-dark), 0.08) 0%, 
+    rgba(var(--color-info), 0.05) 100%
   );
-  border: 1px solid rgba(14, 165, 233, 0.3);
+  border: 1px solid rgba(var(--color-info-dark), 0.3);
 }
 
 .dark .mock-login-card {
   background: linear-gradient(135deg, 
-    rgba(14, 165, 233, 0.15) 0%, 
-    rgba(59, 130, 246, 0.1) 100%
+    rgba(var(--color-info-dark), 0.15) 0%, 
+    rgba(var(--color-info), 0.1) 100%
   );
-  border-color: rgba(14, 165, 233, 0.4);
+  border-color: rgba(var(--color-info-dark), 0.4);
 }
 
 .mock-subtitle {
   text-align: center;
   font-size: var(--text-sm);
   font-weight: 500;
-  color: rgb(3, 105, 161);
+  color: rgb(var(--color-info-dark));
   margin: 0 0 var(--spacing-md) 0;
 }
 
 .dark .mock-subtitle {
-  color: rgb(125, 211, 252);
+  color: rgb(var(--color-info-light));
 }
 
 .mock-buttons {
@@ -593,57 +593,57 @@
 
 .mock-btn-user {
   background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.1) 0%, 
-    rgba(22, 163, 74, 0.05) 100%
+    rgba(var(--color-success), 0.1) 0%, 
+    rgba(var(--color-success-dark), 0.05) 100%
   );
-  border-color: rgb(34, 197, 94);
-  color: rgb(22, 163, 74);
+  border-color: rgb(var(--color-success));
+  color: rgb(var(--color-success-dark));
 }
 
 .mock-btn-user:hover:not(:disabled) {
   background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.2) 0%, 
-    rgba(22, 163, 74, 0.1) 100%
+    rgba(var(--color-success), 0.2) 0%, 
+    rgba(var(--color-success-dark), 0.1) 100%
   );
 }
 
 .dark .mock-btn-user {
   background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.2) 0%, 
-    rgba(22, 163, 74, 0.1) 100%
+    rgba(var(--color-success), 0.2) 0%, 
+    rgba(var(--color-success-dark), 0.1) 100%
   );
-  color: rgb(134, 239, 172);
+  color: rgb(var(--color-success-light));
 }
 
 .mock-btn-admin {
   background: linear-gradient(135deg, 
-    rgba(245, 158, 11, 0.1) 0%, 
-    rgba(217, 119, 6, 0.05) 100%
+    rgba(var(--color-warning), 0.1) 0%, 
+    rgba(var(--color-warning-dark), 0.05) 100%
   );
-  border-color: rgb(245, 158, 11);
-  color: rgb(217, 119, 6);
+  border-color: rgb(var(--color-warning));
+  color: rgb(var(--color-warning-dark));
 }
 
 .mock-btn-admin:hover:not(:disabled) {
   background: linear-gradient(135deg, 
-    rgba(245, 158, 11, 0.2) 0%, 
-    rgba(217, 119, 6, 0.1) 100%
+    rgba(var(--color-warning), 0.2) 0%, 
+    rgba(var(--color-warning-dark), 0.1) 100%
   );
 }
 
 .dark .mock-btn-admin {
   background: linear-gradient(135deg, 
-    rgba(245, 158, 11, 0.2) 0%, 
-    rgba(217, 119, 6, 0.1) 100%
+    rgba(var(--color-warning), 0.2) 0%, 
+    rgba(var(--color-warning-dark), 0.1) 100%
   );
-  color: rgb(253, 224, 71);
+  color: rgb(var(--color-warning-light));
 }
 
 .mock-switch-divider {
   text-align: center;
   margin: var(--spacing-md) 0;
   font-size: var(--text-xs);
-  color: rgb(100, 116, 139);
+  color: rgb(var(--color-text-tertiary));
 }
 
 .mock-link-btn {
@@ -653,28 +653,28 @@
   background: transparent;
   border: none;
   font-size: var(--text-sm);
-  color: rgb(99, 102, 241);
+  color: rgb(var(--color-info));
   cursor: pointer;
   transition: color var(--transition-fast) ease;
 }
 
 .mock-link-btn:hover {
-  color: rgb(79, 70, 229);
+  color: rgb(var(--color-info-dark));
 }
 
 .dark .mock-link-btn {
-  color: rgb(165, 180, 252);
+  color: rgb(var(--color-info-light));
 }
 
 .dark .mock-link-btn:hover {
-  color: rgb(199, 210, 254);
+  color: rgb(var(--color-info-lighter));
 }
 
 .mock-note {
   text-align: center;
   margin: var(--spacing-sm) 0 0 0;
   font-size: var(--text-xs);
-  color: rgb(100, 116, 139);
+  color: rgb(var(--color-text-tertiary));
 }
 
 /* ==================== 响应式设计 ==================== */

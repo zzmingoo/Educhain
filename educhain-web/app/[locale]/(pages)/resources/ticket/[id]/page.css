@@ -93,28 +93,28 @@
 }
 
 .ticket-priority.priority-low {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
+  background: rgba(var(--color-success-dark), 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 .ticket-priority.priority-medium {
-  background: rgba(59, 130, 246, 0.1);
-  color: #2563eb;
+  background: rgba(var(--color-tertiary-hover), 0.1);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .ticket-priority.priority-high {
-  background: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .ticket-priority.priority-urgent {
-  background: rgba(239, 68, 68, 0.1);
-  color: #dc2626;
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .ticket-type {
-  background: rgba(139, 92, 246, 0.1);
-  color: #7c3aed;
+  background: rgba(var(--color-secondary), 0.1);
+  color: rgb(var(--color-secondary));
 }
 
 .ticket-id {

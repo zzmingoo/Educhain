@@ -230,9 +230,9 @@
   gap: var(--spacing-md);
   padding: var(--spacing-lg);
   background: rgba(239, 68, 68, 0.1);
-  border: 2px solid rgba(239, 68, 68, 0.3);
+  border: 2px solid rgba(var(--color-error-dark), 0.3);
   border-radius: var(--radius-lg);
-  color: rgb(239, 68, 68);
+  color: rgb(var(--color-error-dark));
   font-weight: 600;
 }
 

@@ -8,9 +8,9 @@
   min-height: 100vh;
   display: flex;
   background: linear-gradient(135deg, 
-    rgb(254, 252, 253) 0%, 
-    rgb(255, 255, 255) 50%, 
-    rgb(253, 249, 251) 100%
+    rgb(var(--color-background-light)) 0%, 
+    rgb(var(--color-background)) 50%, 
+    rgb(var(--color-background-light)) 100%
   );
   position: relative;
   overflow: hidden;
@@ -35,15 +35,15 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.05) 0%, 
-    rgba(220, 38, 38, 0.08) 100%
+    rgba(var(--color-error-dark), 0.05) 0%, 
+    rgba(var(--color-error-darker), 0.08) 100%
   );
 }
 
 .dark .admin-login-brand-section {
   background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.03) 0%, 
-    rgba(220, 38, 38, 0.05) 100%
+    rgba(var(--color-error-dark), 0.03) 0%, 
+    rgba(var(--color-error-darker), 0.05) 100%
   );
 }
 
@@ -70,7 +70,7 @@
   left: 10%;
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.3), transparent);
+  background: radial-gradient(circle, rgba(var(--color-error), 0.3), transparent);
 }
 
 .admin-brand-blob-2 {
@@ -78,7 +78,7 @@
   right: 15%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.25), transparent);
+  background: radial-gradient(circle, rgba(var(--color-error-dark), 0.25), transparent);
 }
 
 .admin-brand-blob-3 {
@@ -86,7 +86,7 @@
   left: 50%;
   width: 250px;
   height: 250px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.2), transparent);
+  background: radial-gradient(circle, rgba(var(--color-error), 0.2), transparent);
   transform: translate(-50%, -50%);
 }
 
@@ -97,8 +97,8 @@
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(rgba(239, 68, 68, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(239, 68, 68, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(var(--color-error), 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--color-error), 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   opacity: 0.5;
 }
@@ -127,13 +127,13 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, 
-    rgb(220, 38, 38), 
-    rgb(239, 68, 68)
+    rgb(var(--color-error-dark)), 
+    rgb(var(--color-error))
   );
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 
-    0 10px 40px rgba(220, 38, 38, 0.4),
-    0 0 60px rgba(220, 38, 38, 0.2);
+    0 10px 40px rgba(var(--color-error-dark), 0.4),
+    0 0 60px rgba(var(--color-error-dark), 0.2);
 }
 
 .admin-logo-icon svg {
@@ -145,8 +145,8 @@
   font-size: clamp(2.5rem, 4vw, 3.5rem);
   font-weight: 800;
   background: linear-gradient(135deg, 
-    rgb(220, 38, 38), 
-    rgb(239, 68, 68)
+    rgb(var(--color-error-dark)), 
+    rgb(var(--color-error))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -201,8 +201,8 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, 
-    rgba(220, 38, 38, 0.15), 
-    rgba(239, 68, 68, 0.1)
+    rgba(var(--color-error-dark), 0.15), 
+    rgba(var(--color-error), 0.1)
   );
   flex-shrink: 0;
 }
@@ -210,18 +210,18 @@
 .admin-feature-icon svg {
   width: 1.5rem;
   height: 1.5rem;
-  color: rgb(220, 38, 38);
+  color: rgb(var(--color-error-dark));
 }
 
 .dark .admin-feature-icon {
   background: linear-gradient(135deg, 
-    rgba(220, 38, 38, 0.2), 
-    rgba(239, 68, 68, 0.15)
+    rgba(var(--color-error-dark), 0.2), 
+    rgba(var(--color-error), 0.15)
   );
 }
 
 .dark .admin-feature-icon svg {
-  color: rgb(252, 165, 165);
+  color: rgb(var(--color-error-light));
 }
 
 .admin-feature-text h4 {
@@ -258,13 +258,13 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-background), 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .dark .admin-login-form-section {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(var(--color-background-secondary), 0.3);
 }
 
 .admin-form-container {
@@ -286,13 +286,13 @@
 .admin-form-title {
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: rgb(220, 38, 38);
+  color: rgb(var(--color-error-dark));
   margin: 0 0 var(--spacing-sm) 0;
   letter-spacing: -0.01em;
 }
 
 .dark .admin-form-title {
-  color: rgb(252, 165, 165);
+  color: rgb(var(--color-error-light));
 }
 
 .admin-form-subtitle {
@@ -354,12 +354,12 @@
 }
 
 .admin-form-input:hover {
-  border-color: rgba(220, 38, 38, 0.5);
+  border-color: rgba(var(--color-error-dark), 0.5);
 }
 
 .admin-form-input:focus {
-  border-color: rgb(220, 38, 38);
-  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  border-color: rgb(var(--color-error-dark));
+  box-shadow: 0 0 0 4px rgba(var(--color-error-dark), 0.1);
 }
 
 .admin-input-wrapper.error .admin-form-input {
@@ -411,8 +411,8 @@
   margin-top: var(--spacing-md);
   padding: 0 var(--spacing-xl);
   background: linear-gradient(135deg, 
-    rgb(220, 38, 38), 
-    rgb(239, 68, 68)
+    rgb(var(--color-error-dark)), 
+    rgb(var(--color-error))
   );
   color: white;
   font-size: var(--text-lg);
@@ -421,14 +421,14 @@
   border-radius: var(--radius-xl);
   cursor: pointer;
   transition: all var(--transition-fast) ease;
-  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 16px rgba(var(--color-error-dark), 0.3);
 }
 
 .admin-submit-button:hover:not(:disabled) {
-  box-shadow: 0 6px 24px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 6px 24px rgba(var(--color-error-dark), 0.4);
   background: linear-gradient(135deg, 
-    rgb(185, 28, 28), 
-    rgb(220, 38, 38)
+    rgb(var(--color-error)), 
+    rgb(var(--color-error-dark))
   );
 }
 
@@ -484,21 +484,21 @@
   display: inline-block;
   font-size: var(--text-base);
   font-weight: 600;
-  color: rgb(220, 38, 38);
+  color: rgb(var(--color-error-dark));
   text-decoration: none;
   transition: all var(--transition-fast) ease;
 }
 
 .admin-back-link:hover {
-  color: rgb(185, 28, 28);
+  color: rgb(var(--color-error));
 }
 
 .dark .admin-back-link {
-  color: rgb(252, 165, 165);
+  color: rgb(var(--color-error));
 }
 
 .dark .admin-back-link:hover {
-  color: rgb(254, 202, 202);
+  color: rgb(var(--color-error-dark));
 }
 
 /* 底部提示文字 */
@@ -572,12 +572,12 @@
   text-align: center;
   font-size: var(--text-sm);
   font-weight: 500;
-  color: rgb(146, 64, 14);
+  color: rgb(var(--color-warning-dark));
   margin: 0 0 var(--spacing-md) 0;
 }
 
 .dark .admin-mock-subtitle {
-  color: rgb(253, 224, 71);
+  color: rgb(var(--color-warning));
 }
 
 .admin-mock-btn {
@@ -603,33 +603,33 @@
 
 .admin-mock-btn-admin {
   background: linear-gradient(135deg, 
-    rgba(220, 38, 38, 0.1) 0%, 
-    rgba(185, 28, 28, 0.05) 100%
+    rgba(var(--color-error-dark), 0.1) 0%, 
+    rgba(var(--color-error), 0.05) 100%
   );
-  border-color: rgb(220, 38, 38);
-  color: rgb(185, 28, 28);
+  border-color: rgb(var(--color-error-dark));
+  color: rgb(var(--color-error));
 }
 
 .admin-mock-btn-admin:hover:not(:disabled) {
   background: linear-gradient(135deg, 
-    rgba(220, 38, 38, 0.2) 0%, 
-    rgba(185, 28, 28, 0.1) 100%
+    rgba(var(--color-error-dark), 0.2) 0%, 
+    rgba(var(--color-error), 0.1) 100%
   );
 }
 
 .dark .admin-mock-btn-admin {
   background: linear-gradient(135deg, 
-    rgba(220, 38, 38, 0.2) 0%, 
-    rgba(185, 28, 28, 0.1) 100%
+    rgba(var(--color-error-dark), 0.2) 0%, 
+    rgba(var(--color-error), 0.1) 100%
   );
-  color: rgb(252, 165, 165);
+  color: rgb(var(--color-error));
 }
 
 .admin-mock-switch-divider {
   text-align: center;
   margin: var(--spacing-md) 0;
   font-size: var(--text-xs);
-  color: rgb(100, 116, 139);
+  color: rgb(var(--color-text-tertiary));
 }
 
 .admin-mock-link-btn {
@@ -639,28 +639,28 @@
   background: transparent;
   border: none;
   font-size: var(--text-sm);
-  color: rgb(99, 102, 241);
+  color: rgb(var(--color-info-dark));
   cursor: pointer;
   transition: color var(--transition-fast) ease;
 }
 
 .admin-mock-link-btn:hover {
-  color: rgb(79, 70, 229);
+  color: rgb(var(--color-info));
 }
 
 .dark .admin-mock-link-btn {
-  color: rgb(165, 180, 252);
+  color: rgb(var(--color-info));
 }
 
 .dark .admin-mock-link-btn:hover {
-  color: rgb(199, 210, 254);
+  color: rgb(var(--color-info-dark));
 }
 
 .admin-mock-note {
   text-align: center;
   margin: var(--spacing-sm) 0 0 0;
   font-size: var(--text-xs);
-  color: rgb(100, 116, 139);
+  color: rgb(var(--color-text-tertiary));
 }
 
 /* ==================== 响应式设计 ==================== */

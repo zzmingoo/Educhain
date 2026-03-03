@@ -19,8 +19,8 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 25% 10%, rgba(216, 180, 254, 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 75% 90%, rgba(251, 207, 232, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 25% 10%, rgba(var(--color-secondary), 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 75% 90%, rgba(var(--color-primary), 0.18) 0%, transparent 40%),
     linear-gradient(180deg, rgb(var(--color-background)) 0%, rgb(var(--color-background-secondary)) 100%);
   opacity: 0.6;
   z-index: 0;
@@ -70,7 +70,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 8px rgba(236, 72, 153, 0.15));
+  filter: drop-shadow(0 2px 8px rgba(var(--color-accent), 0.15));
   will-change: transform;
   transform: translateZ(0);
 }
@@ -275,18 +275,18 @@
 .form-btn-submit {
   background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary-dark)));
   color: white;
-  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
+  box-shadow: 0 4px 16px rgba(var(--color-accent), 0.3);
   border: 2px solid transparent;
 }
 
 .form-btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 6px 20px rgba(var(--color-accent), 0.4);
 }
 
 .form-btn-submit:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.25);
+  box-shadow: 0 2px 8px rgba(var(--color-accent), 0.25);
 }
 
 .form-btn-submit:disabled {

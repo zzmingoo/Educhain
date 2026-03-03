@@ -203,7 +203,7 @@
 /* 主按钮：探索（粉色渐变 - Apple 风格） */
 .hero-action-primary {
   background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent)) 100%);
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   box-shadow: 0 4px 12px rgb(var(--color-accent-hover) / 0.25);
 }
 
@@ -221,7 +221,7 @@
 /* 次按钮：开始学习（粉色渐变） */
 .hero-action-secondary {
   background: linear-gradient(135deg, rgb(var(--color-accent-hover)) 0%, rgb(var(--color-accent)) 100%);
-  color: white;
+  color: rgb(var(--color-text-on-primary));
   border: none;
   box-shadow: 0 2px 8px rgb(var(--color-accent-hover) / 0.2);
 }
@@ -334,8 +334,8 @@
   justify-content: center;
   margin: 0 auto var(--spacing-lg);
   font-size: 2rem;
-  color: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+  color: rgb(var(--color-text-on-primary));
+  box-shadow: 0 10px 15px -3px rgba(var(--color-shadow), 0.15);
   position: relative;
   overflow: hidden;
 }

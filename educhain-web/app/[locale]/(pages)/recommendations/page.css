@@ -125,11 +125,11 @@
 
 .hero-title-main {
   display: block;
-  filter: drop-shadow(0 4px 12px rgba(236, 72, 153, 0.2));
+  filter: drop-shadow(0 4px 12px rgba(var(--color-accent), 0.2));
 }
 
 .text-gradient-orange {
-  background: linear-gradient(135deg, #ec4899, #fb7185);
+  background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary-hover)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -186,22 +186,22 @@
 }
 
 .hero-action-primary {
-  background: rgba(236, 72, 153, 0.08);
-  color: rgb(236, 72, 153);
+  background: rgba(var(--color-accent), 0.08);
+  color: rgb(var(--color-accent));
 }
 
 .hero-action-primary:hover {
-  background: rgba(236, 72, 153, 0.12);
+  background: rgba(var(--color-accent), 0.12);
   transform: translateY(-1px);
 }
 
 .dark .hero-action-primary {
-  background: rgba(249, 168, 212, 0.15);
-  color: rgb(249, 168, 212);
+  background: rgba(var(--color-primary-hover), 0.15);
+  color: rgb(var(--color-primary-hover));
 }
 
 .dark .hero-action-primary:hover {
-  background: rgba(249, 168, 212, 0.2);
+  background: rgba(var(--color-primary-hover), 0.2);
 }
 
 .hero-action-secondary {
@@ -251,18 +251,18 @@
 .feature-item svg {
   width: 1.125rem;
   height: 1.125rem;
-  color: rgb(236, 72, 153);
+  color: rgb(var(--color-accent));
 }
 
 .feature-item:hover {
-  background: rgba(236, 72, 153, 0.1);
-  color: rgb(236, 72, 153);
+  background: rgba(var(--color-accent), 0.1);
+  color: rgb(var(--color-accent));
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .dark .feature-item:hover {
-  background: rgba(236, 72, 153, 0.15);
+  background: rgba(var(--color-accent), 0.15);
 }
 
 .recommendation-page-container {

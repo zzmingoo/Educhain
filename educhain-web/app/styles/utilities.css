@@ -238,7 +238,7 @@
 
   .btn-primary {
     background-color: rgb(var(--color-accent));
-    color: white;
+    color: rgb(var(--color-text-on-primary));
   }
 
   .btn-primary:hover {

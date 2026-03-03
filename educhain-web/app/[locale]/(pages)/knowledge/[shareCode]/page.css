@@ -19,8 +19,8 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 10% 20%, rgba(251, 207, 232, 0.2) 0%, transparent 35%),
-    radial-gradient(circle at 90% 80%, rgba(191, 219, 254, 0.15) 0%, transparent 35%),
+    radial-gradient(circle at 10% 20%, rgba(var(--color-primary), 0.2) 0%, transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(var(--color-tertiary), 0.15) 0%, transparent 35%),
     linear-gradient(180deg, rgb(var(--color-background)) 0%, rgb(var(--color-background-secondary)) 100%);
   opacity: 0.7;
   z-index: 0;
@@ -644,54 +644,54 @@
 }
 
 .share-btn {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-tertiary), 0.1);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .share-btn:hover {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(var(--color-tertiary), 0.2);
 }
 
 .dark .share-btn {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(var(--color-tertiary), 0.15);
 }
 
 .dark .share-btn:hover {
-  background: rgba(59, 130, 246, 0.25);
+  background: rgba(var(--color-tertiary), 0.25);
 }
 
 .edit-btn {
-  background: rgba(251, 146, 60, 0.1);
-  color: rgb(251, 146, 60);
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .edit-btn:hover {
-  background: rgba(251, 146, 60, 0.2);
+  background: rgba(var(--color-warning-dark), 0.2);
 }
 
 .dark .edit-btn {
-  background: rgba(251, 146, 60, 0.15);
+  background: rgba(var(--color-warning-dark), 0.15);
 }
 
 .dark .edit-btn:hover {
-  background: rgba(251, 146, 60, 0.25);
+  background: rgba(var(--color-warning-dark), 0.25);
 }
 
 .delete-btn {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .delete-btn:hover {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(var(--color-error-dark), 0.2);
 }
 
 .dark .delete-btn {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(var(--color-error-dark), 0.15);
 }
 
 .dark .delete-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(var(--color-error-dark), 0.25);
 }
 
 /* ==================== 删除确认对话框 ==================== */
@@ -727,12 +727,12 @@
 }
 
 .dialog-icon.delete-icon {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .dark .dialog-icon.delete-icon {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(var(--color-error-dark), 0.15);
 }
 
 .dialog-icon svg {
@@ -789,12 +789,12 @@
 }
 
 .delete-confirm-btn {
-  background: rgb(239, 68, 68);
+  background: rgb(var(--color-error-dark));
   color: white;
 }
 
 .delete-confirm-btn:hover {
-  background: rgb(220, 38, 38);
+  background: rgb(var(--color-error));
 }
 
 .delete-confirm-btn:disabled {

@@ -213,43 +213,43 @@
 }
 
 .ticket-status.status-open {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-tertiary-hover), 0.1);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .ticket-status.status-progress {
-  background: rgba(251, 146, 60, 0.1);
-  color: rgb(251, 146, 60);
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .ticket-status.status-resolved {
-  background: rgba(34, 197, 94, 0.1);
-  color: rgb(34, 197, 94);
+  background: rgba(var(--color-success-dark), 0.1);
+  color: rgb(var(--color-success-dark));
 }
 
 .ticket-status.status-closed {
-  background: rgba(107, 114, 128, 0.1);
-  color: rgb(107, 114, 128);
+  background: rgba(var(--color-text-tertiary), 0.1);
+  color: rgb(var(--color-text-tertiary));
 }
 
 .ticket-priority.priority-low {
-  background: rgba(156, 163, 175, 0.1);
-  color: rgb(107, 114, 128);
+  background: rgba(var(--color-text-tertiary), 0.1);
+  color: rgb(var(--color-text-tertiary));
 }
 
 .ticket-priority.priority-medium {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
+  background: rgba(var(--color-tertiary-hover), 0.1);
+  color: rgb(var(--color-tertiary-hover));
 }
 
 .ticket-priority.priority-high {
-  background: rgba(251, 146, 60, 0.1);
-  color: rgb(251, 146, 60);
+  background: rgba(var(--color-warning-dark), 0.1);
+  color: rgb(var(--color-warning-dark));
 }
 
 .ticket-priority.priority-urgent {
-  background: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
 }
 
 .ticket-type {

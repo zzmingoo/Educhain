@@ -19,8 +19,8 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 15% 30%, rgba(251, 207, 232, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 85% 70%, rgba(196, 181, 253, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 15% 30%, rgba(var(--color-primary), 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 85% 70%, rgba(var(--color-secondary-hover), 0.2) 0%, transparent 50%);
   opacity: 0.6;
   z-index: 0;
   pointer-events: none;
