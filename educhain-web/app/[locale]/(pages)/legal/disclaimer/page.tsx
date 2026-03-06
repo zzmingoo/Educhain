@@ -13,21 +13,25 @@ export default function DisclaimerPage() {
     <>
       <Navbar />
       <div className="legal-page motion-fade-in">
-        <div className="page-content-narrow">
+        <div className="legal-content">
           {/* 页面头部 */}
-          <header className="legal-header">
-            <div className="legal-header-icon">⚠️</div>
-            <h1>{disclaimer.title.value}</h1>
+          <header className="legal-header motion-slide-in-up">
+            <h1><span className="text-gradient-pink">{disclaimer.title.value}</span></h1>
+            {disclaimer.subtitle && <p className="legal-header-subtitle">{disclaimer.subtitle.value}</p>}
             <p className="legal-header-meta">{content.lastUpdated.value}</p>
           </header>
 
           <main className="legal-main">
-            <article className="legal-card glass-light">
+            <article className="legal-card glass-light motion-slide-in-up motion-delay-100">
               {/* 警告框 */}
               <div className="legal-alert warning">
-                <span className="legal-alert-icon">⚠️</span>
+                <span className="legal-alert-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} style={{ width: '24px', height: '24px' }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                </span>
                 <div className="legal-alert-content">
-                  <p><strong>{disclaimer.importantNotice.value}</strong>{disclaimer.intro.value}</p>
+                  <p><strong>{disclaimer.importantNotice.value}</strong> {disclaimer.intro.value}</p>
                 </div>
               </div>
 

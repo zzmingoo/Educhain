@@ -1,5 +1,5 @@
 /* ===================================
-   产品模块样式 - Product Module Styles
+   产品模块样式 - Apple 风格
    ================================== */
 
 /* 页面容器 */
@@ -13,24 +13,23 @@
 /* 背景装饰 */
 .product-page::before {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 15% 30%, rgba(var(--color-primary), 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 85% 70%, rgba(var(--color-secondary-hover), 0.2) 0%, transparent 50%);
-  opacity: 0.6;
+    radial-gradient(circle at 20% 20%, rgb(var(--color-primary) / 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgb(var(--color-accent) / 0.08) 0%, transparent 50%);
+  opacity: 1;
   z-index: 0;
   pointer-events: none;
 }
 
 .dark .product-page::before {
   background:
-    radial-gradient(circle at 15% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
-  opacity: 1;
+    radial-gradient(circle at 20% 20%, rgb(var(--color-primary) / 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgb(var(--color-accent) / 0.04) 0%, transparent 50%);
 }
 
 .product-content {
@@ -39,170 +38,222 @@
   padding-top: 80px;
 }
 
-/* 页面头部 */
+/* ==================== 页面头部 ==================== */
 .product-header {
   text-align: center;
-  padding: var(--spacing-3xl) var(--spacing-lg);
-  max-width: 900px;
+  padding: calc(var(--spacing-3xl) + 64px) var(--spacing-lg) var(--spacing-2xl);
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.product-header-icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto var(--spacing-xl);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  border-radius: var(--radius-2xl);
-  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
-  color: white;
-  box-shadow: var(--shadow-xl);
+.product-header h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-.product-header h1 {
-  font-size: var(--text-5xl);
-  font-weight: 800;
-  margin-bottom: var(--spacing-lg);
+.product-header h1 .text-gradient-pink {
   background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-accent)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 4px 12px rgb(var(--color-accent) / 0.2));
+}
+
+.product-header-subtitle {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgb(var(--color-text-secondary));
+  margin-bottom: var(--spacing-xl);
+  letter-spacing: -0.01em;
 }
 
 .product-header-desc {
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   color: rgb(var(--color-text-secondary));
   line-height: 1.75;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
-/* 内容区域 */
+/* ==================== 内容区域 ==================== */
 .product-main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--spacing-lg) var(--spacing-3xl);
+  padding: 0 var(--spacing-lg) var(--spacing-4xl);
+  position: relative;
+  z-index: 1;
 }
 
-/* 特性卡片 */
+/* ==================== 特性卡片 ==================== */
 .product-card {
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl);
   border-radius: var(--radius-2xl);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .product-card h2 {
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   font-weight: 700;
   color: rgb(var(--color-text-primary));
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+  text-align: center;
+  letter-spacing: -0.01em;
 }
 
 .product-card h3 {
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   font-weight: 600;
   color: rgb(var(--color-text-primary));
-  margin-bottom: var(--spacing-md);
-  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+  letter-spacing: -0.01em;
 }
 
 .product-card p {
   font-size: var(--text-base);
   color: rgb(var(--color-text-secondary));
-  line-height: 1.8;
+  line-height: 1.75;
   margin-bottom: var(--spacing-md);
 }
 
-/* 特性网格 */
+/* ==================== 特性网格 ==================== */
 .product-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-xl);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2xl);
   margin-top: var(--spacing-2xl);
 }
 
+@media (max-width: 1024px) {
+  .product-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .product-feature {
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-2xl);
   text-align: center;
-  transition: all var(--transition-fast) ease;
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-feature:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
 .product-feature-icon {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   margin: 0 auto var(--spacing-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgb(var(--color-primary-light)), rgb(var(--color-primary)));
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
+  color: white;
+}
+
+.product-feature-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+.dark .product-feature-icon {
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
 }
 
 .product-feature h4 {
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: 600;
   color: rgb(var(--color-text-primary));
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .product-feature p {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: rgb(var(--color-text-secondary));
   line-height: 1.7;
   margin: 0;
 }
 
-/* 亮点展示 */
+/* ==================== 统计数据 ==================== */
 .product-highlights {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-lg);
-  margin: var(--spacing-2xl) 0;
+  margin: var(--spacing-3xl) 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product-highlight {
   text-align: center;
   padding: var(--spacing-xl);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-highlight-value {
   font-size: var(--text-4xl);
-  font-weight: 800;
+  font-weight: 700;
   color: rgb(var(--color-accent));
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  letter-spacing: -0.02em;
 }
 
 .product-highlight-label {
   font-size: var(--text-sm);
   color: rgb(var(--color-text-secondary));
+  font-weight: 500;
 }
 
-/* 使用场景 */
+/* ==================== 使用场景 ==================== */
 .product-scenarios {
+  margin-top: var(--spacing-4xl);
+  padding: var(--spacing-4xl) 0;
+}
+
+.product-scenarios h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  margin-bottom: var(--spacing-2xl);
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.product-scenarios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2xl);
   margin-top: var(--spacing-2xl);
+}
+
+@media (max-width: 1024px) {
+  .product-scenarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .product-scenario {
   display: flex;
-  gap: var(--spacing-xl);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-xl);
-  margin-bottom: var(--spacing-lg);
+  flex-direction: column;
   align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.product-scenario:nth-child(even) {
-  flex-direction: row-reverse;
+.product-scenario:hover {
+  transform: translateY(-4px);
 }
 
 .product-scenario-icon {
@@ -211,14 +262,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  border-radius: var(--radius-xl);
-  background: rgb(var(--color-primary-light));
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
   flex-shrink: 0;
+  color: white;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
 }
 
-.product-scenario-content h4 {
-  font-size: var(--text-lg);
+.product-scenario-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+.dark .product-scenario-icon {
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
+}
+
+.product-scenario-content h4,
+.product-scenario-content h3 {
+  font-size: var(--text-xl);
   font-weight: 600;
   color: rgb(var(--color-text-primary));
   margin-bottom: var(--spacing-sm);
@@ -231,17 +294,150 @@
   margin: 0;
 }
 
-/* CTA 区域 */
-.product-cta {
-  text-align: center;
-  padding: var(--spacing-3xl);
-  border-radius: var(--radius-2xl);
-  margin-top: var(--spacing-2xl);
-  background: linear-gradient(135deg, rgb(var(--color-primary-light)) 0%, rgb(var(--color-background)) 100%);
+/* ==================== 工作原理 ==================== */
+.product-how-it-works {
+  margin-top: var(--spacing-4xl);
+  padding: var(--spacing-4xl) 0;
 }
 
-.dark .product-cta {
-  background: linear-gradient(135deg, rgb(var(--color-background-tertiary)) 0%, rgb(var(--color-background-secondary)) 100%);
+.product-how-it-works h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.product-how-it-works-description {
+  font-size: var(--text-lg);
+  color: rgb(var(--color-text-secondary));
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-3xl);
+  line-height: 1.75;
+}
+
+.product-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2xl);
+}
+
+@media (max-width: 1024px) {
+  .product-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.product-step-card {
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-step-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-step-number {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--spacing-lg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-step-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: rgb(var(--color-text-primary));
+  margin-bottom: var(--spacing-sm);
+}
+
+.product-step-description {
+  font-size: var(--text-sm);
+  color: rgb(var(--color-text-secondary));
+  line-height: 1.7;
+}
+
+/* ==================== 社区价值 ==================== */
+.product-benefits {
+  margin-top: var(--spacing-4xl);
+  padding: var(--spacing-4xl) 0;
+}
+
+.product-benefits h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.product-benefits-description {
+  font-size: var(--text-lg);
+  color: rgb(var(--color-text-secondary));
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-3xl);
+  line-height: 1.75;
+}
+
+.product-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2xl);
+}
+
+@media (max-width: 1024px) {
+  .product-benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.product-benefit-card {
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-2xl);
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-benefit-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-benefit-card h3 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: rgb(var(--color-text-primary));
+  margin-bottom: var(--spacing-md);
+}
+
+.product-benefit-card p {
+  font-size: var(--text-base);
+  color: rgb(var(--color-text-secondary));
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ==================== CTA 区域 ==================== */
+.product-cta {
+  text-align: center;
+  padding: var(--spacing-4xl) var(--spacing-2xl);
+  border-radius: var(--radius-3xl);
+  margin-top: var(--spacing-4xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product-cta h2 {
@@ -249,85 +445,231 @@
   font-weight: 700;
   color: rgb(var(--color-text-primary));
   margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
 }
 
 .product-cta p {
   font-size: var(--text-lg);
   color: rgb(var(--color-text-secondary));
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+  line-height: 1.75;
 }
 
 .product-cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  justify-content: center;
   padding: var(--spacing-md) var(--spacing-2xl);
   border-radius: var(--radius-xl);
-  background: rgb(var(--color-accent));
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
   color: white;
   font-size: var(--text-lg);
   font-weight: 600;
   text-decoration: none;
   border: none;
   cursor: pointer;
-  transition: all var(--transition-fast) ease;
+  transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+.dark .product-cta-btn {
+  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+  color: #831843;
+  box-shadow: 0 4px 12px rgba(252, 231, 243, 0.2);
 }
 
 .product-cta-btn:hover {
-  background: rgb(var(--color-accent-hover));
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
 }
 
-/* 响应式 */
+.dark .product-cta-btn:hover {
+  background: linear-gradient(135deg, #fbcfe8, #f9a8d4);
+  box-shadow: 0 8px 24px rgba(252, 231, 243, 0.3);
+}
+
+.product-cta-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+.dark .product-cta-btn:active {
+  box-shadow: 0 4px 12px rgba(252, 231, 243, 0.2);
+}
+
+/* ==================== 响应式设计 ==================== */
 @media (max-width: 1024px) {
-  .product-highlights {
-    grid-template-columns: repeat(3, 1fr);
+  .product-header {
+    padding: calc(var(--spacing-3xl) + 64px) var(--spacing-lg) var(--spacing-2xl);
+  }
+
+  .product-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .product-header-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+  }
+
+  .product-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .product-scenarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .product-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .product-benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
   }
 }
 
 @media (max-width: 768px) {
   .product-header {
-    padding: var(--spacing-2xl) var(--spacing-md);
+    padding: calc(var(--spacing-3xl) + 64px) var(--spacing-md) var(--spacing-2xl);
   }
 
   .product-header h1 {
-    font-size: var(--text-3xl);
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .product-header-subtitle {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .product-header-desc {
     font-size: var(--text-base);
   }
 
-  .product-header-icon {
-    width: 80px;
-    height: 80px;
-    font-size: 2.5rem;
-  }
-
   .product-main {
-    padding: 0 var(--spacing-md) var(--spacing-2xl);
+    padding: 0 var(--spacing-md) var(--spacing-3xl);
   }
 
   .product-card {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-2xl) var(--spacing-lg);
   }
 
-  .product-features {
+  .product-card h2,
+  .product-scenarios h2,
+  .product-how-it-works h2,
+  .product-benefits h2,
+  .product-cta h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .product-features,
+  .product-scenarios-grid,
+  .product-benefits-grid,
+  .product-steps-grid {
     grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
   }
 
   .product-highlights {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
+    max-width: 300px;
   }
 
   .product-scenario {
-    flex-direction: column !important;
-    text-align: center;
+    padding: var(--spacing-xl);
+  }
+
+  .product-feature-icon,
+  .product-scenario-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .product-feature-icon svg,
+  .product-scenario-icon svg {
+    width: 32px;
+    height: 32px;
   }
 
   .product-cta {
-    padding: var(--spacing-2xl) var(--spacing-lg);
+    padding: var(--spacing-3xl) var(--spacing-xl);
+  }
+
+  .product-cta p {
+    font-size: var(--text-base);
+  }
+
+  .product-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-header h1 {
+    font-size: 2rem;
+  }
+
+  .product-header-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ==================== 性能优化 ==================== */
+.product-highlight,
+.product-feature,
+.product-scenario,
+.product-step-card,
+.product-benefit-card,
+.product-cta-btn {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ==================== 无障碍支持 ==================== */
+@media (prefers-reduced-motion: reduce) {
+  .product-page *,
+  .product-highlight,
+  .product-feature,
+  .product-scenario,
+  .product-step-card,
+  .product-benefit-card,
+  .product-cta-btn {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .product-feature-icon,
+  .product-scenario-icon,
+  .product-step-number {
+    border: 2px solid currentColor;
+  }
+
+  .product-highlight,
+  .product-feature,
+  .product-scenario,
+  .product-step-card,
+  .product-benefit-card {
+    border: 2px solid rgb(var(--color-border));
+  }
+}
+
+/* ==================== 触摸设备优化 ==================== */
+@media (hover: none) and (pointer: coarse) {
+  .product-cta-btn,
+  .product-highlight,
+  .product-feature,
+  .product-scenario {
+    min-height: 44px;
   }
 }

@@ -29,17 +29,17 @@ export default function HelpCenterPage() {
     <>
       <Navbar />
       <div className="resources-page motion-fade-in">
-        <div className="page-content">
+        <div className="resources-content">
           {/* 页面头部 */}
-          <header className="resources-header">
-            <div className="resources-header-icon">❓</div>
-            <h1>{help.title.value}</h1>
+          <header className="resources-header motion-slide-in-up">
+            <h1><span className="text-gradient-pink">{help.title.value}</span></h1>
+            {help.subtitle && <p className="resources-header-subtitle">{help.subtitle.value}</p>}
             <p className="resources-header-desc">{help.description.value}</p>
           </header>
 
           <main className="resources-main">
             {/* 搜索框 */}
-            <div className="resources-search">
+            <div className="resources-search motion-slide-in-up motion-delay-100">
               <input
                 type="text"
                 className="resources-search-input"
@@ -50,7 +50,7 @@ export default function HelpCenterPage() {
             </div>
 
             {/* 分类标签 */}
-            <div className="category-tags">
+            <div className="category-tags motion-slide-in-up motion-delay-150">
               {help.categories.map((cat, index) => (
                 <button
                   key={index}
@@ -63,12 +63,13 @@ export default function HelpCenterPage() {
             </div>
 
             {/* FAQ 列表 */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-200">
               <div className="faq-list">
                 {filteredFaqs.map((faq, index) => (
                   <div
                     key={index}
                     className={`faq-item ${openFaq === index ? 'open' : ''}`}
+                    style={{ animationDelay: `${250 + index * 50}ms` }}
                   >
                     <button
                       className="faq-question"
@@ -86,27 +87,27 @@ export default function HelpCenterPage() {
             </section>
 
             {/* 工单支持 */}
-            <section className="resources-card glass-light" style={{ textAlign: 'center' }}>
+            <section className="resources-card glass-medium motion-slide-in-up motion-delay-400" style={{ textAlign: 'center' }}>
               <h2>{help.contact.title.value}</h2>
               <p>{help.contact.description.value}</p>
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: 'var(--spacing-lg)', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: 'var(--spacing-xl)', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => router.push(getLocalizedUrl('/resources/ticket/submit', locale))}
-                  className="form-submit motion-hover-lift"
+                  className="subscribe-button motion-hover-lift"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                   </svg>
                   {help.contact.submitTicket.value}
                 </button>
                 <button
                   onClick={() => router.push(getLocalizedUrl('/resources/ticket/list', locale))}
-                  className="form-submit motion-hover-lift"
+                  className="subscribe-button motion-hover-lift"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #6b7280, #4b5563)' }}
                 >
-                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                   {help.contact.myTickets.value}
                 </button>

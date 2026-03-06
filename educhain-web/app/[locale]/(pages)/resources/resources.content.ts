@@ -9,9 +9,13 @@ const resourcesContent = {
         'zh-CN': '帮助中心',
         en: 'Help Center',
       }),
+      subtitle: t({
+        'zh-CN': '7x24小时在线支持，快速响应',
+        en: '24/7 Online Support, Quick Response',
+      }),
       description: t({
-        'zh-CN': '快速找到您需要的帮助和解答',
-        en: 'Quickly find the help and answers you need',
+        'zh-CN': '我们提供全面的帮助文档和常见问题解答，帮助您快速解决使用过程中遇到的问题。无论是账户管理、内容发布还是区块链存证，都能在这里找到详细的指导和答案',
+        en: 'We provide comprehensive help documentation and FAQs to help you quickly resolve issues encountered during use. Whether it\'s account management, content publishing, or blockchain certification, you can find detailed guidance and answers here',
       }),
       searchPlaceholder: t({
         'zh-CN': '搜索问题...',
@@ -70,9 +74,13 @@ const resourcesContent = {
         'zh-CN': '开发文档',
         en: 'Developer Docs',
       }),
+      subtitle: t({
+        'zh-CN': '强大的 API，完善的文档，快速集成',
+        en: 'Powerful API, Complete Documentation, Quick Integration',
+      }),
       description: t({
-        'zh-CN': '完整的开发指南和技术文档',
-        en: 'Complete development guides and technical documentation',
+        'zh-CN': '为开发者提供完整的 API 文档、SDK 和代码示例，帮助您快速集成 EduChain 的功能到您的应用中。支持多种编程语言，提供详细的接口说明和最佳实践指南',
+        en: 'Provides developers with complete API documentation, SDKs, and code examples to help you quickly integrate EduChain features into your applications. Supports multiple programming languages with detailed interface descriptions and best practice guides',
       }),
       quickStart: {
         title: t({ 'zh-CN': '快速开始', en: 'Quick Start' }),
@@ -148,9 +156,13 @@ const contents = await client.content.list({
         'zh-CN': 'API 文档',
         en: 'API Documentation',
       }),
+      subtitle: t({
+        'zh-CN': 'RESTful 设计，简单易用，功能强大',
+        en: 'RESTful Design, Simple to Use, Powerful Features',
+      }),
       description: t({
-        'zh-CN': '完整的 RESTful API 接口文档',
-        en: 'Complete RESTful API documentation',
+        'zh-CN': '基于 RESTful 架构设计的 API 接口，提供用户管理、内容操作、区块链存证等完整功能。所有接口都经过严格测试，确保稳定性和安全性，支持 JSON 格式的请求和响应',
+        en: 'RESTful architecture-based API interfaces providing complete features including user management, content operations, and blockchain certification. All interfaces are rigorously tested to ensure stability and security, supporting JSON format requests and responses',
       }),
       baseUrl: 'https://api.educhain.cc/v1',
       exampleRequests: {
@@ -216,9 +228,13 @@ const contents = await client.content.list({
         'zh-CN': '更新日志',
         en: 'Changelog',
       }),
+      subtitle: t({
+        'zh-CN': '持续迭代，不断进化',
+        en: 'Continuous Iteration, Constant Evolution',
+      }),
       description: t({
-        'zh-CN': '了解 EduChain 的最新更新和改进',
-        en: 'Learn about the latest updates and improvements to EduChain',
+        'zh-CN': '记录 EduChain 平台的每一次更新和改进，包括新功能发布、性能优化、问题修复等。我们致力于持续改进产品，为用户提供更好的体验。订阅更新通知，第一时间了解最新动态',
+        en: 'Records every update and improvement to the EduChain platform, including new feature releases, performance optimizations, and bug fixes. We are committed to continuous product improvement to provide users with a better experience. Subscribe to update notifications to stay informed',
       }),
       subscribe: {
         title: t({ 'zh-CN': '订阅更新通知', en: 'Subscribe to Updates' }),

@@ -14,9 +14,13 @@ const legalContent = {
         'zh-CN': '服务条款',
         en: 'Terms of Service',
       }),
+      subtitle: t({
+        'zh-CN': '明确权责，保障权益',
+        en: 'Clear Rights and Responsibilities, Protect Your Interests',
+      }),
       intro: t({
-        'zh-CN': '欢迎使用 EduChain。在使用我们的服务之前，请仔细阅读以下服务条款。使用本平台即表示您同意遵守这些条款。',
-        en: 'Welcome to EduChain. Please read the following terms of service carefully before using our services. By using this platform, you agree to comply with these terms.',
+        'zh-CN': '欢迎使用 EduChain 平台。在使用我们的服务之前，请仔细阅读以下服务条款。这些条款构成您与 EduChain 之间具有法律约束力的协议。使用本平台即表示您已阅读、理解并同意遵守这些条款',
+        en: 'Welcome to the EduChain platform. Please read the following terms of service carefully before using our services. These terms constitute a legally binding agreement between you and EduChain. By using this platform, you acknowledge that you have read, understood, and agreed to comply with these terms',
       }),
       sections: [
         {
@@ -57,7 +61,7 @@ const legalContent = {
       ],
       contact: {
         title: t({ 'zh-CN': '联系我们', en: 'Contact Us' }),
-        email: 'legal@educhain.cc',
+        email: 'ozemyn@icloud.com',
         phone: '400-123-4567',
         address: t({ 'zh-CN': '北京市海淀区中关村大街1号', en: '1 Zhongguancun Street, Haidian District, Beijing' }),
       },
@@ -73,9 +77,13 @@ const legalContent = {
         'zh-CN': '隐私政策',
         en: 'Privacy Policy',
       }),
+      subtitle: t({
+        'zh-CN': '保护隐私，安全可信',
+        en: 'Privacy Protection, Secure and Trustworthy',
+      }),
       intro: t({
-        'zh-CN': 'EduChain 非常重视用户的隐私保护。本隐私政策说明了我们如何收集、使用、存储和保护您的个人信息。',
-        en: 'EduChain attaches great importance to user privacy protection. This privacy policy explains how we collect, use, store, and protect your personal information.',
+        'zh-CN': 'EduChain 非常重视用户的隐私保护。本隐私政策详细说明了我们如何收集、使用、存储和保护您的个人信息，以及您对个人信息享有的权利。我们承诺采取严格的安全措施保护您的隐私，并遵守相关法律法规的要求',
+        en: 'EduChain attaches great importance to user privacy protection. This privacy policy details how we collect, use, store, and protect your personal information, as well as your rights regarding personal information. We promise to take strict security measures to protect your privacy and comply with relevant laws and regulations',
       }),
       footer: t({
         'zh-CN': '我们承诺保护您的隐私，感谢您对 EduChain 的信任',
@@ -126,13 +134,17 @@ const legalContent = {
         'zh-CN': '版权声明',
         en: 'Copyright Notice',
       }),
+      subtitle: t({
+        'zh-CN': '尊重原创，保护版权',
+        en: 'Respect Originality, Protect Copyright',
+      }),
       intro: t({
-        'zh-CN': 'EduChain 尊重知识产权，致力于保护原创内容创作者的合法权益。',
-        en: 'EduChain respects intellectual property rights and is committed to protecting the legitimate rights and interests of original content creators.',
+        'zh-CN': 'EduChain 尊重并保护知识产权，致力于为原创内容创作者提供完善的版权保护机制。我们利用区块链技术为内容提供存证服务，确保创作者的合法权益得到有效保障。同时，我们也要求所有用户尊重他人的知识产权',
+        en: 'EduChain respects and protects intellectual property rights and is committed to providing comprehensive copyright protection mechanisms for original content creators. We use blockchain technology to provide certification services for content, ensuring that creators\' legitimate rights and interests are effectively protected. We also require all users to respect others\' intellectual property rights',
       }),
       contact: {
         title: t({ 'zh-CN': '版权投诉联系方式', en: 'Copyright Complaint Contact' }),
-        email: 'copyright@educhain.cc',
+        email: 'ozemyn@icloud.com',
         phone: '400-123-4567',
       },
       sections: [
@@ -173,17 +185,21 @@ const legalContent = {
         'zh-CN': '免责声明',
         en: 'Disclaimer',
       }),
+      subtitle: t({
+        'zh-CN': '明确责任，合理使用',
+        en: 'Clear Responsibilities, Reasonable Use',
+      }),
       intro: t({
-        'zh-CN': '请仔细阅读以下免责声明。使用 EduChain 平台即表示您已阅读、理解并同意以下条款。',
-        en: 'Please read the following disclaimer carefully. By using the EduChain platform, you acknowledge that you have read, understood, and agreed to the following terms.',
+        'zh-CN': '请仔细阅读以下免责声明。本声明旨在明确 EduChain 平台的服务范围和责任限制，帮助您更好地理解和使用我们的服务。使用 EduChain 平台即表示您已阅读、理解并同意接受以下所有条款',
+        en: 'Please read the following disclaimer carefully. This statement aims to clarify the scope of services and limitations of liability of the EduChain platform to help you better understand and use our services. By using the EduChain platform, you acknowledge that you have read, understood, and agreed to accept all of the following terms',
       }),
       importantNotice: t({
         'zh-CN': '重要提示：',
         en: 'Important Notice:',
       }),
       footer: t({
-        'zh-CN': '如有任何疑问，请联系我们的法务团队：legal@educhain.cc',
-        en: 'If you have any questions, please contact our legal team: legal@educhain.cc',
+        'zh-CN': '如有任何疑问，请联系我们的法务团队：ozemyn@icloud.com',
+        en: 'If you have any questions, please contact our legal team: ozemyn@icloud.com',
       }),
       sections: [
         {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useIntlayer } from 'next-intlayer';
 import Navbar from '../../../../../components/layout/Navbar';
 import Footer from '../../../../../components/layout/Footer';
@@ -8,16 +9,23 @@ import '../resources.css';
 export default function ChangelogPage() {
   const content = useIntlayer('resources');
   const changelog = content.changelog;
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert(`已订阅: ${email}`);
+    setEmail('');
+  };
 
   return (
     <>
       <Navbar />
       <div className="resources-page motion-fade-in">
-        <div className="page-content">
+        <div className="resources-content">
           {/* 页面头部 */}
-          <header className="resources-header">
-            <div className="resources-header-icon">📋</div>
-            <h1>{changelog.title.value}</h1>
+          <header className="resources-header motion-slide-in-up">
+            <h1><span className="text-gradient-pink">{changelog.title.value}</span></h1>
+            {changelog.subtitle && <p className="resources-header-subtitle">{changelog.subtitle.value}</p>}
             <p className="resources-header-desc">{changelog.description.value}</p>
           </header>
 
@@ -27,7 +35,11 @@ export default function ChangelogPage() {
               {changelog.versions.map((version, index) => {
                 const versionType = version.type.value as 'major' | 'minor' | 'patch';
                 return (
-                  <article key={index} className="changelog-item glass-light">
+                  <article 
+                    key={index} 
+                    className="changelog-item glass-light motion-slide-in-up" 
+                    style={{ animationDelay: `${100 + index * 100}ms` }}
+                  >
                     <div className="changelog-version">
                       <h3>v{version.version.value}</h3>
                       <span className="changelog-date">{version.date.value}</span>
@@ -54,20 +66,22 @@ export default function ChangelogPage() {
             </div>
 
             {/* 订阅更新 */}
-            <section className="resources-card glass-light" style={{ textAlign: 'center' }}>
+            <section className="resources-card glass-medium motion-slide-in-up motion-delay-500" style={{ textAlign: 'center' }}>
               <h2>{changelog.subscribe.title.value}</h2>
               <p>{changelog.subscribe.description.value}</p>
-              <div style={{ display: 'flex', gap: 'var(--spacing-md)', justifyContent: 'center', marginTop: 'var(--spacing-lg)', flexWrap: 'wrap' }}>
+              <form onSubmit={handleSubscribe} className="subscribe-form">
                 <input
                   type="email"
                   placeholder={changelog.subscribe.placeholder.value}
-                  className="form-input"
-                  style={{ maxWidth: '300px' }}
+                  className="subscribe-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
-                <button className="form-submit motion-hover-lift" style={{ whiteSpace: 'nowrap' }}>
+                <button type="submit" className="subscribe-button motion-hover-lift">
                   {changelog.subscribe.button.value}
                 </button>
-              </div>
+              </form>
             </section>
           </main>
         </div>

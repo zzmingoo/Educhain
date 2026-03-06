@@ -13,16 +13,16 @@ export default function PrivacyPage() {
     <>
       <Navbar />
       <div className="legal-page motion-fade-in">
-        <div className="page-content-narrow">
+        <div className="legal-content">
           {/* 页面头部 */}
-          <header className="legal-header">
-            <div className="legal-header-icon">🔒</div>
-            <h1>{privacy.title.value}</h1>
+          <header className="legal-header motion-slide-in-up">
+            <h1><span className="text-gradient-pink">{privacy.title.value}</span></h1>
+            {privacy.subtitle && <p className="legal-header-subtitle">{privacy.subtitle.value}</p>}
             <p className="legal-header-meta">{content.lastUpdated.value}</p>
           </header>
 
           <main className="legal-main">
-            <article className="legal-card glass-light">
+            <article className="legal-card glass-light motion-slide-in-up motion-delay-100">
               {/* 引言 */}
               <h2>{privacy.title.value}</h2>
               <p>{privacy.intro.value}</p>

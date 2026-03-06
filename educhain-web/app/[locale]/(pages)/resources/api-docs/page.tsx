@@ -13,17 +13,17 @@ export default function ApiDocsPage() {
     <>
       <Navbar />
       <div className="resources-page motion-fade-in">
-        <div className="page-content">
+        <div className="resources-content">
           {/* 页面头部 */}
-          <header className="resources-header">
-            <div className="resources-header-icon">📡</div>
-            <h1>{apiDocs.title.value}</h1>
+          <header className="resources-header motion-slide-in-up">
+            <h1><span className="text-gradient-pink">{apiDocs.title.value}</span></h1>
+            {apiDocs.subtitle && <p className="resources-header-subtitle">{apiDocs.subtitle.value}</p>}
             <p className="resources-header-desc">{apiDocs.description.value}</p>
           </header>
 
           <main className="resources-main">
             {/* Base URL */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-100">
               <h2>Base URL</h2>
               <div className="code-block">
                 <pre><code>{String(apiDocs.baseUrl.value || apiDocs.baseUrl)}</code></pre>
@@ -31,7 +31,7 @@ export default function ApiDocsPage() {
             </section>
 
             {/* 认证 */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-150">
               <h2>{apiDocs.authentication.title.value}</h2>
               <p>{apiDocs.authentication.description.value}</p>
               <div className="code-block">
@@ -40,11 +40,11 @@ export default function ApiDocsPage() {
             </section>
 
             {/* API 端点 */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-200">
               <h2>API Endpoints</h2>
-              <div style={{ marginTop: 'var(--spacing-lg)' }}>
+              <div style={{ marginTop: 'var(--spacing-xl)' }}>
                 {apiDocs.endpoints.map((endpoint, index) => (
-                  <div key={index} className="api-endpoint glass-light">
+                  <div key={index} className="api-endpoint glass-light" style={{ animationDelay: `${250 + index * 50}ms` }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
                       <span className={`api-method ${String(endpoint.method.value || endpoint.method).toLowerCase()}`}>
                         {String(endpoint.method.value || endpoint.method)}
@@ -58,7 +58,7 @@ export default function ApiDocsPage() {
             </section>
 
             {/* 示例请求 */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-400">
               <h2>{apiDocs.exampleRequests.title.value}</h2>
               <h3>{apiDocs.exampleRequests.getContentList.value}</h3>
               <div className="code-block">
@@ -91,7 +91,7 @@ export default function ApiDocsPage() {
             </section>
 
             {/* 响应格式 */}
-            <section className="resources-card glass-light">
+            <section className="resources-card glass-light motion-slide-in-up motion-delay-500">
               <h2>{apiDocs.responseFormat.title.value}</h2>
               <p>{apiDocs.responseFormat.description.value}</p>
               <div className="code-block">

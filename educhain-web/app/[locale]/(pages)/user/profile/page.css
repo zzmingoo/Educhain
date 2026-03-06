@@ -648,24 +648,27 @@
   margin: 0;
 }
 
-/* ==================== 表单样式 ==================== */
+/* 表单样式 */
 .profile-form {
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
 }
 
 .form-label {
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: rgb(var(--color-text-primary));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .form-input {
@@ -679,6 +682,11 @@
   background: rgb(var(--color-background));
   transition: all var(--transition-fast) ease;
   outline: none;
+}
+
+.dark .form-input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .form-input::placeholder {
@@ -695,15 +703,16 @@
 }
 
 .form-textarea {
-  min-height: 100px;
+  min-height: 120px;
   padding: var(--spacing-md);
   resize: vertical;
+  line-height: 1.6;
 }
 
 .form-actions {
   display: flex;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 }
 
 .btn-primary {
@@ -764,28 +773,64 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal-backdrop);
+  animation: fadeIn 0.2s ease;
+  padding: var(--spacing-md);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
   width: 100%;
-  max-width: 480px;
-  margin: var(--spacing-lg);
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
   padding: var(--spacing-2xl);
   border-radius: var(--radius-2xl);
+  background: rgb(var(--color-background));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--color-border), 0.5);
+  animation: slideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+.dark .modal-content {
+  background: rgb(var(--color-background-secondary));
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-header {
   margin-bottom: var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-title {
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   font-weight: 700;
   color: rgb(var(--color-text-primary));
   margin: 0;
@@ -801,7 +846,9 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgb(var(--color-border));
 }
 
 /* ==================== 响应式设计 ==================== */
@@ -903,6 +950,15 @@
   .profile-blob {
     display: none;
   }
+
+  .modal-overlay {
+    padding: var(--spacing-md);
+  }
+
+  .modal-content {
+    max-height: 85vh;
+    padding: var(--spacing-xl);
+  }
 }
 
 @media (max-width: 480px) {
@@ -923,12 +979,46 @@
     width: 100%;
   }
 
+  .modal-overlay {
+    padding: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+    padding: var(--spacing-lg);
+    margin: 0;
+  }
+
+  .modal-title {
+    font-size: var(--text-xl);
+  }
+
   .modal-actions {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    gap: var(--spacing-sm);
   }
 
   .modal-actions button {
     width: 100%;
+  }
+
+  .password-strength {
+    padding: var(--spacing-md);
+  }
+
+  .password-requirements-list li {
+    font-size: var(--text-xs);
+  }
+
+  .form-group {
+    gap: var(--spacing-sm);
+  }
+
+  .form-input {
+    height: 2.75rem;
+    font-size: var(--text-sm);
   }
 }
 
@@ -1036,16 +1126,22 @@
 /* 密码强度指示器 */
 .password-strength {
   margin-top: var(--spacing-md);
-  padding: var(--spacing-md);
-  background: rgba(var(--color-background-tertiary), 0.5);
+  padding: var(--spacing-lg);
+  background: rgba(var(--color-background-tertiary), 0.8);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--radius-lg);
+}
+
+.dark .password-strength {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .password-strength-title {
   font-size: var(--text-sm);
   font-weight: 600;
   color: rgb(var(--color-text-primary));
-  margin: 0 0 var(--spacing-sm) 0;
+  margin: 0 0 var(--spacing-md) 0;
 }
 
 .password-requirements-list {
@@ -1054,7 +1150,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
 }
 
 .password-requirements-list li {
@@ -1062,17 +1158,23 @@
   align-items: center;
   gap: var(--spacing-sm);
   font-size: var(--text-sm);
-  color: rgb(var(--color-text-tertiary));
+  color: rgb(var(--color-text-secondary));
   transition: color var(--transition-fast) ease;
+  padding: var(--spacing-xs) 0;
 }
 
 .password-requirements-list li.valid {
   color: rgb(var(--color-success-dark));
+  font-weight: 500;
+}
+
+.dark .password-requirements-list li.valid {
+  color: rgb(var(--color-success));
 }
 
 .password-requirements-list li svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 

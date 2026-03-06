@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   height: 56px;
   position: relative;
 }
@@ -123,7 +123,8 @@
   display: flex;
   align-items: center;
   gap: 28px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 /* ==================== 导航栏搜索框 ==================== */
@@ -572,6 +573,56 @@
   font-size: var(--text-sm);
 }
 
+/* 移动端用户头像按钮 */
+.navbar-user-mobile-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.navbar-user-mobile-btn:active {
+  transform: scale(0.95);
+  background: rgba(var(--color-accent), 0.1);
+}
+
+.user-avatar-mobile {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+.user-avatar-placeholder-mobile {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-primary-dark)));
+  color: rgb(var(--color-text-on-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.navbar-user-mobile-btn svg {
+  width: 24px;
+  height: 24px;
+  color: rgb(var(--color-text-primary));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .user-name {
   font-size: var(--text-sm);
   font-weight: 500;
@@ -765,23 +816,23 @@
   background: rgba(var(--color-accent), 0.1);
 }
 
-/* 移动端菜单容器 - 从顶部下拉 */
+/* 移动端菜单遮罩 */
 .mobile-menu-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(var(--color-text-primary), 0.5);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: var(--z-modal-backdrop);
+  z-index: calc(var(--z-sticky) - 20);
   opacity: 0;
   animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .dark .mobile-menu-overlay {
-  background: rgba(var(--color-text-primary), 0.6);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 @keyframes fadeIn {
@@ -790,28 +841,30 @@
   }
 }
 
-/* 移动端菜单主体 - Apple 风格下拉 */
+/* 移动端菜单主体 - 完全不透明背景 */
 .mobile-menu-container {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   max-height: 85vh;
-  background: rgba(var(--color-background), 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgb(var(--color-background));
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
-  box-shadow: var(--shadow-2xl);
-  z-index: var(--z-modal);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: calc(var(--z-sticky) - 10);
   overflow: hidden;
   transform: translateY(-100%);
   animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .dark .mobile-menu-container {
-  background: rgba(var(--color-background-secondary), 0.98);
-  box-shadow: var(--shadow-2xl);
+  background: rgb(var(--color-background-secondary));
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slideDown {
@@ -825,113 +878,10 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
+  padding-top: 80px; /* 为主导航栏留出空间 */
   max-height: 85vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-/* 移动端菜单头部 */
-.mobile-menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(var(--color-border), 0.3);
-  margin-bottom: 20px;
-}
-
-.mobile-menu-logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.mobile-menu-close {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-lg);
-  background: transparent;
-  border: none;
-  color: rgb(var(--color-text-primary));
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.mobile-menu-close:active {
-  transform: scale(0.95);
-  background: rgba(var(--color-accent), 0.1);
-}
-
-.mobile-menu-close svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* 移动端用户信息卡片 */
-.mobile-user-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, 
-    rgba(var(--color-accent), 0.08) 0%, 
-    rgba(var(--color-primary), 0.05) 100%
-  );
-  border-radius: 16px;
-  border: 1px solid rgba(var(--color-accent), 0.15);
-}
-
-.mobile-user-avatar,
-.mobile-user-avatar-placeholder {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
-  flex-shrink: 0;
-}
-
-.mobile-user-avatar {
-  object-fit: cover;
-}
-
-.mobile-user-avatar-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, 
-    rgb(var(--color-accent)), 
-    rgb(var(--color-primary))
-  );
-  color: rgb(var(--color-text-on-primary));
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
-.mobile-user-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.mobile-user-name {
-  font-weight: 600;
-  font-size: 1rem;
-  color: rgb(var(--color-text-primary));
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 4px;
-}
-
-.mobile-user-email {
-  font-size: 0.875rem;
-  color: rgb(var(--color-text-secondary));
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* 移动端导航链接 - Apple iOS 风格 */
@@ -1043,105 +993,58 @@
 .mobile-actions-section {
   margin-top: auto;
   padding-top: 20px;
+  padding-bottom: 20px;
   border-top: 1px solid rgba(var(--color-border), 0.3);
-}
-
-.mobile-actions-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.mobile-action-item {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 12px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.mobile-action-item:active {
-  transform: scale(0.96);
-}
-
-.mobile-action-item svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* 主要操作按钮（发布） */
-.mobile-action-primary {
-  background: linear-gradient(135deg, 
-    rgb(var(--color-accent)), 
-    rgb(var(--color-primary))
-  );
-  color: rgb(var(--color-text-on-primary));
-  grid-column: 1 / -1;
-  box-shadow: 0 4px 12px rgba(var(--color-accent), 0.3);
-}
-
-.mobile-action-primary:active {
-  box-shadow: 0 2px 8px rgba(var(--color-accent), 0.3);
-}
-
-/* 次要操作按钮 */
-.mobile-action-secondary {
-  background: rgba(var(--color-accent), 0.1);
-  color: rgb(var(--color-accent));
-  border: 1px solid rgba(var(--color-accent), 0.2);
-}
-
-.dark .mobile-action-secondary {
-  background: rgba(var(--color-accent), 0.15);
-  border-color: rgba(var(--color-accent), 0.3);
-}
-
-/* 登出按钮 */
-.mobile-action-logout {
-  background: rgba(var(--color-error-dark), 0.1);
-  color: rgb(var(--color-error-dark));
-  border: 1px solid rgba(var(--color-error-dark), 0.2);
-  grid-column: 1 / -1;
-}
-
-.dark .mobile-action-logout {
-  background: rgba(var(--color-error-dark), 0.15);
-  color: rgb(var(--color-error));
-  border-color: rgba(var(--color-error-dark), 0.3);
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* 主题和语言切换 */
 .mobile-settings-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 16px;
   padding: 12px 16px;
   background: rgba(var(--color-accent), 0.05);
   border-radius: 12px;
-  margin-top: 12px;
-  position: relative;
-}
-
-.mobile-settings-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgb(var(--color-text-primary));
 }
 
 .mobile-settings-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
-  position: relative;
+  gap: 16px;
+}
+
+/* 移动端退出登录按钮 */
+.mobile-logout-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  background: rgba(var(--color-error-dark), 0.1);
+  color: rgb(var(--color-error-dark));
+  border: 1px solid rgba(var(--color-error-dark), 0.2);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-logout-btn:active {
+  transform: scale(0.98);
+  background: rgba(var(--color-error-dark), 0.15);
+}
+
+.dark .mobile-logout-btn {
+  background: rgba(var(--color-error-dark), 0.15);
+  color: rgb(var(--color-error));
+  border-color: rgba(var(--color-error-dark), 0.3);
+}
+
+.dark .mobile-logout-btn:active {
+  background: rgba(var(--color-error-dark), 0.2);
 }
 
 /* 在移动端菜单中，让下拉菜单向上展开 */
@@ -1207,8 +1110,12 @@
     display: none;
   }
 
-  /* 显示汉堡按钮 */
+  /* 显示汉堡按钮和移动端用户按钮 */
   .navbar-mobile-btn {
+    display: flex;
+  }
+
+  .navbar-user-mobile-btn {
     display: flex;
   }
 
@@ -1226,6 +1133,11 @@
   /* Logo 调整 */
   .navbar-logo-text {
     font-size: 1.375rem;
+  }
+
+  /* 移动端菜单打开时，隐藏主导航栏的 Logo */
+  .navbar-logo {
+    z-index: 1;
   }
 }
 
@@ -1258,35 +1170,12 @@
   /* 移动端菜单调整 */
   .mobile-menu-content {
     padding: 16px;
+    padding-top: 72px; /* 为主导航栏留出空间 */
   }
 
-  .mobile-menu-header {
+  .mobile-actions-section {
     padding-bottom: 16px;
-    margin-bottom: 16px;
-  }
-
-  .mobile-menu-logo {
-    font-size: 1.25rem;
-  }
-
-  .mobile-user-card {
-    padding: 12px;
-    margin-bottom: 16px;
-  }
-
-  .mobile-user-avatar,
-  .mobile-user-avatar-placeholder {
-    width: 40px;
-    height: 40px;
-    font-size: 1.125rem;
-  }
-
-  .mobile-user-name {
-    font-size: 0.9375rem;
-  }
-
-  .mobile-user-email {
-    font-size: 0.8125rem;
+    gap: 10px;
   }
 
   .mobile-nav-item {
@@ -1294,13 +1183,13 @@
     font-size: 0.9375rem;
   }
 
-  .mobile-actions-grid {
-    gap: 8px;
+  .mobile-settings-row {
+    padding: 10px 14px;
+    gap: 12px;
   }
 
-  .mobile-action-item {
-    padding: 10px;
-    font-size: 0.8125rem;
+  .mobile-settings-controls {
+    gap: 12px;
   }
 }
 
@@ -1309,17 +1198,13 @@
 @media (hover: none) and (pointer: coarse) {
   /* 增加触摸目标大小 */
   .navbar-mobile-btn,
-  .mobile-menu-close,
-  .mobile-nav-item,
-  .mobile-action-item {
+  .mobile-nav-item {
     min-height: 44px;
   }
 
   /* 移除 hover 效果 */
   .navbar-mobile-btn:hover,
-  .mobile-menu-close:hover,
-  .mobile-nav-item:hover,
-  .mobile-action-item:hover {
+  .mobile-nav-item:hover {
     background: transparent;
   }
 
@@ -1333,8 +1218,7 @@
 
 .mobile-menu-overlay,
 .mobile-menu-container,
-.mobile-nav-item,
-.mobile-action-item {
+.mobile-nav-item {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -1346,7 +1230,6 @@
   .mobile-menu-overlay,
   .mobile-menu-container,
   .mobile-nav-item,
-  .mobile-action-item,
   .navbar-mobile-btn {
     animation: none !important;
     transition: none !important;
@@ -1355,9 +1238,7 @@
 
 /* 焦点指示器 */
 .navbar-mobile-btn:focus-visible,
-.mobile-menu-close:focus-visible,
-.mobile-nav-item:focus-visible,
-.mobile-action-item:focus-visible {
+.mobile-nav-item:focus-visible {
   outline: 2px solid rgb(var(--color-accent));
   outline-offset: 2px;
 }
@@ -1368,8 +1249,7 @@
     border: 2px solid rgb(var(--color-text-primary));
   }
 
-  .mobile-nav-item,
-  .mobile-action-item {
+  .mobile-nav-item {
     border: 1px solid rgba(var(--color-text-primary), 0.3);
   }
 }

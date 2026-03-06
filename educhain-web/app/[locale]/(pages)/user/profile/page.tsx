@@ -341,7 +341,7 @@ export default function ProfilePage() {
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
-                  {content.editProfile}
+                  {content.editProfile.value}
                 </button>
                 <button 
                   className="action-button" 
@@ -351,7 +351,7 @@ export default function ProfilePage() {
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
-                  {content.changePassword}
+                  {content.changePassword.value}
                 </button>
               </div>
             </div>
@@ -372,7 +372,7 @@ export default function ProfilePage() {
                     </svg>
                   </div>
                   <p className="stat-value">{userStats.knowledgeCount}</p>
-                  <p className="stat-label">{content.publishedContent}</p>
+                  <p className="stat-label">{content.publishedContent.value}</p>
                 </div>
                 <div className="stat-card glass-card">
                   <div className="stat-icon stat-icon-success" aria-hidden="true">
@@ -381,7 +381,7 @@ export default function ProfilePage() {
                     </svg>
                   </div>
                   <p className="stat-value">{userStats.likeCount}</p>
-                  <p className="stat-label">{content.receivedLikes}</p>
+                  <p className="stat-label">{content.receivedLikes.value}</p>
                 </div>
                 <div className="stat-card glass-card">
                   <div className="stat-icon stat-icon-warning" aria-hidden="true">
@@ -391,7 +391,7 @@ export default function ProfilePage() {
                     </svg>
                   </div>
                   <p className="stat-value">{userStats.viewCount}</p>
-                  <p className="stat-label">{content.totalViews}</p>
+                  <p className="stat-label">{content.totalViews.value}</p>
                 </div>
                 <div className="stat-card glass-card">
                   <div className="stat-icon stat-icon-info" aria-hidden="true">
@@ -400,7 +400,7 @@ export default function ProfilePage() {
                     </svg>
                   </div>
                   <p className="stat-value">{userStats.followerCount}</p>
-                  <p className="stat-label">{content.followers}</p>
+                  <p className="stat-label">{content.followers.value}</p>
                 </div>
               </div>
             )}
@@ -419,7 +419,7 @@ export default function ProfilePage() {
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>{content.tabOverview}</span>
+                <span>{content.tabOverview.value}</span>
               </button>
               <button 
                 role="tab"
@@ -431,7 +431,7 @@ export default function ProfilePage() {
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
-                <span>{content.tabStats}</span>
+                <span>{content.tabStats.value}</span>
               </button>
               <button 
                 role="tab"
@@ -444,7 +444,7 @@ export default function ProfilePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>{content.tabSettings}</span>
+                <span>{content.tabSettings.value}</span>
               </button>
             </nav>
           </section>
@@ -574,17 +574,17 @@ export default function ProfilePage() {
             {/* 设置面板 */}
             {activeTab === 'settings' && (
               <div id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" className="profile-settings glass-card">
-                <h2 className="section-title">{content.settingsTitle}</h2>
+                <h2 className="section-title">{content.settingsTitle.value}</h2>
                 {editMode ? (
                   <form onSubmit={handleUpdateProfile} className="profile-form" noValidate>
                     <div className="form-group">
-                      <label htmlFor="fullName" className="form-label">{content.fullName}</label>
+                      <label htmlFor="fullName" className="form-label">{content.fullName.value}</label>
                       <input
                         id="fullName"
                         type="text"
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        placeholder={String(content.fullNamePlaceholder)}
+                        placeholder={content.fullNamePlaceholder.value}
                         className={`form-input ${formErrors.fullName ? 'error' : ''}`}
                         aria-invalid={!!formErrors.fullName}
                         aria-describedby={formErrors.fullName ? 'fullName-error' : undefined}
@@ -596,12 +596,12 @@ export default function ProfilePage() {
                       )}
                     </div>
                     <div className="form-group">
-                      <label htmlFor="email" className="form-label">{content.email}</label>
+                      <label htmlFor="email" className="form-label">{content.email.value}</label>
                       <input
                         id="email"
                         type="email"
                         value={formData.email}
-                        placeholder={String(content.emailPlaceholder)}
+                        placeholder={content.emailPlaceholder.value}
                         className="form-input"
                         disabled
                         aria-disabled="true"
@@ -609,27 +609,27 @@ export default function ProfilePage() {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="school" className="form-label">{content.school}</label>
+                      <label htmlFor="school" className="form-label">{content.school.value}</label>
                       <input
                         id="school"
                         type="text"
                         value={formData.school}
                         onChange={(e) => setFormData({ ...formData, school: e.target.value })}
-                        placeholder={String(content.schoolPlaceholder)}
+                        placeholder={content.schoolPlaceholder.value}
                         className="form-input"
                         autoComplete="organization"
                       />
                     </div>
                     <div className="form-group">
                       <label htmlFor="bio" className="form-label">
-                        {content.bio}
+                        {content.bio.value}
                         <span className="char-count">({formData.bio.length}/200)</span>
                       </label>
                       <textarea
                         id="bio"
                         value={formData.bio}
                         onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                        placeholder={String(content.bioPlaceholder)}
+                        placeholder={content.bioPlaceholder.value}
                         className={`form-input form-textarea ${formErrors.bio ? 'error' : ''}`}
                         maxLength={200}
                         aria-invalid={!!formErrors.bio}
@@ -641,10 +641,10 @@ export default function ProfilePage() {
                     </div>
                     <div className="form-actions">
                       <button type="submit" disabled={loading} className="btn-primary" aria-busy={loading}>
-                        {loading ? content.saving : content.save}
+                        {loading ? content.saving.value : content.save.value}
                       </button>
                       <button type="button" onClick={handleCancelEdit} className="btn-secondary" disabled={loading}>
-                        {content.cancel}
+                        {content.cancel.value}
                       </button>
                     </div>
                   </form>
@@ -652,26 +652,26 @@ export default function ProfilePage() {
                   <div className="settings-overview">
                     <div className="settings-item glass-light">
                       <div className="settings-info">
-                        <h3>{content.basicInfo}</h3>
-                        <p>{content.basicInfoDesc}</p>
+                        <h3>{content.basicInfo.value}</h3>
+                        <p>{content.basicInfoDesc.value}</p>
                       </div>
                       <button className="action-button" onClick={() => setEditMode(true)}>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                        {content.edit}
+                        {content.edit.value}
                       </button>
                     </div>
                     <div className="settings-item glass-light">
                       <div className="settings-info">
-                        <h3>{content.accountSecurity}</h3>
-                        <p>{content.accountSecurityDesc}</p>
+                        <h3>{content.accountSecurity.value}</h3>
+                        <p>{content.accountSecurityDesc.value}</p>
                       </div>
                       <button className="action-button" onClick={() => setPasswordModalVisible(true)}>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
-                        {content.changePassword}
+                        {content.changePassword.value}
                       </button>
                     </div>
                   </div>
@@ -692,7 +692,7 @@ export default function ProfilePage() {
           >
             <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h3 id="password-modal-title" className="modal-title">{content.passwordModalTitle}</h3>
+                <h3 id="password-modal-title" className="modal-title">{content.passwordModalTitle.value}</h3>
                 <button 
                   type="button" 
                   className="modal-close" 
@@ -706,13 +706,13 @@ export default function ProfilePage() {
               </div>
               <form onSubmit={handleChangePassword} className="modal-form" noValidate>
                 <div className="form-group">
-                  <label htmlFor="currentPassword" className="form-label">{content.currentPassword}</label>
+                  <label htmlFor="currentPassword" className="form-label">{content.currentPassword.value}</label>
                   <input
                     id="currentPassword"
                     type="password"
                     value={passwordData.currentPassword}
                     onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                    placeholder={String(content.currentPasswordPlaceholder)}
+                    placeholder={content.currentPasswordPlaceholder.value}
                     className={`form-input ${formErrors.currentPassword ? 'error' : ''}`}
                     aria-invalid={!!formErrors.currentPassword}
                     autoComplete="current-password"
@@ -722,13 +722,13 @@ export default function ProfilePage() {
                   )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="newPassword" className="form-label">{content.newPassword}</label>
+                  <label htmlFor="newPassword" className="form-label">{content.newPassword.value}</label>
                   <input
                     id="newPassword"
                     type="password"
                     value={passwordData.newPassword}
                     onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                    placeholder={String(content.newPasswordPlaceholder)}
+                    placeholder={content.newPasswordPlaceholder.value}
                     className={`form-input ${formErrors.newPassword ? 'error' : ''}`}
                     aria-invalid={!!formErrors.newPassword}
                     aria-describedby="password-requirements"
@@ -738,64 +738,66 @@ export default function ProfilePage() {
                     <span className="form-error" role="alert">{formErrors.newPassword}</span>
                   )}
                   {/* 密码强度指示器 */}
-                  <div id="password-requirements" className="password-strength">
-                    <p className="password-strength-title">{content.passwordRequirements}</p>
-                    <ul className="password-requirements-list">
-                      <li className={passwordStrength.minLength ? 'valid' : ''}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.minLength ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        {content.passwordMinLength}
-                      </li>
-                      <li className={passwordStrength.hasLowercase ? 'valid' : ''}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasLowercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        {content.passwordLowercase}
-                      </li>
-                      <li className={passwordStrength.hasUppercase ? 'valid' : ''}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasUppercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        {content.passwordUppercase}
-                      </li>
-                      <li className={passwordStrength.hasNumber ? 'valid' : ''}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasNumber ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        {content.passwordNumber}
-                      </li>
-                      <li className={passwordStrength.hasSpecial ? 'valid' : ''}>
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasSpecial ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
-                        </svg>
-                        {content.passwordSpecial}
-                      </li>
-                    </ul>
-                  </div>
+                  {passwordData.newPassword && (
+                    <div id="password-requirements" className="password-strength">
+                      <p className="password-strength-title">{content.passwordRequirements.value}</p>
+                      <ul className="password-requirements-list">
+                        <li className={passwordStrength.minLength ? 'valid' : ''}>
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.minLength ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          {content.passwordMinLength.value}
+                        </li>
+                        <li className={passwordStrength.hasLowercase ? 'valid' : ''}>
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasLowercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          {content.passwordLowercase.value}
+                        </li>
+                        <li className={passwordStrength.hasUppercase ? 'valid' : ''}>
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasUppercase ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          {content.passwordUppercase.value}
+                        </li>
+                        <li className={passwordStrength.hasNumber ? 'valid' : ''}>
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasNumber ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          {content.passwordNumber.value}
+                        </li>
+                        <li className={passwordStrength.hasSpecial ? 'valid' : ''}>
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passwordStrength.hasSpecial ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                          </svg>
+                          {content.passwordSpecial.value}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="confirmPassword" className="form-label">{content.confirmPassword}</label>
+                  <label htmlFor="confirmPassword" className="form-label">{content.confirmPassword.value}</label>
                   <input
                     id="confirmPassword"
                     type="password"
                     value={passwordData.confirmPassword}
                     onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                    placeholder={String(content.confirmPasswordPlaceholder)}
+                    placeholder={content.confirmPasswordPlaceholder.value}
                     className={`form-input ${formErrors.confirmPassword || (passwordData.confirmPassword && passwordData.newPassword !== passwordData.confirmPassword) ? 'error' : ''}`}
                     aria-invalid={!!formErrors.confirmPassword || (passwordData.confirmPassword.length > 0 && passwordData.newPassword !== passwordData.confirmPassword)}
                     autoComplete="new-password"
                   />
                   {passwordData.confirmPassword && passwordData.newPassword !== passwordData.confirmPassword && (
-                    <span className="form-error" role="alert">{content.passwordMismatch}</span>
+                    <span className="form-error" role="alert">{content.passwordMismatch.value}</span>
                   )}
                 </div>
                 <div className="modal-actions">
                   <button type="button" onClick={handleClosePasswordModal} className="btn-secondary" disabled={loading}>
-                    {content.cancel}
+                    {content.cancel.value}
                   </button>
                   <button type="submit" disabled={loading || !isPasswordValid} className="btn-primary" aria-busy={loading}>
-                    {loading ? content.saving : content.confirm}
+                    {loading ? content.saving.value : content.confirm.value}
                   </button>
                 </div>
               </form>

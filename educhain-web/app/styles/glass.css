@@ -279,4 +279,13 @@
       background: rgba(var(--color-background-secondary), 0.95);
     }
   }
+
+  /* 搜索框特殊样式 - 无边框 */
+  .hero-search-container.glass-medium {
+    border: none !important;
+  }
+
+  .dark .hero-search-container.glass-medium {
+    border: none !important;
+  }
 }

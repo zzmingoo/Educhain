@@ -354,112 +354,173 @@ export default function Navbar() {
             </div>
 
             {isAuthenticated && user ? (
-              <div className="user-menu-container desktop-only">
-                <button 
-                  className="navbar-user-btn"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  aria-expanded={userMenuOpen}
-                  aria-haspopup="menu"
-                  aria-label={String(content.userMenu?.value || 'User menu')}
-                >
-                  {user.avatarUrl ? (
-                    <img 
-                      src={user.avatarUrl} 
-                      alt="" 
-                      className="user-avatar"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => {
-                        // 头像加载失败时显示占位符
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                      }}
-                    />
-                  ) : null}
-                  <div 
-                    className={`user-avatar-placeholder ${user.avatarUrl ? 'hidden' : ''}`}
-                    aria-hidden="true"
+              <>
+                <div className="user-menu-container">
+                  {/* 桌面端用户按钮 */}
+                  <button 
+                    className="navbar-user-btn desktop-only"
+                    onClick={() => {
+                      setUserMenuOpen(!userMenuOpen);
+                      if (!userMenuOpen) {
+                        setMobileMenuOpen(false);
+                      }
+                    }}
+                    aria-expanded={userMenuOpen}
+                    aria-haspopup="menu"
+                    aria-label={String(content.userMenu?.value || 'User menu')}
                   >
-                    {(user.fullName || user.username).charAt(0).toUpperCase()}
-                  </div>
-                  <span className="user-name">{user.fullName || user.username}</span>
-                </button>
-                
-                {userMenuOpen && (
-                  <div className="user-dropdown" role="menu" aria-label={String(content.userMenu?.value || 'User menu')}>
-                    <Link 
-                      href={getLocalizedUrl('/knowledge/create', locale)} 
-                      className="dropdown-item"
-                      onClick={() => setUserMenuOpen(false)}
-                      role="menuitem"
+                    {user.avatarUrl ? (
+                      <img 
+                        src={user.avatarUrl} 
+                        alt="" 
+                        className="user-avatar"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                    ) : null}
+                    <div 
+                      className={`user-avatar-placeholder ${user.avatarUrl ? 'hidden' : ''}`}
+                      aria-hidden="true"
                     >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      {(user.fullName || user.username).charAt(0).toUpperCase()}
+                    </div>
+                    <span className="user-name">{user.fullName || user.username}</span>
+                  </button>
+
+                  {/* 移动端用户按钮 - 点击后变成关闭按钮 */}
+                  <button
+                    onClick={() => {
+                      setUserMenuOpen(!userMenuOpen);
+                      if (!userMenuOpen) {
+                        setMobileMenuOpen(false);
+                      }
+                    }}
+                    className="navbar-mobile-btn navbar-user-mobile-btn mobile-only"
+                    aria-expanded={userMenuOpen}
+                    aria-controls="user-mobile-menu"
+                    aria-label={userMenuOpen 
+                      ? String(content.closeMenu?.value || 'Close menu') 
+                      : String(content.userMenu?.value || 'User menu')
+                    }
+                  >
+                    {userMenuOpen ? (
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
-                      {content.publish.value}
-                    </Link>
-                    <Link 
-                      href={getLocalizedUrl('/user/profile', locale)} 
-                      className="dropdown-item"
-                      onClick={() => setUserMenuOpen(false)}
-                      role="menuitem"
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      {content.profile.value}
-                    </Link>
-                    <Link 
-                      href={getLocalizedUrl('/user/notifications', locale)} 
-                      className="dropdown-item"
-                      onClick={() => setUserMenuOpen(false)}
-                      role="menuitem"
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                      </svg>
-                      {content.notifications?.value || '通知'}
-                    </Link>
-                    <Link 
-                      href={getLocalizedUrl('/user/activity', locale)} 
-                      className="dropdown-item"
-                      onClick={() => setUserMenuOpen(false)}
-                      role="menuitem"
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {content.activity?.value || '动态'}
-                    </Link>
-                    <Link 
-                      href={getLocalizedUrl('/user/follow', locale)} 
-                      className="dropdown-item"
-                      onClick={() => setUserMenuOpen(false)}
-                      role="menuitem"
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      {content.follow?.value || '关注'}
-                    </Link>
-                    <div className="dropdown-divider" role="separator"></div>
-                    <button className="dropdown-item logout-item" onClick={handleLogout} role="menuitem">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      {content.logout.value}
-                    </button>
-                  </div>
-                )}
-              </div>
+                    ) : (
+                      <>
+                        {user.avatarUrl ? (
+                          <img 
+                            src={user.avatarUrl} 
+                            alt="" 
+                            className="user-avatar-mobile"
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        <div 
+                          className={`user-avatar-placeholder-mobile ${user.avatarUrl ? 'hidden' : ''}`}
+                          aria-hidden="true"
+                        >
+                          {(user.fullName || user.username).charAt(0).toUpperCase()}
+                        </div>
+                      </>
+                    )}
+                  </button>
+                  
+                  {userMenuOpen && (
+                    <>
+                      {/* 桌面端下拉菜单 */}
+                      <div className="user-dropdown desktop-only" role="menu" aria-label={String(content.userMenu?.value || 'User menu')}>
+                        <Link 
+                          href={getLocalizedUrl('/knowledge/create', locale)} 
+                          className="dropdown-item"
+                          onClick={() => setUserMenuOpen(false)}
+                          role="menuitem"
+                        >
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                          </svg>
+                          {content.publish.value}
+                        </Link>
+                        <Link 
+                          href={getLocalizedUrl('/user/profile', locale)} 
+                          className="dropdown-item"
+                          onClick={() => setUserMenuOpen(false)}
+                          role="menuitem"
+                        >
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          {content.profile.value}
+                        </Link>
+                        <Link 
+                          href={getLocalizedUrl('/user/notifications', locale)} 
+                          className="dropdown-item"
+                          onClick={() => setUserMenuOpen(false)}
+                          role="menuitem"
+                        >
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                          </svg>
+                          {content.notifications?.value || '通知'}
+                        </Link>
+                        <Link 
+                          href={getLocalizedUrl('/user/activity', locale)} 
+                          className="dropdown-item"
+                          onClick={() => setUserMenuOpen(false)}
+                          role="menuitem"
+                        >
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {content.activity?.value || '动态'}
+                        </Link>
+                        <Link 
+                          href={getLocalizedUrl('/user/follow', locale)} 
+                          className="dropdown-item"
+                          onClick={() => setUserMenuOpen(false)}
+                          role="menuitem"
+                        >
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                          {content.follow?.value || '关注'}
+                        </Link>
+                        <div className="dropdown-divider" role="separator"></div>
+                        <button className="dropdown-item logout-item" onClick={handleLogout} role="menuitem">
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          {content.logout.value}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </>
             ) : (
               <Link href={getLocalizedUrl('/login', locale)} className="navbar-auth-btn navbar-login-btn">
                 {content.login.value}
               </Link>
             )}
 
+            {/* 汉堡菜单按钮 */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                setMobileMenuOpen(!mobileMenuOpen);
+                if (!mobileMenuOpen) {
+                  setUserMenuOpen(false);
+                }
+              }}
               className="navbar-mobile-btn mobile-only"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -482,16 +543,85 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* 移动端用户菜单 - 与汉堡菜单完全相同的样式 */}
+      {userMenuOpen && (
+        <>
+          <div 
+            className="mobile-menu-overlay"
+            onClick={() => setUserMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          <div 
+            id="user-mobile-menu"
+            className="mobile-menu-container"
+            role="dialog"
+            aria-modal="true"
+            aria-label={String(content.userMenu?.value || 'User menu')}
+          >
+            <div className="mobile-menu-content">
+              <nav className="mobile-nav-section" role="navigation">
+                <div className="mobile-nav-list">
+                  <Link 
+                    href={getLocalizedUrl('/knowledge/create', locale)} 
+                    className="mobile-nav-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    {content.publish.value}
+                  </Link>
+                  <Link 
+                    href={getLocalizedUrl('/user/profile', locale)} 
+                    className="mobile-nav-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    {content.profile.value}
+                  </Link>
+                  <Link 
+                    href={getLocalizedUrl('/user/notifications', locale)} 
+                    className="mobile-nav-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    {content.notifications?.value || '通知'}
+                  </Link>
+                  <Link 
+                    href={getLocalizedUrl('/user/activity', locale)} 
+                    className="mobile-nav-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    {content.activity?.value || '动态'}
+                  </Link>
+                  <Link 
+                    href={getLocalizedUrl('/user/follow', locale)} 
+                    className="mobile-nav-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    {content.follow?.value || '关注'}
+                  </Link>
+                </div>
+              </nav>
+
+              <div className="mobile-actions-section">
+                <button 
+                  className="mobile-logout-btn"
+                  onClick={handleLogout}
+                >
+                  {content.logout.value}
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* 移动端汉堡菜单 */}
       {mobileMenuOpen && (
         <>
-          {/* 背景遮罩 */}
           <div 
             className="mobile-menu-overlay"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
           
-          {/* 移动端菜单 - 从顶部下拉 */}
           <div 
             id="mobile-menu"
             className="mobile-menu-container"
@@ -500,46 +630,6 @@ export default function Navbar() {
             aria-label={String(content.mobileMenu?.value || 'Mobile menu')}
           >
             <div className="mobile-menu-content">
-              {/* 菜单头部 */}
-              <div className="mobile-menu-header">
-                <span className="mobile-menu-logo navbar-logo-text">
-                  <span className="logo-edu">Edu</span>
-                  <span className="logo-chain">Chain</span>
-                </span>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-menu-close"
-                  aria-label={String(content.closeMenu?.value || 'Close menu')}
-                >
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* 用户信息卡片 */}
-              {isAuthenticated && user && (
-                <div className="mobile-user-card">
-                  {user.avatarUrl ? (
-                    <img 
-                      src={user.avatarUrl} 
-                      alt="" 
-                      className="mobile-user-avatar"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="mobile-user-avatar-placeholder" aria-hidden="true">
-                      {(user.fullName || user.username).charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                  <div className="mobile-user-info">
-                    <div className="mobile-user-name">{user.fullName || user.username}</div>
-                    <div className="mobile-user-email">{user.email}</div>
-                  </div>
-                </div>
-              )}
-
-              {/* 导航链接 */}
               <nav className="mobile-nav-section" role="navigation" aria-label={String(content.mobileNavigation?.value || 'Mobile navigation')}>
                 <div className="mobile-nav-list">
                   {navLinks.map((link) => (
@@ -556,35 +646,8 @@ export default function Navbar() {
                 </div>
               </nav>
 
-              {/* 操作按钮区 */}
               <div className="mobile-actions-section">
-                {isAuthenticated && user ? (
-                  <div className="mobile-actions-grid">
-                    <Link 
-                      href={getLocalizedUrl('/knowledge/create', locale)}
-                      className="mobile-action-item mobile-action-primary"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                      {content.publish.value}
-                    </Link>
-                    <button 
-                      className="mobile-action-item mobile-action-logout"
-                      onClick={handleLogout}
-                    >
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      {content.logout.value}
-                    </button>
-                  </div>
-                ) : null}
-
-                {/* 主题和语言切换 */}
                 <div className="mobile-settings-row">
-                  <span className="mobile-settings-label">{content.theme?.value || '主题'}</span>
                   <div className="mobile-settings-controls">
                     <ThemeSwitcher />
                     <LocaleSwitcher />
