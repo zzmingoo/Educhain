@@ -16,22 +16,27 @@ import { blockchainHandlers } from './blockchain';
 import { recommendationHandlers } from './recommendation';
 import { communityHandlers } from './community';
 import { ticketHandlers } from './ticket';
+import { activityHandlers } from './activity';
+import { adminHandlers } from './admin';
 
 // 合并所有 handlers
+// 注意：更具体的路由应该放在前面，避免被通配符路由拦截
 export const handlers = [
   ...authHandlers,
+  ...adminHandlers, // 管理员相关接口
+  ...followHandlers, // 必须在 userHandlers 之前，避免被 /users/:id 拦截
   ...userHandlers,
   ...knowledgeHandlers,
   ...categoryHandlers,
   ...commentHandlers,
   ...notificationHandlers,
   ...interactionHandlers,
-  ...followHandlers,
   ...searchHandlers,
   ...blockchainHandlers,
   ...recommendationHandlers,
   ...communityHandlers,
   ...ticketHandlers,
+  ...activityHandlers,
 ];
 
 // 设置 Mock Server
@@ -49,6 +54,7 @@ export const setupMockServer = async () => {
 // 导出各模块 handlers
 export {
   authHandlers,
+  adminHandlers,
   userHandlers,
   knowledgeHandlers,
   categoryHandlers,
@@ -61,4 +67,5 @@ export {
   recommendationHandlers,
   communityHandlers,
   ticketHandlers,
+  activityHandlers,
 };

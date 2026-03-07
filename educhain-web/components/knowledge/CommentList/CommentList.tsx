@@ -193,7 +193,7 @@ export const CommentList: React.FC<CommentListProps> = ({
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder={String(content.placeholder)}
+              placeholder={String(content.placeholder?.value || content.placeholder || '分享你的想法...')}
               className="comment-textarea glass-input"
               rows={4}
               disabled={submitting}

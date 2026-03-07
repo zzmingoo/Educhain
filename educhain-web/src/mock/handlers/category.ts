@@ -57,4 +57,29 @@ export const categoryHandlers = [
       { status: 404 }
     );
   }),
+
+  // 更新分类
+  http.put(`${API_BASE}/categories/:id`, async ({ params, request }) => {
+    await delay();
+    const { id } = params;
+    const data = (await request.json()) as Partial<typeof mockCategories[0]>;
+    const categoryIndex = mockCategories.findIndex(c => c.id === Number(id));
+    
+    if (categoryIndex !== -1) {
+      // 更新分类数据（保留 id 和 createdAt，更新其他字段）
+      mockCategories[categoryIndex] = {
+        ...mockCategories[categoryIndex],
+        ...data,
+        id: mockCategories[categoryIndex].id, // 确保 id 不被修改
+        createdAt: mockCategories[categoryIndex].createdAt, // 确保创建时间不被修改
+      };
+      
+      return HttpResponse.json(createSuccessResponse(mockCategories[categoryIndex]));
+    }
+
+    return HttpResponse.json(
+      { success: false, message: '分类不存在', data: null },
+      { status: 404 }
+    );
+  }),
 ];

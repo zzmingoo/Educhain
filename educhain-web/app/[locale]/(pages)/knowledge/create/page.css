@@ -7,7 +7,13 @@
   min-height: 100vh;
   background: rgb(var(--color-background));
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 确保内容容器正确居中 */
+.knowledge-create-page .page-content-narrow {
+  box-sizing: border-box;
 }
 
 /* 背景装饰 */
@@ -33,13 +39,6 @@
     radial-gradient(circle at 75% 90%, rgba(var(--color-text-primary), 0.012) 0%, transparent 40%),
     linear-gradient(180deg, rgb(var(--color-background)) 0%, rgb(var(--color-background-secondary)) 100%);
   opacity: 1;
-}
-
-.create-container {
-  position: relative;
-  z-index: 1;
-  padding-top: calc(var(--spacing-3xl) + 64px);
-  padding-bottom: var(--spacing-3xl);
 }
 
 /* ==================== 页面头部 ==================== */
@@ -298,9 +297,8 @@
 
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 1024px) {
-  .create-container {
-    padding-top: calc(var(--spacing-2xl) + 64px);
-    padding-bottom: var(--spacing-2xl);
+  .knowledge-create-page .page-content-narrow {
+    padding: calc(var(--spacing-2xl) + 64px) var(--spacing-md) var(--spacing-2xl);
   }
 
   .create-title {
@@ -321,9 +319,8 @@
 }
 
 @media (max-width: 768px) {
-  .create-container {
-    padding-top: calc(var(--spacing-xl) + 64px);
-    padding-bottom: var(--spacing-xl);
+  .knowledge-create-page .page-content-narrow {
+    padding: calc(var(--spacing-xl) + 64px) var(--spacing-sm) var(--spacing-xl);
   }
 
   .create-header {
@@ -366,9 +363,8 @@
 }
 
 @media (max-width: 480px) {
-  .create-container {
-    padding-top: calc(var(--spacing-lg) + 64px);
-    padding-bottom: var(--spacing-lg);
+  .knowledge-create-page .page-content-narrow {
+    padding: calc(var(--spacing-lg) + 64px) var(--spacing-xs) var(--spacing-lg);
   }
 
   .create-title {

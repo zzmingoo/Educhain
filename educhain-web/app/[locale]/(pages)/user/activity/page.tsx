@@ -34,13 +34,13 @@ export default function ActivityPage() {
 
   // 时间单位国际化
   const timeUnits: RelativeTimeUnits = useMemo(() => ({
-    justNow: String(content.timeUnits.justNow),
-    minutesAgo: String(content.timeUnits.minutesAgo),
-    hoursAgo: String(content.timeUnits.hoursAgo),
-    daysAgo: String(content.timeUnits.daysAgo),
-    weeksAgo: String(content.timeUnits.weeksAgo),
-    monthsAgo: String(content.timeUnits.monthsAgo),
-    yearsAgo: String(content.timeUnits.yearsAgo),
+    justNow: String(content.timeUnits.justNow.value),
+    minutesAgo: String(content.timeUnits.minutesAgo.value),
+    hoursAgo: String(content.timeUnits.hoursAgo.value),
+    daysAgo: String(content.timeUnits.daysAgo.value),
+    weeksAgo: String(content.timeUnits.weeksAgo.value),
+    monthsAgo: String(content.timeUnits.monthsAgo.value),
+    yearsAgo: String(content.timeUnits.yearsAgo.value),
   }), [content.timeUnits]);
 
   // 获取关注动态
@@ -153,9 +153,31 @@ export default function ActivityPage() {
     return formatRelativeTimeI18n(dateStr, timeUnits);
   }, [timeUnits]);
 
+  // 获取动态类型文本
+  const getActivityTypeText = useCallback((type: string) => {
+    const typeMap: Record<string, any> = {
+      'publish': content.activityTypes.publish,
+      'like': content.activityTypes.like,
+      'comment': content.activityTypes.comment,
+      'follow': content.activityTypes.follow,
+      'KNOWLEDGE_CREATED': content.activityTypes.publish,
+      'KNOWLEDGE_LIKED': content.activityTypes.like,
+      'KNOWLEDGE_COMMENTED': content.activityTypes.comment,
+      'USER_FOLLOWED': content.activityTypes.follow,
+    };
+    return String(typeMap[type]?.value || typeMap[type] || '');
+  }, [content.activityTypes]);
+
   // 获取动态图标
   const getActivityIcon = useCallback((type: string) => {
-    switch (type) {
+    // 标准化类型名称
+    const normalizedType = type.toLowerCase().includes('created') || type === 'publish' ? 'publish'
+      : type.toLowerCase().includes('liked') || type === 'like' ? 'like'
+      : type.toLowerCase().includes('comment') ? 'comment'
+      : type.toLowerCase().includes('follow') ? 'follow'
+      : type;
+
+    switch (normalizedType) {
       case 'publish':
         return (
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -220,8 +242,8 @@ export default function ActivityPage() {
               )}
               <div className="timeline-content">
                 <p className="timeline-text">
-                  <strong>{activity.user?.fullName || String(content.unknownUser)}</strong>
-                  {' '}{activity.content}
+                  <strong>{activity.user?.fullName || activity.username || String(content.unknownUser)}</strong>
+                  {' '}{getActivityTypeText(activity.type)}
                   {activity.targetTitle && <> {activity.targetTitle}</>}
                 </p>
                 <div className="timeline-meta">
@@ -250,14 +272,14 @@ export default function ActivityPage() {
               {isLoadingMore ? (
                 <>
                   <span className="loading-spinner-small" aria-hidden="true" />
-                  {content.loadingMore}
+                  {String(content.loadingMore)}
                 </>
               ) : (
                 <>
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                  {content.loadMore}
+                  {String(content.loadMore)}
                 </>
               )}
             </button>

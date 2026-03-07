@@ -240,12 +240,18 @@ export interface FollowStats {
 // 活动动态相关类型
 export interface Activity {
   id: number;
-  type: 'publish' | 'like' | 'comment' | 'follow';
   userId: number;
+  username?: string;
+  userAvatar?: string | null;
   user?: User;
-  content: string;
+  type: 'KNOWLEDGE_CREATED' | 'KNOWLEDGE_LIKED' | 'KNOWLEDGE_COMMENTED' | 'KNOWLEDGE_FAVORITED' | 'KNOWLEDGE_SHARED' | 'USER_FOLLOWED' | 'CERTIFICATE_OBTAINED' | 'publish' | 'like' | 'comment' | 'follow';
+  action: string;
+  content: string | null;
   targetId?: number;
+  targetType?: string;
   targetTitle?: string;
+  targetUrl?: string;
+  metadata?: Record<string, any>;
   createdAt: string;
 }
 

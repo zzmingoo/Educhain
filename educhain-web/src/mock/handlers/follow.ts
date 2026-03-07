@@ -49,7 +49,7 @@ export const followHandlers = [
 
     const following = getFollowing(userId).map(f => ({
       ...f,
-      following: mockUsers.find(u => u.id === f.followingId),
+      user: mockUsers.find(u => u.id === f.followingId),
     }));
 
     const pageData = createPageResponse(following, page, size);
@@ -66,7 +66,7 @@ export const followHandlers = [
 
     const followers = getFollowers(userId).map(f => ({
       ...f,
-      follower: mockUsers.find(u => u.id === f.followerId),
+      user: mockUsers.find(u => u.id === f.followerId),
     }));
 
     const pageData = createPageResponse(followers, page, size);

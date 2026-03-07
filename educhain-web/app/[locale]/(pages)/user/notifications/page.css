@@ -7,9 +7,11 @@
 .notifications-page {
   min-height: 100vh;
   background: rgb(var(--color-background));
-  padding: var(--spacing-2xl) 0;
+  padding: calc(var(--spacing-2xl) + 64px) 0 var(--spacing-2xl);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* 背景装饰 - 浅色模式 */
@@ -39,9 +41,12 @@
 /* 通知页面内容容器 - 覆盖全局样式 */
 .notifications-page .page-content-narrow {
   max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
   padding: 0 var(--spacing-lg);
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 /* ==================== 页面头部 ==================== */
@@ -319,7 +324,11 @@
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 768px) {
   .notifications-page {
-    padding: var(--spacing-xl) 0;
+    padding: calc(var(--spacing-xl) + 64px) 0 var(--spacing-xl);
+  }
+
+  .notifications-page .page-content-narrow {
+    padding: 0 var(--spacing-md);
   }
 
   .notifications-toolbar {
@@ -368,6 +377,14 @@
 }
 
 @media (max-width: 480px) {
+  .notifications-page {
+    padding: calc(var(--spacing-lg) + 64px) 0 var(--spacing-lg);
+  }
+
+  .notifications-page .page-content-narrow {
+    padding: 0 var(--spacing-sm);
+  }
+
   .tab-button {
     padding: var(--spacing-xs) var(--spacing-md);
     font-size: var(--text-xs);

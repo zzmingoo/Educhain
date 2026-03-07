@@ -7,7 +7,8 @@
   min-height: 100vh;
   background: rgb(var(--color-background));
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* 背景装饰 */
@@ -38,8 +39,11 @@
 .detail-container {
   position: relative;
   z-index: 1;
-  padding-top: calc(var(--spacing-3xl) + 64px);
-  padding-bottom: var(--spacing-3xl);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: calc(var(--spacing-3xl) + 64px) var(--spacing-lg) var(--spacing-3xl);
+  box-sizing: border-box;
 }
 
 /* ==================== 知识内容卡片 ==================== */
@@ -439,8 +443,7 @@
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 1024px) {
   .detail-container {
-    padding-top: calc(var(--spacing-2xl) + 64px);
-    padding-bottom: var(--spacing-2xl);
+    padding: calc(var(--spacing-2xl) + 64px) var(--spacing-md) var(--spacing-2xl);
   }
 
   .knowledge-title {
@@ -454,8 +457,7 @@
 
 @media (max-width: 768px) {
   .detail-container {
-    padding-top: calc(var(--spacing-xl) + 64px);
-    padding-bottom: var(--spacing-xl);
+    padding: calc(var(--spacing-xl) + 64px) var(--spacing-sm) var(--spacing-xl);
   }
 
   .knowledge-title {
@@ -512,8 +514,7 @@
 
 @media (max-width: 480px) {
   .detail-container {
-    padding-top: calc(var(--spacing-lg) + 64px);
-    padding-bottom: var(--spacing-lg);
+    padding: calc(var(--spacing-lg) + 64px) var(--spacing-xs) var(--spacing-lg);
   }
 
   .knowledge-title {

@@ -165,7 +165,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
               <textarea
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
-                placeholder={String(content.replyPlaceholder)}
+                placeholder={String(content.replyPlaceholder?.value || content.replyPlaceholder || '写下你的回复...')}
                 className="reply-input glass-input"
                 rows={3}
                 disabled={submitting}

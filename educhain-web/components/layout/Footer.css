@@ -8,6 +8,7 @@
   padding: var(--spacing-3xl) 0 var(--spacing-xl);
   background: rgb(var(--color-background));
   border-top: 1px solid rgb(var(--color-border));
+  position: relative;
 }
 
 .dark .footer {
@@ -17,7 +18,10 @@
 
 /* 使用全局容器类实现居中 */
 .footer .container {
-  /* 继承全局 .container 的居中样式 */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  box-sizing: border-box;
 }
 
 /* 主要内容区 - 使用 Flexbox 垂直布局 + 居中对齐 */
@@ -117,7 +121,7 @@
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl) var(--spacing-xl);
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
@@ -132,11 +136,11 @@
 }
 
 .section-title {
-  font-size: var(--text-sm);
-  font-weight: 600;
+  font-size: var(--text-base);
+  font-weight: 700;
   color: rgb(var(--color-text-primary));
-  margin: 0 0 var(--spacing-xs);
-  letter-spacing: -0.2px;
+  margin: 0 0 var(--spacing-sm);
+  letter-spacing: -0.3px;
 }
 
 .dark .section-title {
@@ -224,37 +228,49 @@
 @media (max-width: 1024px) {
   .footer-links {
     grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
   }
 }
 
 @media (max-width: 768px) {
   .footer {
-    padding: var(--spacing-2xl) 0 var(--spacing-lg);
+    padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-lg);
+  }
+
+  .footer .container {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  .footer-main {
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .footer-brand {
+    gap: var(--spacing-sm);
+  }
+
+  .brand-description {
+    font-size: 0.875rem;
+    max-width: 100%;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .social-links {
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .social-link {
+    width: 44px;
+    height: 44px;
   }
 
   .footer-links {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-lg);
-  }
-
-  .copyright {
-    flex-direction: column;
-    gap: var(--spacing-xs);
-  }
-
-  .divider {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-links {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-md);
-  }
-
-  .logo-text {
-    font-size: 1.25rem;
+    gap: var(--spacing-xl) var(--spacing-lg);
+    max-width: 100%;
   }
 
   .footer-section {
@@ -262,11 +278,99 @@
   }
 
   .section-title {
+    font-size: 0.9375rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .link-list {
+    gap: var(--spacing-xs);
+  }
+
+  .footer-link {
     font-size: 0.875rem;
+  }
+
+  .footer-bottom {
+    padding-top: var(--spacing-lg);
+    gap: var(--spacing-md);
+  }
+
+  .copyright {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    font-size: 0.8125rem;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .footer-meta {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+  }
+
+  .footer-main {
+    gap: var(--spacing-xl);
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .brand-description {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .social-links {
+    gap: var(--spacing-sm);
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .footer-section {
+    gap: var(--spacing-xs);
+  }
+
+  .section-title {
+    font-size: 0.875rem;
+    margin-bottom: 0;
+  }
+
+  .link-list {
+    gap: 6px;
   }
 
   .footer-link {
     font-size: 0.8125rem;
+  }
+
+  .footer-bottom {
+    padding-top: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    gap: 4px;
+  }
+
+  .footer-meta {
+    font-size: 0.6875rem;
   }
 }
 

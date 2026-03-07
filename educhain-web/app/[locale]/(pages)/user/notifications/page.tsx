@@ -79,21 +79,21 @@ export default function NotificationsPage() {
     try {
       await notificationService.markAllAsRead();
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-      handleSuccess(String(content.messages.markAllReadSuccess));
+      handleSuccess(String(content.messages?.markAllReadSuccess?.value || content.messages?.markAllReadSuccess || '已标记全部为已读'));
     } catch (error) {
       handleError(error);
     } finally {
       setProcessingMarkAll(false);
     }
-  }, [handleSuccess, handleError, content.messages.markAllReadSuccess]);
+  }, [handleSuccess, handleError, content.messages]);
 
   // 清空所有通知
   const handleClearAll = useCallback(async () => {
     const confirmed = await confirm({
-      title: String(content.confirmClearAll.title),
-      message: String(content.confirmClearAll.message),
-      confirmText: String(content.confirmClearAll.confirm),
-      cancelText: String(content.confirmClearAll.cancel),
+      title: String(content.confirmClearAll?.title?.value || content.confirmClearAll?.title || '确认清空'),
+      message: String(content.confirmClearAll?.message?.value || content.confirmClearAll?.message || '确定要清空所有通知吗？此操作无法撤销。'),
+      confirmText: String(content.confirmClearAll?.confirm?.value || content.confirmClearAll?.confirm || '确认'),
+      cancelText: String(content.confirmClearAll?.cancel?.value || content.confirmClearAll?.cancel || '取消'),
       variant: 'danger',
     });
     
@@ -103,7 +103,7 @@ export default function NotificationsPage() {
     try {
       await notificationService.clearAllNotifications();
       setNotifications([]);
-      handleSuccess(String(content.messages.clearAllSuccess));
+      handleSuccess(String(content.messages?.clearAllSuccess?.value || content.messages?.clearAllSuccess || '已清空所有通知'));
     } catch (error) {
       handleError(error);
     } finally {

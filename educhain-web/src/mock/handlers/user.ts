@@ -16,7 +16,14 @@ export const userHandlers = [
     const user = mockUsers.find(u => u.id === Number(id));
 
     if (user) {
-      return HttpResponse.json(createSuccessResponse(user));
+      // 合并统计数据
+      const userWithStats = {
+        ...user,
+        knowledgeCount: mockUserStats[user.id]?.knowledgeCount || 0,
+        followerCount: mockUserStats[user.id]?.followerCount || 0,
+        followingCount: mockUserStats[user.id]?.followingCount || 0,
+      };
+      return HttpResponse.json(createSuccessResponse(userWithStats));
     }
 
     return HttpResponse.json(
@@ -47,6 +54,38 @@ export const userHandlers = [
     return HttpResponse.json(createSuccessResponse(user));
   }),
 
+  // 管理员更新用户信息
+  http.put(`${API_BASE}/users/:id`, async ({ params, request }) => {
+    await delay();
+    const { id } = params;
+    const data = (await request.json()) as Partial<User>;
+    const userIndex = mockUsers.findIndex(u => u.id === Number(id));
+    
+    if (userIndex !== -1) {
+      // 更新用户数据
+      mockUsers[userIndex] = {
+        ...mockUsers[userIndex],
+        ...data,
+        updatedAt: new Date().toISOString(),
+      };
+      
+      // 合并统计数据
+      const updatedUser = {
+        ...mockUsers[userIndex],
+        knowledgeCount: mockUserStats[mockUsers[userIndex].id]?.knowledgeCount || 0,
+        followerCount: mockUserStats[mockUsers[userIndex].id]?.followerCount || 0,
+        followingCount: mockUserStats[mockUsers[userIndex].id]?.followingCount || 0,
+      };
+      
+      return HttpResponse.json(createSuccessResponse(updatedUser));
+    }
+
+    return HttpResponse.json(
+      { success: false, message: '用户不存在', data: null },
+      { status: 404 }
+    );
+  }),
+
   // 修改密码
   http.put(`${API_BASE}/users/me/password`, async () => {
     await delay();
@@ -67,7 +106,15 @@ export const userHandlers = [
         u.fullName.toLowerCase().includes(keyword.toLowerCase())
     );
 
-    const pageData = createPageResponse(filtered, page, size);
+    // 合并用户数据和统计数据
+    const filteredWithStats = filtered.map(user => ({
+      ...user,
+      knowledgeCount: mockUserStats[user.id]?.knowledgeCount || 0,
+      followerCount: mockUserStats[user.id]?.followerCount || 0,
+      followingCount: mockUserStats[user.id]?.followingCount || 0,
+    }));
+
+    const pageData = createPageResponse(filteredWithStats, page, size);
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
 
@@ -78,7 +125,15 @@ export const userHandlers = [
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    const pageData = createPageResponse(mockUsers, page, size);
+    // 合并用户数据和统计数据
+    const usersWithStats = mockUsers.map(user => ({
+      ...user,
+      knowledgeCount: mockUserStats[user.id]?.knowledgeCount || 0,
+      followerCount: mockUserStats[user.id]?.followerCount || 0,
+      followingCount: mockUserStats[user.id]?.followingCount || 0,
+    }));
+
+    const pageData = createPageResponse(usersWithStats, page, size);
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
 
@@ -89,7 +144,14 @@ export const userHandlers = [
     const user = mockUsers.find(u => u.username === username);
 
     if (user) {
-      return HttpResponse.json(createSuccessResponse(user));
+      // 合并统计数据
+      const userWithStats = {
+        ...user,
+        knowledgeCount: mockUserStats[user.id]?.knowledgeCount || 0,
+        followerCount: mockUserStats[user.id]?.followerCount || 0,
+        followingCount: mockUserStats[user.id]?.followingCount || 0,
+      };
+      return HttpResponse.json(createSuccessResponse(userWithStats));
     }
 
     return HttpResponse.json(

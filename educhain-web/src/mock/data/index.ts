@@ -3,6 +3,7 @@
  */
 
 export * from './users';
+export * from './admin';
 export * from './categories';
 export * from './knowledge';
 export * from './comments';
@@ -18,3 +19,4 @@ export * from './files';
 export * from './logs';
 export * from './community';
 export * from './tickets';
+export * from './activities';

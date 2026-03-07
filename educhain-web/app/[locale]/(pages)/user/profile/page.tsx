@@ -46,13 +46,13 @@ export default function ProfilePage() {
 
   // 时间单位国际化
   const timeUnits: RelativeTimeUnits = useMemo(() => ({
-    justNow: String(content.timeUnits.justNow),
-    minutesAgo: String(content.timeUnits.minutesAgo),
-    hoursAgo: String(content.timeUnits.hoursAgo),
-    daysAgo: String(content.timeUnits.daysAgo),
-    weeksAgo: String(content.timeUnits.weeksAgo),
-    monthsAgo: String(content.timeUnits.monthsAgo),
-    yearsAgo: String(content.timeUnits.yearsAgo),
+    justNow: String(content.timeUnits?.justNow?.value || content.timeUnits?.justNow || '刚刚'),
+    minutesAgo: String(content.timeUnits?.minutesAgo?.value || content.timeUnits?.minutesAgo || '分钟前'),
+    hoursAgo: String(content.timeUnits?.hoursAgo?.value || content.timeUnits?.hoursAgo || '小时前'),
+    daysAgo: String(content.timeUnits?.daysAgo?.value || content.timeUnits?.daysAgo || '天前'),
+    weeksAgo: String(content.timeUnits?.weeksAgo?.value || content.timeUnits?.weeksAgo || '周前'),
+    monthsAgo: String(content.timeUnits?.monthsAgo?.value || content.timeUnits?.monthsAgo || '月前'),
+    yearsAgo: String(content.timeUnits?.yearsAgo?.value || content.timeUnits?.yearsAgo || '年前'),
   }), [content.timeUnits]);
 
   // 检测表单是否有更改

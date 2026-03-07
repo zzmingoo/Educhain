@@ -547,14 +547,14 @@ export default function Navbar() {
       {userMenuOpen && (
         <>
           <div 
-            className="mobile-menu-overlay"
+            className="mobile-menu-overlay mobile-only"
             onClick={() => setUserMenuOpen(false)}
             aria-hidden="true"
           />
           
           <div 
             id="user-mobile-menu"
-            className="mobile-menu-container"
+            className="mobile-menu-container mobile-only"
             role="dialog"
             aria-modal="true"
             aria-label={String(content.userMenu?.value || 'User menu')}
@@ -617,14 +617,14 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <>
           <div 
-            className="mobile-menu-overlay"
+            className="mobile-menu-overlay mobile-only"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
           
           <div 
             id="mobile-menu"
-            className="mobile-menu-container"
+            className="mobile-menu-container mobile-only"
             role="dialog"
             aria-modal="true"
             aria-label={String(content.mobileMenu?.value || 'Mobile menu')}

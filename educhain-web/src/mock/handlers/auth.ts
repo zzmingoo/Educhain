@@ -126,6 +126,14 @@ export const authHandlers = [
     return HttpResponse.json(createErrorResponse('UNAUTHORIZED'), { status: 401 });
   }),
 
+  // 用户登出
+  http.post(`${API_BASE}/auth/logout`, async () => {
+    await delay();
+    return HttpResponse.json(
+      createSuccessResponse({ message: '登出成功' })
+    );
+  }),
+
   // 检查用户名是否可用
   http.get(`${API_BASE}/auth/check-username`, async ({ request }) => {
     await delay();

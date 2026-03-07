@@ -8,7 +8,12 @@
   min-height: 100vh;
   background: rgb(var(--color-background));
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.recommendation-content {
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== 背景装饰 ==================== */
@@ -162,8 +167,13 @@
   display: flex;
   gap: var(--spacing-md);
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   margin-bottom: var(--spacing-3xl);
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-action-btn {
@@ -173,11 +183,14 @@
   border-radius: var(--radius-xl);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-sm);
   cursor: pointer;
   transition: all var(--transition-fast) cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   outline: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .hero-action-btn:focus {
@@ -302,6 +315,16 @@
   padding-bottom: var(--spacing-3xl);
 }
 
+/* ==================== 主要内容区域 ==================== */
+.recommendation-main-section {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+.recommendation-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 /* ==================== 推荐内容区域 ==================== */
 .recommendation-main {
   animation: fadeInUp var(--transition-slower) ease 0.5s both;
@@ -353,6 +376,23 @@
 }
 
 /* ==================== 响应式设计 ==================== */
+
+/* 移动端通用样式 - 确保内容居中 */
+@media (max-width: 900px) {
+  .recommendation-page {
+    overflow-x: hidden;
+  }
+
+  .recommendation-hero-section {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  .recommendation-main-section {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+}
+
 @media (max-width: 1024px) {
   .recommendation-hero-section {
     padding: calc(var(--spacing-2xl) + 64px) var(--spacing-md) var(--spacing-2xl);
@@ -374,9 +414,8 @@
     gap: var(--spacing-sm);
   }
 
-  .recommendation-page-container {
-    padding-top: var(--spacing-2xl);
-    padding-bottom: var(--spacing-2xl);
+  .recommendation-main-section {
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .recommendation-card {
@@ -386,7 +425,16 @@
 
 @media (max-width: 768px) {
   .recommendation-hero-section {
-    padding: calc(var(--spacing-xl) + 64px) var(--spacing-sm) var(--spacing-xl);
+    padding: calc(var(--spacing-2xl) + 64px) var(--spacing-md) var(--spacing-2xl);
+  }
+
+  /* 确保英雄区域容器居中 */
+  .recommendation-hero-section .hero-container {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .hero-badge {
@@ -416,8 +464,11 @@
 
   .hero-actions {
     flex-direction: column;
+    align-items: center;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-2xl);
+    width: 100%;
+    padding: 0;
   }
 
   .hero-action-btn {
@@ -426,6 +477,7 @@
     padding: var(--spacing-sm) var(--spacing-xl);
     font-size: var(--text-base);
     justify-content: center;
+    margin: 0 auto;
   }
 
   .hero-features {
@@ -442,20 +494,28 @@
     height: 1rem;
   }
 
-  .recommendation-page-container {
-    padding-top: var(--spacing-xl);
-    padding-bottom: var(--spacing-xl);
+  .recommendation-main-section {
+    padding: var(--spacing-xl) var(--spacing-md);
   }
 
   .recommendation-card {
     padding: var(--spacing-lg);
     min-height: 500px;
+    margin: 0 auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 480px) {
   .recommendation-hero-section {
-    padding: calc(var(--spacing-lg) + 64px) var(--spacing-xs) var(--spacing-lg);
+    padding: calc(var(--spacing-2xl) + 64px) var(--spacing-md) var(--spacing-2xl);
+  }
+
+  /* 确保英雄区域容器居中 */
+  .recommendation-hero-section .hero-container {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .hero-title {
@@ -470,8 +530,19 @@
     font-size: var(--text-xs);
   }
 
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    padding: 0;
+  }
+
   .hero-action-btn {
     font-size: var(--text-sm);
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
   }
 
   .hero-features {
@@ -486,14 +557,16 @@
     justify-content: center;
   }
 
-  .recommendation-page-container {
-    padding-top: var(--spacing-lg);
-    padding-bottom: var(--spacing-lg);
+  .recommendation-main-section {
+    padding: var(--spacing-lg) var(--spacing-md);
   }
 
   .recommendation-card {
     padding: var(--spacing-md);
     min-height: 400px;
+    margin: 0 auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 

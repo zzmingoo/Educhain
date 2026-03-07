@@ -11,7 +11,11 @@
     rgb(var(--color-background-secondary)) 50%, 
     rgb(var(--color-background)) 100%
   );
-  padding: var(--spacing-2xl) 0;
+  padding: calc(var(--spacing-2xl) + 64px) 0 var(--spacing-2xl);
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dark .follow-page {
@@ -24,8 +28,10 @@
 
 .follow-content {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
+  box-sizing: border-box;
 }
 
 /* ==================== 页面头部 ==================== */
@@ -346,7 +352,11 @@
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 768px) {
   .follow-page {
-    padding: var(--spacing-xl) 0;
+    padding: calc(var(--spacing-xl) + 64px) 0 var(--spacing-xl);
+  }
+
+  .follow-content {
+    padding: 0 var(--spacing-md);
   }
 
   .follow-toolbar {
@@ -379,6 +389,14 @@
 }
 
 @media (max-width: 480px) {
+  .follow-page {
+    padding: calc(var(--spacing-lg) + 64px) 0 var(--spacing-lg);
+  }
+
+  .follow-content {
+    padding: 0 var(--spacing-sm);
+  }
+
   .tab-button {
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--text-xs);

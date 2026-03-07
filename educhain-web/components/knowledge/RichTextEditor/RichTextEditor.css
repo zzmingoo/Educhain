@@ -4,10 +4,12 @@
 
 .rich-text-editor {
   width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .editor-toolbar {
@@ -17,6 +19,7 @@
   padding: var(--spacing-sm);
   border-bottom: 1px solid rgb(var(--color-border));
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .toolbar-btn {
@@ -58,6 +61,7 @@
 }
 
 .editor-content {
+  width: 100%;
   min-height: 200px;
   padding: var(--spacing-md);
   font-size: var(--text-base);
@@ -65,7 +69,11 @@
   color: rgb(var(--color-text-primary));
   outline: none;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 600px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .editor-content:empty:before {
@@ -125,6 +133,8 @@
   background: rgba(var(--color-background-secondary), 0.5);
   border-radius: var(--radius-md);
   overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .editor-content pre code {

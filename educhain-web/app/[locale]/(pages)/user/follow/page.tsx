@@ -173,7 +173,7 @@ export default function FollowPage() {
     <>
       <Navbar />
       <main className="follow-page">
-        <div className="page-content">
+        <div className="follow-content">
           <header className="follow-header">
             <h1 className="follow-title">
               {activeTab === 'following' ? content.followingTitle : content.followersTitle}
@@ -225,9 +225,9 @@ export default function FollowPage() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={String(content.searchPlaceholder)}
+                placeholder={String(content.searchPlaceholder?.value || content.searchPlaceholder || '搜索用户...')}
                 className="search-input"
-                aria-label={String(content.aria.searchInput)}
+                aria-label={String(content.aria?.searchInput?.value || content.aria?.searchInput || '搜索用户')}
               />
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function FollowPage() {
             ) : filteredList.length > 0 ? (
               <ul className="follow-list" role="list" aria-label={String(content.aria.userList)}>
                 {filteredList.map((item) => (
-                  <li key={item.user.id} className="user-card glass-card">
+                  <li key={item.id} className="user-card glass-card">
                     {item.user.avatarUrl ? (
                       <img 
                         src={item.user.avatarUrl} 
