@@ -7,6 +7,7 @@ import { API_BASE } from '../config';
 import { delay } from '../utils/delay';
 import { createSuccessResponse, createPageResponse } from '../utils/response';
 import { mockUsers, mockUserStats } from '../data/users';
+import type { User } from '../../types/api';
 
 export const userHandlers = [
   // 根据 ID 获取用户信息
