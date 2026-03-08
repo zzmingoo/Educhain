@@ -534,3 +534,433 @@
   outline: 2px solid rgb(var(--color-accent));
   outline-offset: 2px;
 }
+
+/* ==================== 设置对话框 ==================== */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-lg);
+  animation: fadeIn 0.2s ease;
+}
+
+.settings-dialog {
+  max-width: 500px;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-2xl);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  box-shadow: var(--shadow-2xl);
+  margin-top: 60px;
+}
+
+.dark .settings-dialog {
+  background: rgb(30, 30, 30);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xl);
+  border-bottom: 2px solid rgba(var(--color-border), 0.5);
+  flex-shrink: 0;
+}
+
+.settings-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  margin: 0;
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: rgba(var(--color-text-tertiary), 0.1);
+  color: rgb(var(--color-text-secondary));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background: rgba(var(--color-text-tertiary), 0.2);
+  transform: rotate(90deg);
+}
+
+.close-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.settings-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl);
+  gap: var(--spacing-lg);
+  flex: 1;
+}
+
+.settings-loading .loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid rgba(var(--color-accent), 0.2);
+  border-top-color: rgb(var(--color-accent));
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+.settings-content {
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.settings-section h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.setting-item {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: rgba(var(--color-text-tertiary), 0.05);
+  transition: all var(--transition-fast);
+}
+
+.setting-item:hover {
+  background: rgba(var(--color-text-tertiary), 0.1);
+}
+
+.setting-item label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: var(--text-base);
+  color: rgb(var(--color-text-primary));
+  font-weight: 500;
+}
+
+.toggle-switch {
+  width: 48px;
+  height: 26px;
+  appearance: none;
+  background: rgba(var(--color-text-tertiary), 0.3);
+  border-radius: var(--radius-full);
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggle-switch::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch:checked {
+  background: rgb(var(--color-accent));
+}
+
+.toggle-switch:checked::before {
+  left: 25px;
+}
+
+.settings-footer {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  border-top: 2px solid rgba(var(--color-border), 0.5);
+  flex-shrink: 0;
+}
+
+.settings-btn {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--text-base);
+  font-weight: 600;
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settings-btn.cancel {
+  background: rgba(var(--color-text-tertiary), 0.1);
+  color: rgb(var(--color-text-primary));
+}
+
+.settings-btn.cancel:hover {
+  background: rgba(var(--color-text-tertiary), 0.2);
+}
+
+.settings-btn.save {
+  background: rgb(var(--color-accent));
+  color: white;
+}
+
+.settings-btn.save:hover:not(:disabled) {
+  background: rgb(var(--color-accent-hover));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.settings-btn.save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 设置按钮样式 */
+.action-btn.settings {
+  background: rgba(var(--color-accent), 0.1);
+  color: rgb(var(--color-accent));
+}
+
+.action-btn.settings:hover {
+  background: rgba(var(--color-accent), 0.2);
+}
+
+/* 响应式 - 设置对话框 */
+@media (max-width: 768px) {
+  .settings-dialog {
+    max-width: 90%;
+    height: 70vh;
+  }
+
+  .settings-header {
+    padding: var(--spacing-lg);
+  }
+
+  .settings-header h2 {
+    font-size: var(--text-xl);
+  }
+
+  .settings-content {
+    padding: var(--spacing-lg);
+  }
+
+  .settings-footer {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-dialog {
+    max-width: 95%;
+    height: 65vh;
+  }
+
+  .settings-footer {
+    flex-direction: column;
+  }
+
+  .settings-btn {
+    width: 100%;
+  }
+}
+
+/* ==================== 批量操作样式 ==================== */
+
+/* 全选控制栏 */
+.select-all-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  border-radius: var(--radius-xl);
+  animation: fadeInUp var(--transition-slower) ease;
+  animation-delay: 150ms;
+  animation-fill-mode: both;
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: rgb(var(--color-text-primary));
+  user-select: none;
+}
+
+.select-all-label:hover {
+  color: rgb(var(--color-accent));
+}
+
+.selected-count {
+  font-size: var(--text-sm);
+  color: rgb(var(--color-text-secondary));
+}
+
+.selected-count strong {
+  color: rgb(var(--color-accent));
+  font-weight: 600;
+}
+
+/* 复选框样式 */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(var(--color-border));
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  appearance: none;
+  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dark .checkbox {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.checkbox:hover {
+  border-color: rgb(var(--color-accent));
+}
+
+.checkbox:checked {
+  background: rgb(var(--color-accent));
+  border-color: rgb(var(--color-accent));
+}
+
+.checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* 通知项复选框 */
+.notification-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(var(--color-border));
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  appearance: none;
+  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  flex-shrink: 0;
+  margin-right: var(--spacing-sm);
+}
+
+.dark .notification-checkbox {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.notification-checkbox:hover {
+  border-color: rgb(var(--color-accent));
+}
+
+.notification-checkbox:checked {
+  background: rgb(var(--color-accent));
+  border-color: rgb(var(--color-accent));
+}
+
+.notification-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* 选中状态的通知项 */
+.notification-item.selected {
+  background: rgba(var(--color-accent), 0.08);
+  border-left: 3px solid rgb(var(--color-accent));
+}
+
+/* 响应式 - 批量操作 */
+@media (max-width: 768px) {
+  .select-all-bar {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .select-all-label {
+    font-size: var(--text-sm);
+  }
+
+  .selected-count {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .select-all-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .selected-count {
+    width: 100%;
+    text-align: left;
+  }
+}

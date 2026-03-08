@@ -1,16 +1,18 @@
 'use client';
 
 import { useIntlayer } from 'next-intlayer';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useAuth } from '../../../../src/contexts/auth-context';
 import AdminNavbar from '../../../../components/admin/AdminNavbar/AdminNavbar';
 import {
   getAdminStats,
   getAdminActivities,
   getSystemStatus,
+  getTrends,
   type AdminStats,
   type AdminActivity,
   type SystemStatus,
+  type TrendData,
 } from '../../../../src/services/admin';
 import './page.css';
 
@@ -22,17 +24,21 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [activities, setActivities] = useState<AdminActivity[]>([]);
   const [systemStatus, setSystemStatus] = useState<SystemStatus[]>([]);
+  const [trends, setTrends] = useState<TrendData[]>([]);
+  const [trendDays, setTrendDays] = useState<7 | 30 | 90>(7);
   const [loading, setLoading] = useState(true);
+  const [trendsLoading, setTrendsLoading] = useState(false);
 
   // 加载数据
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
-        const [statsRes, activitiesRes, statusRes] = await Promise.all([
+        const [statsRes, activitiesRes, statusRes, trendsRes] = await Promise.all([
           getAdminStats(),
           getAdminActivities(10),
           getSystemStatus(),
+          getTrends(trendDays),
         ]);
 
         if (statsRes.success && statsRes.data) {
@@ -44,6 +50,9 @@ export default function AdminDashboard() {
         if (statusRes.success && statusRes.data) {
           setSystemStatus(statusRes.data);
         }
+        if (trendsRes.success && trendsRes.data) {
+          setTrends(trendsRes.data);
+        }
       } catch (error) {
         console.error('加载管理员数据失败:', error);
       } finally {
@@ -52,7 +61,72 @@ export default function AdminDashboard() {
     };
 
     loadData();
+  }, [trendDays]);
+
+  // 切换趋势时间范围
+  const handleTrendDaysChange = useCallback(async (days: 7 | 30 | 90) => {
+    setTrendDays(days);
+    setTrendsLoading(true);
+    try {
+      const trendsRes = await getTrends(days);
+      if (trendsRes.success && trendsRes.data) {
+        setTrends(trendsRes.data);
+      }
+    } catch (error) {
+      console.error('加载趋势数据失败:', error);
+    } finally {
+      setTrendsLoading(false);
+    }
   }, []);
+
+  // 聚合趋势数据
+  const aggregatedTrends = useMemo(() => {
+    if (trends.length === 0) return [];
+
+    if (trendDays === 7) {
+      // 7天：显示每日数据
+      return trends;
+    } else if (trendDays === 30) {
+      // 30天：按周聚合（4周）
+      const weeks: TrendData[] = [];
+      for (let i = 0; i < 4; i++) {
+        const weekData = trends.slice(i * 7, (i + 1) * 7);
+        if (weekData.length > 0) {
+          weeks.push({
+            date: `第${i + 1}周`,
+            users: Math.round(weekData.reduce((sum, d) => sum + d.users, 0) / weekData.length),
+            knowledge: Math.round(weekData.reduce((sum, d) => sum + d.knowledge, 0) / weekData.length),
+            views: Math.round(weekData.reduce((sum, d) => sum + d.views, 0) / weekData.length),
+          });
+        }
+      }
+      return weeks;
+    } else {
+      // 90天：按月聚合（3个月）
+      const months: TrendData[] = [];
+      for (let i = 0; i < 3; i++) {
+        const monthData = trends.slice(i * 30, (i + 1) * 30);
+        if (monthData.length > 0) {
+          const firstDate = new Date(monthData[0].date);
+          const monthName = `${firstDate.getMonth() + 1}月`;
+          months.push({
+            date: monthName,
+            users: Math.round(monthData.reduce((sum, d) => sum + d.users, 0) / monthData.length),
+            knowledge: Math.round(monthData.reduce((sum, d) => sum + d.knowledge, 0) / monthData.length),
+            views: Math.round(monthData.reduce((sum, d) => sum + d.views, 0) / monthData.length),
+          });
+        }
+      }
+      return months;
+    }
+  }, [trends, trendDays]);
+
+  // 计算趋势数据的最大值（用于归一化）
+  const maxValues = {
+    users: Math.max(...aggregatedTrends.map(t => t.users), 1),
+    knowledge: Math.max(...aggregatedTrends.map(t => t.knowledge), 1),
+    views: Math.max(...aggregatedTrends.map(t => t.views), 1),
+  };
 
   // 统计卡片配置
   const statsCards = stats ? [
@@ -216,6 +290,124 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))}
+          </section>
+
+          {/* 数据趋势图表 */}
+          <section className="trends-section glass-light motion-slide-in-up">
+            <div className="trends-header">
+              <h2 className="section-title">
+                {content.trends?.title?.value || '数据趋势'}
+              </h2>
+              <div className="trends-tabs">
+                <button 
+                  className={`trend-tab ${trendDays === 7 ? 'active' : ''}`}
+                  onClick={() => handleTrendDaysChange(7)}
+                  disabled={trendsLoading}
+                >
+                  {content.trends?.days7?.value || '7天'}
+                </button>
+                <button 
+                  className={`trend-tab ${trendDays === 30 ? 'active' : ''}`}
+                  onClick={() => handleTrendDaysChange(30)}
+                  disabled={trendsLoading}
+                >
+                  {content.trends?.days30?.value || '30天'}
+                </button>
+                <button 
+                  className={`trend-tab ${trendDays === 90 ? 'active' : ''}`}
+                  onClick={() => handleTrendDaysChange(90)}
+                  disabled={trendsLoading}
+                >
+                  {content.trends?.days90?.value || '90天'}
+                </button>
+              </div>
+            </div>
+
+            {trendsLoading ? (
+              <div className="trends-loading">
+                <div className="loading-spinner"></div>
+                <p>{content.loading?.value || '加载中...'}</p>
+              </div>
+            ) : aggregatedTrends.length > 0 ? (
+              <div className="trends-grid">
+                {/* 用户增长趋势 */}
+                <div className="trend-chart">
+                  <h3 className="chart-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                    </svg>
+                    {content.trends?.userGrowth?.value || '用户增长'}
+                  </h3>
+                  <div className="chart-bars">
+                    {aggregatedTrends.map((data, index) => (
+                      <div key={index} className="bar-wrapper">
+                        <div 
+                          className="bar bar-blue"
+                          style={{ height: `${(data.users / maxValues.users) * 100}%` }}
+                          title={`${data.date}: ${data.users}`}
+                        >
+                          <span className="bar-value">{data.users}</span>
+                        </div>
+                        <span className="bar-label">{trendDays === 7 ? data.date.slice(5) : data.date}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 知识发布趋势 */}
+                <div className="trend-chart">
+                  <h3 className="chart-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                    {content.trends?.knowledgePublished?.value || '知识发布'}
+                  </h3>
+                  <div className="chart-bars">
+                    {aggregatedTrends.map((data, index) => (
+                      <div key={index} className="bar-wrapper">
+                        <div 
+                          className="bar bar-pink"
+                          style={{ height: `${(data.knowledge / maxValues.knowledge) * 100}%` }}
+                          title={`${data.date}: ${data.knowledge}`}
+                        >
+                          <span className="bar-value">{data.knowledge}</span>
+                        </div>
+                        <span className="bar-label">{trendDays === 7 ? data.date.slice(5) : data.date}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 浏览量趋势 */}
+                <div className="trend-chart">
+                  <h3 className="chart-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {content.trends?.viewsGrowth?.value || '浏览量'}
+                  </h3>
+                  <div className="chart-bars">
+                    {aggregatedTrends.map((data, index) => (
+                      <div key={index} className="bar-wrapper">
+                        <div 
+                          className="bar bar-green"
+                          style={{ height: `${(data.views / maxValues.views) * 100}%` }}
+                          title={`${data.date}: ${data.views.toLocaleString()}`}
+                        >
+                          <span className="bar-value">{data.views}</span>
+                        </div>
+                        <span className="bar-label">{trendDays === 7 ? data.date.slice(5) : data.date}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="no-trends">
+                {content.trends?.noData?.value || '暂无趋势数据'}
+              </div>
+            )}
           </section>
 
           {/* 快速操作 */}

@@ -33,12 +33,24 @@ export function generateMockShareCode(id: number): string {
 
 /**
  * 验证分享码格式
+ * 支持正常分享码（EK开头）和草稿分享码（DRAFT开头）
  */
 export function isValidMockShareCode(shareCode: string): boolean {
-  if (!shareCode || !shareCode.startsWith(PREFIX)) return false;
+  if (!shareCode) return false;
 
-  const encoded = shareCode.substring(PREFIX.length);
-  if (encoded.length === 0) return false;
+  // 支持草稿分享码
+  if (shareCode.startsWith('DRAFT')) {
+    const encoded = shareCode.substring('DRAFT'.length);
+    if (encoded.length === 0) return false;
+    return encoded.split('').every(char => ALPHABET.includes(char));
+  }
 
-  return encoded.split('').every(char => ALPHABET.includes(char));
+  // 支持正常分享码
+  if (shareCode.startsWith(PREFIX)) {
+    const encoded = shareCode.substring(PREFIX.length);
+    if (encoded.length === 0) return false;
+    return encoded.split('').every(char => ALPHABET.includes(char));
+  }
+
+  return false;
 }

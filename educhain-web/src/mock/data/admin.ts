@@ -136,7 +136,7 @@ export const mockSystemStatus: SystemStatus[] = [
   },
 ];
 
-// 数据趋势（最近7天）
+// 数据趋势（最近90天）
 export interface TrendData {
   date: string;
   users: number;
@@ -144,15 +144,41 @@ export interface TrendData {
   views: number;
 }
 
-export const mockTrendData: TrendData[] = [
-  { date: '2026-02-01', users: 120, knowledge: 45, views: 8500 },
-  { date: '2026-02-02', users: 135, knowledge: 52, views: 9200 },
-  { date: '2026-02-03', users: 142, knowledge: 48, views: 8800 },
-  { date: '2026-02-04', users: 158, knowledge: 61, views: 10500 },
-  { date: '2026-02-05', users: 165, knowledge: 55, views: 9800 },
-  { date: '2026-02-06', users: 178, knowledge: 68, views: 11200 },
-  { date: '2026-02-07', users: 189, knowledge: 72, views: 12000 },
-];
+// 生成趋势数据的辅助函数
+const generateTrendData = (): TrendData[] => {
+  const data: TrendData[] = [];
+  const today = new Date('2026-03-08');
+  
+  for (let i = 89; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toISOString().split('T')[0];
+    
+    // 基础值随时间增长
+    const baseUsers = 50 + Math.floor((89 - i) * 1.5);
+    const baseKnowledge = 20 + Math.floor((89 - i) * 0.8);
+    const baseViews = 3000 + Math.floor((89 - i) * 100);
+    
+    // 添加随机波动（周末数据会低一些）
+    const dayOfWeek = date.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const weekendFactor = isWeekend ? 0.7 : 1;
+    
+    // 添加一些随机性
+    const randomFactor = 0.8 + Math.random() * 0.4;
+    
+    data.push({
+      date: dateStr,
+      users: Math.floor(baseUsers * weekendFactor * randomFactor),
+      knowledge: Math.floor(baseKnowledge * weekendFactor * randomFactor),
+      views: Math.floor(baseViews * weekendFactor * randomFactor),
+    });
+  }
+  
+  return data;
+};
+
+export const mockTrendData: TrendData[] = generateTrendData();
 
 // 系统设置数据
 export interface SystemSettings {

@@ -24,6 +24,24 @@ export default function NotificationsPage() {
   const [processingMarkAll, setProcessingMarkAll] = useState(false);
   const [processingClear, setProcessingClear] = useState(false);
   
+  // 批量操作状态
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+  const [processingBatchDelete, setProcessingBatchDelete] = useState(false);
+  
+  // 设置对话框状态
+  const [showSettings, setShowSettings] = useState(false);
+  const [settings, setSettings] = useState({
+    enableLikeNotifications: true,
+    enableCommentNotifications: true,
+    enableFollowNotifications: true,
+    enableSystemNotifications: true,
+    emailNotifications: false,
+    pushNotifications: true,
+  });
+  const [loadingSettings, setLoadingSettings] = useState(false);
+  const [savingSettings, setSavingSettings] = useState(false);
+  
   // 使用 ref 存储 handleError 避免依赖变化导致无限循环
   const handleErrorRef = useRef(handleError);
   handleErrorRef.current = handleError;
@@ -110,6 +128,98 @@ export default function NotificationsPage() {
       setProcessingClear(false);
     }
   }, [confirm, content, handleSuccess, handleError]);
+
+  // 打开设置对话框
+  const handleOpenSettings = useCallback(async () => {
+    setShowSettings(true);
+    setLoadingSettings(true);
+    try {
+      const response = await notificationService.getNotificationSettings();
+      if (response.success && response.data) {
+        setSettings(response.data);
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoadingSettings(false);
+    }
+  }, [handleError]);
+
+  // 保存设置
+  const handleSaveSettings = useCallback(async () => {
+    setSavingSettings(true);
+    try {
+      await notificationService.updateNotificationSettings(settings);
+      handleSuccess(String(content.messages?.settingsSaved?.value || '设置已保存'));
+      setShowSettings(false);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setSavingSettings(false);
+    }
+  }, [settings, handleSuccess, handleError, content.messages]);
+
+  // 切换设置项
+  const toggleSetting = useCallback((key: keyof typeof settings) => {
+    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  }, []);
+
+  // 全选/取消全选
+  const handleSelectAll = useCallback(() => {
+    if (isAllSelected) {
+      setSelectedIds([]);
+      setIsAllSelected(false);
+    } else {
+      setSelectedIds(notifications.map(n => n.id));
+      setIsAllSelected(true);
+    }
+  }, [isAllSelected, notifications]);
+
+  // 单选通知
+  const handleSelectNotification = useCallback((id: number) => {
+    setSelectedIds(prev => {
+      if (prev.includes(id)) {
+        const newIds = prev.filter(nId => nId !== id);
+        setIsAllSelected(false);
+        return newIds;
+      } else {
+        const newIds = [...prev, id];
+        setIsAllSelected(newIds.length === notifications.length);
+        return newIds;
+      }
+    });
+  }, [notifications.length]);
+
+  // 批量删除
+  const handleBatchDelete = useCallback(async () => {
+    if (selectedIds.length === 0) {
+      alert(String(content.messages?.selectItemsFirst?.value || '请先选择要删除的通知'));
+      return;
+    }
+
+    const confirmed = await confirm({
+      title: String(content.confirmBatchDelete?.title?.value || '批量删除'),
+      message: String(content.confirmBatchDelete?.message?.value || `确定要删除选中的 ${selectedIds.length} 条通知吗？`),
+      confirmText: String(content.confirmBatchDelete?.confirm?.value || '确认删除'),
+      cancelText: String(content.confirmBatchDelete?.cancel?.value || '取消'),
+      variant: 'danger',
+    });
+
+    if (!confirmed) return;
+
+    setProcessingBatchDelete(true);
+    try {
+      await notificationService.batchDeleteNotifications(selectedIds);
+      setNotifications(prev => prev.filter(n => !selectedIds.includes(n.id)));
+      setSelectedIds([]);
+      setIsAllSelected(false);
+      handleSuccess(String(content.messages?.batchDeleteSuccess?.value || '批量删除成功'));
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setProcessingBatchDelete(false);
+    }
+  }, [selectedIds, confirm, content, handleSuccess, handleError, notifications]);
 
   // 格式化时间
   const formatTime = useCallback((dateStr: string) => {
@@ -208,6 +318,17 @@ export default function NotificationsPage() {
 
             <div className="notifications-actions">
               <button 
+                className="action-btn settings" 
+                onClick={handleOpenSettings}
+                aria-label={String(content.settings?.value || '设置')}
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>{content.settings?.value || '设置'}</span>
+              </button>
+              <button 
                 className="action-btn" 
                 onClick={handleMarkAllRead}
                 disabled={processingMarkAll || notifications.length === 0 || unreadCount === 0}
@@ -225,19 +346,24 @@ export default function NotificationsPage() {
               </button>
               <button 
                 className="action-btn danger" 
-                onClick={handleClearAll}
-                disabled={processingClear || notifications.length === 0}
-                aria-label={String(content.aria.clearAllButton)}
-                aria-busy={processingClear}
+                onClick={selectedIds.length > 0 ? handleBatchDelete : handleClearAll}
+                disabled={(selectedIds.length > 0 ? processingBatchDelete : processingClear) || notifications.length === 0}
+                aria-label={selectedIds.length > 0 ? String(content.batchDelete?.value || '批量删除') : String(content.aria.clearAllButton)}
+                aria-busy={selectedIds.length > 0 ? processingBatchDelete : processingClear}
               >
-                {processingClear ? (
+                {(selectedIds.length > 0 ? processingBatchDelete : processingClear) ? (
                   <span className="loading-spinner-small" aria-hidden="true" />
                 ) : (
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 )}
-                <span>{content.clearAll.value}</span>
+                <span>
+                  {selectedIds.length > 0 
+                    ? `${content.batchDelete?.value || '批量删除'} (${selectedIds.length})`
+                    : content.clearAll.value
+                  }
+                </span>
               </button>
             </div>
           </div>
@@ -248,46 +374,74 @@ export default function NotificationsPage() {
               {[1, 2, 3, 4, 5].map((i) => <NotificationSkeleton key={i} />)}
             </div>
           ) : notifications.length > 0 ? (
-            <ul className="notifications-list" role="list" aria-label={String(content.aria.notificationList)}>
-              {notifications.map((notification) => (
-                <li 
-                  key={notification.id} 
-                  className={`notification-item glass-card ${!notification.isRead ? 'unread' : ''}`}
-                  aria-label={!notification.isRead ? String(content.aria.unreadNotification) : undefined}
-                >
-                  {notification.senderName ? (
-                    <div className="notification-avatar-placeholder" aria-hidden="true">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
+            <>
+              {/* 全选控制栏 */}
+              <div className="select-all-bar glass-light">
+                <label className="select-all-label">
+                  <input
+                    type="checkbox"
+                    checked={isAllSelected}
+                    onChange={handleSelectAll}
+                    className="checkbox"
+                  />
+                  <span>{isAllSelected ? (content.unselectAll?.value || '取消全选') : (content.selectAll?.value || '全选')}</span>
+                </label>
+                {selectedIds.length > 0 && (
+                  <span className="selected-count">
+                    {content.selected?.value || '已选择'} <strong>{selectedIds.length}</strong> {content.items?.value || '项'}
+                  </span>
+                )}
+              </div>
+
+              <ul className="notifications-list" role="list" aria-label={String(content.aria.notificationList)}>
+                {notifications.map((notification) => (
+                  <li 
+                    key={notification.id} 
+                    className={`notification-item glass-card ${!notification.isRead ? 'unread' : ''} ${selectedIds.includes(notification.id) ? 'selected' : ''}`}
+                    aria-label={!notification.isRead ? String(content.aria.unreadNotification) : undefined}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(notification.id)}
+                      onChange={() => handleSelectNotification(notification.id)}
+                      className="notification-checkbox"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    
+                    {notification.senderName ? (
+                      <div className="notification-avatar-placeholder" aria-hidden="true">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className={`notification-icon ${notification.type}`} aria-hidden="true">
+                        {getNotificationIcon(notification.type)}
+                      </div>
+                    )}
+                    
+                    <div className="notification-content">
+                      <p className="notification-text">
+                        {notification.senderName && <strong>{notification.senderName}</strong>}
+                        {notification.senderName ? ' ' : ''}
+                        {notification.content}
+                      </p>
+                      <time 
+                        className="notification-time" 
+                        dateTime={notification.createdAt}
+                        aria-label={String(content.aria.notificationTime)}
+                      >
+                        {formatTime(notification.createdAt)}
+                      </time>
                     </div>
-                  ) : (
-                    <div className={`notification-icon ${notification.type}`} aria-hidden="true">
+                    
+                    <div className={`notification-type-icon ${notification.type}`} aria-hidden="true">
                       {getNotificationIcon(notification.type)}
                     </div>
-                  )}
-                  
-                  <div className="notification-content">
-                    <p className="notification-text">
-                      {notification.senderName && <strong>{notification.senderName}</strong>}
-                      {notification.senderName ? ' ' : ''}
-                      {notification.content}
-                    </p>
-                    <time 
-                      className="notification-time" 
-                      dateTime={notification.createdAt}
-                      aria-label={String(content.aria.notificationTime)}
-                    >
-                      {formatTime(notification.createdAt)}
-                    </time>
-                  </div>
-                  
-                  <div className={`notification-type-icon ${notification.type}`} aria-hidden="true">
-                    {getNotificationIcon(notification.type)}
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </>
           ) : (
             <div className="notifications-empty glass-card" role="status">
               <div className="empty-icon" aria-hidden="true">
@@ -309,6 +463,121 @@ export default function NotificationsPage() {
           onCancel={handleCancel}
         />
       </main>
+
+      {/* 设置对话框 */}
+      {showSettings && (
+        <div className="settings-overlay" onClick={() => setShowSettings(false)}>
+          <div className="settings-dialog glass-card" onClick={(e) => e.stopPropagation()}>
+            <div className="settings-header">
+              <h2>{content.settingsDialog?.title?.value || '通知设置'}</h2>
+              <button className="close-btn" onClick={() => setShowSettings(false)} aria-label="关闭">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {loadingSettings ? (
+              <div className="settings-loading">
+                <div className="loading-spinner"></div>
+                <p>{content.loading?.value || '加载中...'}</p>
+              </div>
+            ) : (
+              <>
+                <div className="settings-content">
+                  <div className="settings-section">
+                    <h3>{content.settingsDialog?.notificationTypes?.value || '通知类型'}</h3>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.likeNotification?.value || '点赞通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.enableLikeNotifications}
+                          onChange={() => toggleSetting('enableLikeNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.commentNotification?.value || '评论通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.enableCommentNotifications}
+                          onChange={() => toggleSetting('enableCommentNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.followNotification?.value || '关注通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.enableFollowNotifications}
+                          onChange={() => toggleSetting('enableFollowNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.systemNotification?.value || '系统通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.enableSystemNotifications}
+                          onChange={() => toggleSetting('enableSystemNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="settings-section">
+                    <h3>{content.settingsDialog?.deliveryMethods?.value || '接收方式'}</h3>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.emailNotification?.value || '邮件通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.emailNotifications}
+                          onChange={() => toggleSetting('emailNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                    <div className="setting-item">
+                      <label>
+                        <span>{content.settingsDialog?.pushNotification?.value || '推送通知'}</span>
+                        <input
+                          type="checkbox"
+                          checked={settings.pushNotifications}
+                          onChange={() => toggleSetting('pushNotifications')}
+                          className="toggle-switch"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="settings-footer">
+                  <button className="settings-btn cancel" onClick={() => setShowSettings(false)}>
+                    {content.settingsDialog?.cancel?.value || '取消'}
+                  </button>
+                  <button 
+                    className="settings-btn save" 
+                    onClick={handleSaveSettings}
+                    disabled={savingSettings}
+                  >
+                    {savingSettings ? (content.settingsDialog?.saving?.value || '保存中...') : (content.settingsDialog?.save?.value || '保存')}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <Footer />
     </>
   );

@@ -31,6 +31,10 @@ export default function AdminContentPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const pageSize = 10;
+  
+  // 批量操作状态
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
 
   // 加载内容数据
   useEffect(() => {
@@ -154,6 +158,114 @@ export default function AdminContentPage() {
     }
   };
 
+  // 全选/取消全选
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedIds([]);
+      setIsAllSelected(false);
+    } else {
+      setSelectedIds(knowledgeItems.map(item => item.id));
+      setIsAllSelected(true);
+    }
+  };
+
+  // 单选
+  const handleSelectItem = (id: number) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(itemId => itemId !== id));
+      setIsAllSelected(false);
+    } else {
+      const newSelectedIds = [...selectedIds, id];
+      setSelectedIds(newSelectedIds);
+      setIsAllSelected(newSelectedIds.length === knowledgeItems.length);
+    }
+  };
+
+  // 批量通过审核
+  const handleBatchApprove = async () => {
+    if (selectedIds.length === 0) {
+      alert(String(content.selectItemsFirst?.value || '请先选择要操作的内容'));
+      return;
+    }
+
+    if (!confirm(String(content.confirmBatchApprove?.value || `确定要通过选中的 ${selectedIds.length} 条内容吗？`))) {
+      return;
+    }
+
+    try {
+      const response = await request.post('/knowledge/batch-update-status', {
+        ids: selectedIds,
+        status: 1, // 1 = 已发布
+      });
+
+      if (response.success) {
+        alert(String(content.batchApproveSuccess?.value || '批量通过成功'));
+        setSelectedIds([]);
+        setIsAllSelected(false);
+        // 重新加载数据
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('批量通过失败:', error);
+      alert(String(content.batchApproveFailed?.value || '批量通过失败，请重试'));
+    }
+  };
+
+  // 批量拒绝
+  const handleBatchReject = async () => {
+    if (selectedIds.length === 0) {
+      alert(String(content.selectItemsFirst?.value || '请先选择要操作的内容'));
+      return;
+    }
+
+    if (!confirm(String(content.confirmBatchReject?.value || `确定要拒绝选中的 ${selectedIds.length} 条内容吗？`))) {
+      return;
+    }
+
+    try {
+      const response = await request.post('/knowledge/batch-update-status', {
+        ids: selectedIds,
+        status: -1, // -1 = 已拒绝
+      });
+
+      if (response.success) {
+        alert(String(content.batchRejectSuccess?.value || '批量拒绝成功'));
+        setSelectedIds([]);
+        setIsAllSelected(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('批量拒绝失败:', error);
+      alert(String(content.batchRejectFailed?.value || '批量拒绝失败，请重试'));
+    }
+  };
+
+  // 批量删除
+  const handleBatchDelete = async () => {
+    if (selectedIds.length === 0) {
+      alert(String(content.selectItemsFirst?.value || '请先选择要操作的内容'));
+      return;
+    }
+
+    if (!confirm(String(content.confirmBatchDelete?.value || `确定要删除选中的 ${selectedIds.length} 条内容吗？此操作无法撤销。`))) {
+      return;
+    }
+
+    try {
+      const response = await request.post('/knowledge/batch-delete', selectedIds);
+
+      if (response.success) {
+        alert(String(content.batchDeleteSuccess?.value || '批量删除成功'));
+        setSelectedIds([]);
+        setIsAllSelected(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('批量删除失败:', error);
+      alert(String(content.batchDeleteFailed?.value || '批量删除失败，请重试'));
+    }
+  };
+
   return (
     <>
       <AdminNavbar />
@@ -230,6 +342,16 @@ export default function AdminContentPage() {
                 {content.drafts?.value || '草稿'}
               </button>
             </div>
+
+            <button
+              className="trash-btn"
+              onClick={() => router.push(getLocalizedUrl('/admin/content/trash', locale))}
+            >
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              {content.trash?.value || '回收站'}
+            </button>
           </section>
 
           {/* 内容表格 */}
@@ -246,10 +368,38 @@ export default function AdminContentPage() {
             </div>
           ) : (
             <>
+              {/* 批量操作栏 */}
+              {selectedIds.length > 0 && (
+                <div className="batch-actions-bar motion-slide-in-up">
+                  <div className="batch-info">
+                    {content.selected?.value || '已选择'} <strong>{selectedIds.length}</strong> {content.items?.value || '项'}
+                  </div>
+                  <div className="batch-buttons">
+                    <button className="batch-btn approve" onClick={handleBatchApprove}>
+                      {content.batchApprove?.value || '批量通过'}
+                    </button>
+                    <button className="batch-btn reject" onClick={handleBatchReject}>
+                      {content.batchReject?.value || '批量拒绝'}
+                    </button>
+                    <button className="batch-btn delete" onClick={handleBatchDelete}>
+                      {content.batchDelete?.value || '批量删除'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div className="users-table-container motion-slide-in-up">
                 <table className="users-table">
                   <thead>
                     <tr>
+                      <th style={{ width: '50px' }}>
+                        <input
+                          type="checkbox"
+                          checked={isAllSelected}
+                          onChange={handleSelectAll}
+                          className="checkbox"
+                        />
+                      </th>
                       <th>{content.title_col?.value || '标题'}</th>
                       <th>{content.author?.value || '作者'}</th>
                       <th>{content.category?.value || '分类'}</th>
@@ -263,6 +413,14 @@ export default function AdminContentPage() {
                   <tbody>
                     {knowledgeItems.map((item) => (
                       <tr key={item.id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedIds.includes(item.id)}
+                            onChange={() => handleSelectItem(item.id)}
+                            className="checkbox"
+                          />
+                        </td>
                         <td style={{ maxWidth: '300px' }}>
                           <div style={{ 
                             overflow: 'hidden', 

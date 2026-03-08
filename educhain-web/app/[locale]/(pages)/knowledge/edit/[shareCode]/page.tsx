@@ -4,12 +4,19 @@ import Footer from '../../../../../../components/layout/Footer';
 import KnowledgeEditClient from './KnowledgeEditClient';
 import './page.css';
 
-// 静态路径生成 - 生成一个示例shareCode用于静态导出
+// 静态路径生成 - 编辑页面需要包含草稿和已发布内容
 export async function generateStaticParams() {
-  // 生成一个示例路径，实际使用时会在客户端动态加载
-  return [
-    { shareCode: 'example' },
-  ];
+  const { mockKnowledgeItems } = await import('@/mock/data/knowledge');
+  const { generateLocalizedPaths } = await import('@/../static-paths.config');
+  
+  // 编辑页面需要包含所有内容（包括草稿）
+  const editPaths = mockKnowledgeItems
+    .slice(0, 30) // 限制数量以避免过多静态页面
+    .map((item) => ({
+      shareCode: item.shareCode,
+    }));
+  
+  return generateLocalizedPaths(editPaths);
 }
 
 // 服务器组件 - 编辑页面不需要预生成，但保持架构一致性

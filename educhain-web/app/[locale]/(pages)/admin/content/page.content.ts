@@ -154,6 +154,68 @@ const adminContentContent = {
       'zh-CN': '加载中...',
       en: 'Loading...',
     }),
+    // 批量操作
+    selected: t({
+      'zh-CN': '已选择',
+      en: 'Selected',
+    }),
+    selectItemsFirst: t({
+      'zh-CN': '请先选择要操作的内容',
+      en: 'Please select items first',
+    }),
+    batchApprove: t({
+      'zh-CN': '批量通过',
+      en: 'Batch Approve',
+    }),
+    batchReject: t({
+      'zh-CN': '批量拒绝',
+      en: 'Batch Reject',
+    }),
+    batchDelete: t({
+      'zh-CN': '批量删除',
+      en: 'Batch Delete',
+    }),
+    confirmBatchApprove: t({
+      'zh-CN': '确定要通过选中的内容吗？',
+      en: 'Are you sure you want to approve selected items?',
+    }),
+    confirmBatchReject: t({
+      'zh-CN': '确定要拒绝选中的内容吗？',
+      en: 'Are you sure you want to reject selected items?',
+    }),
+    confirmBatchDelete: t({
+      'zh-CN': '确定要删除选中的内容吗？此操作无法撤销。',
+      en: 'Are you sure you want to delete selected items? This action cannot be undone.',
+    }),
+    batchApproveSuccess: t({
+      'zh-CN': '批量通过成功',
+      en: 'Batch approve successful',
+    }),
+    batchApproveFailed: t({
+      'zh-CN': '批量通过失败，请重试',
+      en: 'Batch approve failed, please try again',
+    }),
+    batchRejectSuccess: t({
+      'zh-CN': '批量拒绝成功',
+      en: 'Batch reject successful',
+    }),
+    batchRejectFailed: t({
+      'zh-CN': '批量拒绝失败，请重试',
+      en: 'Batch reject failed, please try again',
+    }),
+    batchDeleteSuccess: t({
+      'zh-CN': '批量删除成功',
+      en: 'Batch delete successful',
+    }),
+    batchDeleteFailed: t({
+      'zh-CN': '批量删除失败，请重试',
+      en: 'Batch delete failed, please try again',
+    }),
+    // 回收站
+    trash: t({
+      'zh-CN': '回收站',
+      en: 'Trash',
+    }),
   },
 } satisfies Dictionary;
 

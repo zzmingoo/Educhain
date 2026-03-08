@@ -51,6 +51,10 @@ const navbarContent = {
       'zh-CN': '关注',
       en: 'Follow',
     }),
+    drafts: t({
+      'zh-CN': '我的草稿',
+      en: 'My Drafts',
+    }),
     logout: t({
       'zh-CN': '退出登录',
       en: 'Logout',

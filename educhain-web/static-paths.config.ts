@@ -9,9 +9,11 @@ import { mockBlocks } from './src/mock/data/blockchain';
 
 /**
  * 需要预生成的知识详情页面
- * 只预生成前 30 个知识页面（最重要的内容）
+ * 只预生成前 30 个已发布的知识页面（最重要的内容）
+ * 排除草稿（status: 0）
  */
 export const knowledgeStaticPaths = mockKnowledgeItems
+  .filter((item) => item.status === 1) // 只包含已发布的内容
   .slice(0, 30)
   .map((item) => ({
     shareCode: item.shareCode,

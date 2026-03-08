@@ -120,4 +120,25 @@ export const notificationHandlers = [
     mockNotifications.length = 0;
     return HttpResponse.json(createSuccessResponse(null));
   }),
+
+  // 获取通知设置
+  http.get(`${API_BASE}/notifications/settings`, async () => {
+    await delay();
+    const settings = {
+      enableLikeNotifications: true,
+      enableCommentNotifications: true,
+      enableFollowNotifications: true,
+      enableSystemNotifications: true,
+      emailNotifications: false,
+      pushNotifications: true,
+    };
+    return HttpResponse.json(createSuccessResponse(settings));
+  }),
+
+  // 更新通知设置
+  http.put(`${API_BASE}/notifications/settings`, async ({ request }) => {
+    await delay();
+    const settings = (await request.json()) as Record<string, boolean>;
+    return HttpResponse.json(createSuccessResponse(settings));
+  }),
 ];

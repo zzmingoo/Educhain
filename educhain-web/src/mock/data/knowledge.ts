@@ -163,4 +163,32 @@ export const mockKnowledgeStats: Record<number, KnowledgeStats> = {
     shareCount: 22,
     score: 71.9,
   },
+  // 草稿统计数据（草稿通常没有浏览量等数据）
+  101: {
+    knowledgeId: 101,
+    viewCount: 0,
+    likeCount: 0,
+    favoriteCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    score: 0,
+  },
+  102: {
+    knowledgeId: 102,
+    viewCount: 0,
+    likeCount: 0,
+    favoriteCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    score: 0,
+  },
+  103: {
+    knowledgeId: 103,
+    viewCount: 0,
+    likeCount: 0,
+    favoriteCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    score: 0,
+  },
 };

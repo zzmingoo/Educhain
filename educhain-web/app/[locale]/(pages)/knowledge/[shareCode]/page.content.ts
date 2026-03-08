@@ -27,6 +27,10 @@ const knowledgeDetailContent = {
       'zh-CN': '编辑',
       en: 'Edit',
     }),
+    versionHistory: t({
+      'zh-CN': '版本历史',
+      en: 'Version History',
+    }),
     delete: t({
       'zh-CN': '删除',
       en: 'Delete',

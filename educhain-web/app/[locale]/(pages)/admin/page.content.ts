@@ -143,27 +143,40 @@ const adminDashboardContent = {
         'zh-CN': '数据趋势',
         en: 'Data Trends',
       }),
-      users: t({
+      days7: t({
+        'zh-CN': '7天',
+        en: '7 Days',
+      }),
+      days30: t({
+        'zh-CN': '30天',
+        en: '30 Days',
+      }),
+      days90: t({
+        'zh-CN': '90天',
+        en: '90 Days',
+      }),
+      userGrowth: t({
         'zh-CN': '用户增长',
         en: 'User Growth',
       }),
-      knowledge: t({
-        'zh-CN': '知识增长',
-        en: 'Knowledge Growth',
+      knowledgePublished: t({
+        'zh-CN': '知识发布',
+        en: 'Knowledge Published',
       }),
-      views: t({
-        'zh-CN': '浏览趋势',
-        en: 'View Trends',
+      viewsGrowth: t({
+        'zh-CN': '浏览量',
+        en: 'Views',
       }),
-      last7Days: t({
-        'zh-CN': '最近7天',
-        en: 'Last 7 Days',
-      }),
-      last30Days: t({
-        'zh-CN': '最近30天',
-        en: 'Last 30 Days',
+      noData: t({
+        'zh-CN': '暂无趋势数据',
+        en: 'No trend data available',
       }),
     },
+
+    loading: t({
+      'zh-CN': '加载中...',
+      en: 'Loading...',
+    }),
   },
 } satisfies Dictionary;
 

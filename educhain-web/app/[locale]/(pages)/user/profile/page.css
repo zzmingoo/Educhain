@@ -310,6 +310,10 @@
   background: linear-gradient(135deg, rgb(var(--color-tertiary-hover)), rgb(var(--color-tertiary)));
 }
 
+.stat-icon-accent {
+  background: linear-gradient(135deg, rgb(var(--color-accent)), rgb(var(--color-accent-hover)));
+}
+
 .stat-value {
   font-size: var(--text-3xl);
   font-weight: 700;
@@ -345,7 +349,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
   padding: var(--spacing-md) var(--spacing-lg);
   border: none;
   background: transparent;
@@ -366,11 +369,6 @@
   color: rgb(var(--color-accent));
   background: rgb(var(--color-accent) / 0.1);
   box-shadow: var(--shadow-sm);
-}
-
-.profile-tab svg {
-  width: 18px;
-  height: 18px;
 }
 
 /* 内容区域 */
@@ -962,13 +960,12 @@
   }
 
   .profile-tabs {
-    flex-direction: column;
-    gap: var(--spacing-xs);
     max-width: 100%;
   }
 
   .profile-tab {
-    justify-content: flex-start;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--text-xs);
   }
 
   .settings-item {
@@ -1009,11 +1006,14 @@
 
   .profile-actions {
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    gap: var(--spacing-sm);
   }
 
   .profile-actions .action-button {
-    width: 100%;
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--text-xs);
   }
 
   .stats-grid {

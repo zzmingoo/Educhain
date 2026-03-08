@@ -114,6 +114,30 @@ const profilePageContent = {
       'zh-CN': '社交统计',
       en: 'Social Statistics',
     }),
+    knowledgeContentStats: t({
+      'zh-CN': '知识内容统计',
+      en: 'Knowledge Content Statistics',
+    }),
+    totalKnowledge: t({
+      'zh-CN': '发布知识总数',
+      en: 'Total Knowledge Published',
+    }),
+    knowledgeTotalViews: t({
+      'zh-CN': '总浏览量',
+      en: 'Total Views',
+    }),
+    knowledgeTotalLikes: t({
+      'zh-CN': '总点赞数',
+      en: 'Total Likes',
+    }),
+    knowledgeTotalComments: t({
+      'zh-CN': '总评论数',
+      en: 'Total Comments',
+    }),
+    knowledgeAverageScore: t({
+      'zh-CN': '平均评分',
+      en: 'Average Score',
+    }),
 
     // 设置页面
     settingsTitle: t({

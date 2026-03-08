@@ -17,6 +17,12 @@ import { nodejsExpressKnowledge } from './nodejs-express';
 import { webpackConfigKnowledge } from './webpack-config';
 import { restfulApiKnowledge } from './restful-api';
 import { mongodbGuideKnowledge } from './mongodb-guide';
+import { draftNextjsGuide } from './draft-nextjs-guide';
+import { draftTailwindTips } from './draft-tailwind-tips';
+import { draftGraphqlBasics } from './draft-graphql-basics';
+import { deletedReactBasics } from './deleted-react-basics';
+import { deletedVueGuide } from './deleted-vue-guide';
+import { deletedPythonTips } from './deleted-python-tips';
 
 export const cleanKnowledgeItems = [
   reactHooksKnowledge,
@@ -34,6 +40,14 @@ export const cleanKnowledgeItems = [
   webpackConfigKnowledge,
   restfulApiKnowledge,
   mongodbGuideKnowledge,
+  // 草稿数据
+  draftNextjsGuide,
+  draftTailwindTips,
+  draftGraphqlBasics,
+  // 已删除数据
+  deletedReactBasics,
+  deletedVueGuide,
+  deletedPythonTips,
 ];
 
 export * from './react-hooks';
@@ -51,3 +65,6 @@ export * from './nodejs-express';
 export * from './webpack-config';
 export * from './restful-api';
 export * from './mongodb-guide';
+export * from './draft-nextjs-guide';
+export * from './draft-tailwind-tips';
+export * from './draft-graphql-basics';
