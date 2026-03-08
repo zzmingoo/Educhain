@@ -7,7 +7,7 @@ export const deletedPythonTips: KnowledgeItem = {
   categoryId: 2,
   categoryName: '后端开发',
   uploaderId: 2,
-  uploaderName: '张三',
+  uploaderName: '小铭',
   shareCode: 'DEL003',
   tags: 'Python,后端,技巧',
   status: -2,

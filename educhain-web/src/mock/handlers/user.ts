@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { mockUsers, mockUserStats } from '../data/users';
 import type { User } from '../../types/api';
 
@@ -42,16 +41,43 @@ export const userHandlers = [
   }),
 
   // 获取当前用户统计
-  http.get(`${API_BASE}/users/me/stats`, async () => {
+  http.get(`${API_BASE}/users/me/stats`, async ({ request }) => {
     await delay();
-    return HttpResponse.json(createSuccessResponse(mockUserStats[2]));
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    return HttpResponse.json(createSuccessResponse(mockUserStats[currentUserId]));
   }),
 
   // 更新用户信息
   http.put(`${API_BASE}/users/me`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const data = (await request.json()) as Record<string, unknown>;
-    const user = { ...mockUsers[1], ...data, updatedAt: new Date().toISOString() };
+    const currentUser = mockUsers.find(u => u.id === currentUserId);
+    
+    if (!currentUser) {
+      return HttpResponse.json(
+        { success: false, message: '用户不存在', data: null },
+        { status: 404 }
+      );
+    }
+    
+    const user = { ...currentUser, ...data, updatedAt: new Date().toISOString() };
     return HttpResponse.json(createSuccessResponse(user));
   }),
 

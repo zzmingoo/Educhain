@@ -25,7 +25,7 @@ React Server Components 让你可以在服务端渲染组件...
 （草稿内容待完善）`,
   type: 'TEXT' as const,
   uploaderId: 2,
-  uploaderName: '张三',
+  uploaderName: '小铭',
   uploaderAvatar: '/avatars/zzm.jpeg',
   categoryId: 11,
   categoryName: 'React',

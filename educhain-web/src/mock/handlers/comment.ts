@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { mockComments } from '../data/comments';
 import { mockUsers } from '../data/users';
 
@@ -47,12 +46,29 @@ export const commentHandlers = [
   // 创建评论
   http.post(`${API_BASE}/comments`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const currentUser = mockUsers.find(u => u.id === currentUserId);
+    if (!currentUser) {
+      return HttpResponse.json(
+        { success: false, message: '用户不存在', data: null },
+        { status: 404 }
+      );
+    }
+    
     const data = (await request.json()) as Record<string, unknown>;
     const newComment = {
       id: mockComments.length + 1,
       ...data,
-      userId: 2,
-      user: mockUsers[1],
+      userId: currentUserId,
+      user: currentUser,
       status: 1,
       createdAt: new Date().toISOString(),
     };
@@ -114,11 +130,20 @@ export const commentHandlers = [
   // 获取用户评论
   http.get(`${API_BASE}/comments/user`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    const userComments = mockComments.filter(c => c.userId === 2);
+    const userComments = mockComments.filter(c => c.userId === currentUserId);
     const pageData = createPageResponse(userComments, page, size);
     return HttpResponse.json(createSuccessResponse(pageData));
   }),

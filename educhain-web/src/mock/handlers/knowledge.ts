@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { isValidMockShareCode } from '../utils/shareCode';
 import { mockKnowledgeItems, mockKnowledgeStats } from '../data/knowledge';
 import { mockUsers } from '../data/users';
@@ -18,23 +17,15 @@ export const knowledgeHandlers = [
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    // 从请求头获取用户信息
-    // 在真实系统中，后端会解析 JWT token 获取用户 ID
-    // 在 Mock 系统中，我们模拟这个行为：
-    // - 如果有 Authorization header，解析 token（这里简化为直接使用默认用户）
-    // - 如果没有 Authorization header，返回 401
-    const authHeader = request.headers.get('Authorization');
+    // 从 JWT token 中解析当前用户 ID
+    const currentUserId = getCurrentUserId(request);
     
-    if (!authHeader) {
+    if (!currentUserId) {
       return HttpResponse.json(
         { success: false, message: '未授权，请先登录', data: null },
         { status: 401 }
       );
     }
-
-    // Mock 系统中，默认当前用户 ID 为 2（张三）
-    // 真实系统中，这里会从 JWT token 中解析出用户 ID
-    const currentUserId = 2;
 
     const drafts = mockKnowledgeItems
       .filter(k => k.status === 0 && k.uploaderId === currentUserId)
@@ -47,13 +38,30 @@ export const knowledgeHandlers = [
   // 保存草稿 - 必须在 /knowledge POST 之前
   http.post(`${API_BASE}/knowledge/drafts`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const currentUser = mockUsers.find(u => u.id === currentUserId);
+    if (!currentUser) {
+      return HttpResponse.json(
+        { success: false, message: '用户不存在', data: null },
+        { status: 404 }
+      );
+    }
+    
     const data = (await request.json()) as Record<string, unknown>;
     const draft = {
       id: mockKnowledgeItems.length + 1,
       ...data,
-      uploaderId: 2,
-      uploaderName: '张三',
-      uploaderAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhangsan',
+      uploaderId: currentUserId,
+      uploaderName: currentUser.fullName,
+      uploaderAvatar: currentUser.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.username}`,
       status: 0, // 草稿状态
       shareCode: `DRAFT${Date.now()}`,
       createdAt: new Date().toISOString(),
@@ -75,14 +83,16 @@ export const knowledgeHandlers = [
 
     let items = [...mockKnowledgeItems];
 
+    // 默认只显示已发布的内容（status === 1），除非明确指定了 status 参数
+    if (status !== null && status !== undefined) {
+      items = items.filter(item => item.status === Number(status));
+    } else {
+      items = items.filter(item => item.status === 1);
+    }
+
     // 分类过滤
     if (categoryId) {
       items = items.filter(item => item.categoryId === Number(categoryId));
-    }
-
-    // 状态过滤
-    if (status !== null && status !== undefined) {
-      items = items.filter(item => item.status === Number(status));
     }
 
     // 关键词搜索
@@ -158,13 +168,30 @@ export const knowledgeHandlers = [
   // 创建知识
   http.post(`${API_BASE}/knowledge`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const currentUser = mockUsers.find(u => u.id === currentUserId);
+    if (!currentUser) {
+      return HttpResponse.json(
+        { success: false, message: '用户不存在', data: null },
+        { status: 404 }
+      );
+    }
+    
     const data = (await request.json()) as Record<string, unknown>;
     const newKnowledge = {
       id: mockKnowledgeItems.length + 1,
       ...data,
-      uploaderId: 2,
-      uploaderName: '张三',
-      uploaderAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhangsan',
+      uploaderId: currentUserId,
+      uploaderName: currentUser.fullName,
+      uploaderAvatar: currentUser.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.username}`,
       status: 1,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -220,6 +247,7 @@ export const knowledgeHandlers = [
     const size = Number(url.searchParams.get('size')) || 10;
 
     const items = [...mockKnowledgeItems]
+      .filter(item => item.status === 1) // 只显示已发布的内容
       .map(item => ({ ...item, stats: mockKnowledgeStats[item.id] }))
       .sort((a, b) => (b.stats?.viewCount || 0) - (a.stats?.viewCount || 0));
 
@@ -235,6 +263,7 @@ export const knowledgeHandlers = [
     const size = Number(url.searchParams.get('size')) || 10;
 
     const items = [...mockKnowledgeItems]
+      .filter(item => item.status === 1) // 只显示已发布的内容
       .map(item => ({ ...item, stats: mockKnowledgeStats[item.id] }))
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
@@ -301,6 +330,11 @@ export const knowledgeHandlers = [
 
     // 搜索逻辑：匹配标题、内容、标签
     let items = mockKnowledgeItems.filter(item => {
+      // 只显示已发布的内容
+      if (item.status !== 1) {
+        return false;
+      }
+
       const searchText = keyword.toLowerCase();
       const titleMatch = item.title.toLowerCase().includes(searchText);
       const contentMatch = item.content?.toLowerCase().includes(searchText);
@@ -357,6 +391,11 @@ export const knowledgeHandlers = [
 
     // 多条件筛选
     let items = mockKnowledgeItems.filter(item => {
+      // 默认只显示已发布的内容（status === 1）
+      if (item.status !== 1) {
+        return false;
+      }
+
       // 关键词匹配（标题、内容、标签）
       let keywordMatch = true;
       if (keyword) {
@@ -468,6 +507,7 @@ export const knowledgeHandlers = [
     const size = Number(url.searchParams.get('size')) || 10;
 
     const items = [...mockKnowledgeItems]
+      .filter(item => item.status === 1) // 只显示已发布的内容
       .map(item => ({ ...item, stats: mockKnowledgeStats[item.id] }))
       .sort((a, b) => (b.stats?.viewCount || 0) - (a.stats?.viewCount || 0))
       .slice(0, 20);

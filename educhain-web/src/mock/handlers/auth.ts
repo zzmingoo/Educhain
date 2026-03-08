@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse } from '../utils/response';
+import { delay, createSuccessResponse, getCurrentUserId } from '../utils';
 import { createErrorResponse } from '../errors';
 import {
   validateRequired,
@@ -103,9 +102,26 @@ export const authHandlers = [
   }),
 
   // 获取当前用户信息
-  http.get(`${API_BASE}/users/me`, async () => {
+  http.get(`${API_BASE}/users/me`, async ({ request }) => {
     await delay();
-    return HttpResponse.json(createSuccessResponse(mockUsers[1]));
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const user = mockUsers.find(u => u.id === currentUserId);
+    if (!user) {
+      return HttpResponse.json(
+        { success: false, message: '用户不存在', data: null },
+        { status: 404 }
+      );
+    }
+    
+    return HttpResponse.json(createSuccessResponse(user));
   }),
 
   // 刷新 Token

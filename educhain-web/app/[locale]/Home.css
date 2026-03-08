@@ -544,17 +544,17 @@
   }
 
   .hero-actions {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-2xl);
   }
 
   .hero-action-btn {
-    width: 100%;
-    max-width: 320px;
-    padding: var(--spacing-md) var(--spacing-xl);
-    font-size: var(--text-base);
+    flex: 1;
+    max-width: 160px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--text-sm);
     justify-content: center;
   }
 
@@ -563,9 +563,9 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-sm);
-    max-width: 400px;
+    max-width: 100%;
     margin: 0 auto;
   }
 

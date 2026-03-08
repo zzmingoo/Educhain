@@ -42,6 +42,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [isLiked, setIsLiked] = useState(comment.isLiked || false);
   const [likeCount, setLikeCount] = useState(comment.likeCount || 0);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const isAuthor = user && user.id === comment.userId;
   const canReply = level < maxLevel;
@@ -96,14 +97,42 @@ export const CommentItem: React.FC<CommentItemProps> = ({
 
   // 处理删除
   const handleDelete = () => {
-    if (window.confirm(String(content.deleteConfirm))) {
-      onDelete?.(comment.id);
-    }
+    onDelete?.(comment.id);
+    setShowDeleteDialog(false);
   };
 
   return (
-    <div className={`comment-item level-${level} motion-fade-in`}>
-      <div className="comment-main">
+    <>
+      {/* 删除确认对话框 */}
+      {showDeleteDialog && (
+        <div className="comment-dialog-overlay" onClick={() => setShowDeleteDialog(false)}>
+          <div className="comment-dialog-content" onClick={(e) => e.stopPropagation()}>
+            <div className="comment-dialog-header">
+              <h3>{content.deleteConfirmTitle}</h3>
+            </div>
+            <div className="comment-dialog-body">
+              <p>{content.deleteConfirmMessage}</p>
+            </div>
+            <div className="comment-dialog-footer">
+              <button 
+                onClick={() => setShowDeleteDialog(false)} 
+                className="comment-dialog-btn cancel-btn"
+              >
+                {content.cancel}
+              </button>
+              <button 
+                onClick={handleDelete} 
+                className="comment-dialog-btn confirm-btn"
+              >
+                {content.confirmDelete}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={`comment-item level-${level} motion-fade-in`}>
+        <div className="comment-main">
         {/* 用户头像 */}
         <div className="comment-avatar">
           {comment.userAvatar ? (
@@ -150,7 +179,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
             )}
 
             {isAuthor && (
-              <button onClick={handleDelete} className="action-btn delete-btn">
+              <button onClick={() => setShowDeleteDialog(true)} className="action-btn delete-btn">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
@@ -210,6 +239,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 };

@@ -22,9 +22,9 @@ export const mockUsers: User[] = [
   },
   {
     id: 2,
-    username: 'zhangsan',
-    email: 'zhangsan@example.com',
-    fullName: '张三',
+    username: 'xiaoming',
+    email: 'ozemyn@icloud.com',
+    fullName: '小铭',
     avatarUrl: '/avatars/zzm.jpeg',
     school: '清华大学',
     level: 8,

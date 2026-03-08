@@ -9,15 +9,22 @@ import { mockBlocks } from './src/mock/data/blockchain';
 
 /**
  * 需要预生成的知识详情页面
- * 只预生成前 30 个已发布的知识页面（最重要的内容）
- * 排除草稿（status: 0）
+ * 开发模式：包含所有内容（包括草稿）
+ * 生产模式：只预生成前 30 个已发布的知识页面
  */
-export const knowledgeStaticPaths = mockKnowledgeItems
-  .filter((item) => item.status === 1) // 只包含已发布的内容
-  .slice(0, 30)
-  .map((item) => ({
-    shareCode: item.shareCode,
-  }));
+export const knowledgeStaticPaths = 
+  process.env.NODE_ENV === 'development'
+    ? mockKnowledgeItems
+        .filter((item) => item.status !== -2) // 排除已删除的内容
+        .map((item) => ({
+          shareCode: item.shareCode,
+        }))
+    : mockKnowledgeItems
+        .filter((item) => item.status === 1) // 只包含已发布的内容
+        .slice(0, 30)
+        .map((item) => ({
+          shareCode: item.shareCode,
+        }));
 
 /**
  * 需要预生成的区块详情页面
@@ -28,6 +35,28 @@ export const blockStaticPaths = mockBlocks
   .map((block) => ({
     id: String(block.index),
   }));
+
+/**
+ * 需要预生成的交易详情页面
+ * 1. 从区块中提取交易ID
+ * 2. 同时支持知识ID（因为组件使用知识ID跳转）
+ */
+export const transactionStaticPaths = [
+  // 交易ID路径
+  ...mockBlocks
+    .flatMap((block) => block.transactions)
+    .slice(0, 30)
+    .map((tx) => ({
+      id: tx.id,
+    })),
+  // 知识ID路径（支持通过知识ID访问交易）
+  ...mockKnowledgeItems
+    .filter((item) => item.status === 1)
+    .slice(0, 30)
+    .map((item) => ({
+      id: String(item.id),
+    })),
+];
 
 /**
  * 支持的语言列表

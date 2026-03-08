@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { mockFollows, getFollowing, getFollowers, isFollowing } from '../data/follows';
 import { mockUsers } from '../data/users';
 
@@ -13,11 +12,20 @@ export const followHandlers = [
   // 关注用户
   http.post(`${API_BASE}/users/follow`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const body = (await request.json()) as { userId: number };
     const { userId } = body;
     const newFollow = {
       id: mockFollows.length + 1,
-      followerId: 2,
+      followerId: currentUserId,
       followingId: userId,
       createdAt: new Date().toISOString(),
     };
@@ -28,10 +36,19 @@ export const followHandlers = [
   // 取消关注
   http.delete(`${API_BASE}/users/follow`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const body = (await request.json()) as { userId: number };
     const { userId } = body;
     const index = mockFollows.findIndex(
-      f => f.followerId === 2 && f.followingId === userId
+      f => f.followerId === currentUserId && f.followingId === userId
     );
     if (index !== -1) {
       mockFollows.splice(index, 1);
@@ -43,9 +60,24 @@ export const followHandlers = [
   http.get(`${API_BASE}/users/following`, async ({ request }) => {
     await delay();
     const url = new URL(request.url);
-    const userId = Number(url.searchParams.get('userId')) || 2;
+    const userIdParam = url.searchParams.get('userId');
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
+
+    // 如果指定了 userId 参数，查询该用户的关注列表；否则查询当前用户的
+    let userId: number;
+    if (userIdParam) {
+      userId = Number(userIdParam);
+    } else {
+      const currentUserId = getCurrentUserId(request);
+      if (!currentUserId) {
+        return HttpResponse.json(
+          { success: false, message: '未授权，请先登录', data: null },
+          { status: 401 }
+        );
+      }
+      userId = currentUserId;
+    }
 
     const following = getFollowing(userId).map(f => ({
       ...f,
@@ -60,9 +92,24 @@ export const followHandlers = [
   http.get(`${API_BASE}/users/followers`, async ({ request }) => {
     await delay();
     const url = new URL(request.url);
-    const userId = Number(url.searchParams.get('userId')) || 2;
+    const userIdParam = url.searchParams.get('userId');
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
+
+    // 如果指定了 userId 参数，查询该用户的粉丝列表；否则查询当前用户的
+    let userId: number;
+    if (userIdParam) {
+      userId = Number(userIdParam);
+    } else {
+      const currentUserId = getCurrentUserId(request);
+      if (!currentUserId) {
+        return HttpResponse.json(
+          { success: false, message: '未授权，请先登录', data: null },
+          { status: 401 }
+        );
+      }
+      userId = currentUserId;
+    }
 
     const followers = getFollowers(userId).map(f => ({
       ...f,
@@ -74,10 +121,19 @@ export const followHandlers = [
   }),
 
   // 检查是否关注
-  http.get(`${API_BASE}/users/follow/status/:id`, async ({ params }) => {
+  http.get(`${API_BASE}/users/follow/status/:id`, async ({ params, request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const { id } = params;
-    const following = isFollowing(2, Number(id));
+    const following = isFollowing(currentUserId, Number(id));
     return HttpResponse.json(createSuccessResponse(following));
   }),
 
@@ -94,12 +150,21 @@ export const followHandlers = [
   // 获取互相关注的用户
   http.get(`${API_BASE}/users/follow/mutual`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    const following = getFollowing(2).map(f => f.followingId);
-    const followers = getFollowers(2).map(f => f.followerId);
+    const following = getFollowing(currentUserId).map(f => f.followingId);
+    const followers = getFollowers(currentUserId).map(f => f.followerId);
     const mutualIds = following.filter(id => followers.includes(id));
     const mutualUsers = mockUsers.filter(u => mutualIds.includes(u.id));
 
@@ -110,12 +175,21 @@ export const followHandlers = [
   // 获取推荐关注用户
   http.get(`${API_BASE}/users/follow/recommendations`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const limit = Number(url.searchParams.get('limit')) || 10;
 
-    const following = getFollowing(2).map(f => f.followingId);
+    const following = getFollowing(currentUserId).map(f => f.followingId);
     const recommendedUsers = mockUsers
-      .filter(u => u.id !== 2 && !following.includes(u.id))
+      .filter(u => u.id !== currentUserId && !following.includes(u.id))
       .slice(0, limit);
 
     return HttpResponse.json(createSuccessResponse(recommendedUsers));

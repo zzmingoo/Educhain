@@ -165,7 +165,7 @@ export default function KnowledgeVersionsClient() {
       {/* 页面头部 */}
       <section className="versions-hero-section">
         <div className="hero-container">
-          {/* 返回按钮 */}
+          {/* 返回按钮 - 左上角 */}
           <button
             onClick={() => router.push(getLocalizedUrl(`/knowledge/${shareCode}`, locale))}
             className="back-button motion-hover-scale"
@@ -176,26 +176,18 @@ export default function KnowledgeVersionsClient() {
             {content.header.backToDetail}
           </button>
 
-          {/* 徽章 */}
-          <div className="hero-badge glass-badge motion-scale-in" style={{ marginTop: 'var(--spacing-lg)' }}>
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{content.header.badge}</span>
-          </div>
-
-          {/* 标题 */}
+          {/* 标题 - 居中 */}
           <h1 className="hero-title motion-slide-in-up motion-delay-100">
-            <span className="hero-title-main text-gradient-purple">
-              {content.header.title}
-            </span>
-            <span className="hero-title-sub">
-              {content.header.subtitle}
-            </span>
+            {content.header.badge}
           </h1>
 
+          {/* 副标题 */}
+          <h2 className="hero-subtitle motion-slide-in-up motion-delay-150">
+            {content.header.subtitle}
+          </h2>
+
           {/* 描述 */}
-          <p className="hero-description motion-slide-in-up motion-delay-150">
+          <p className="hero-description motion-slide-in-up motion-delay-200">
             {content.header.description}
           </p>
         </div>

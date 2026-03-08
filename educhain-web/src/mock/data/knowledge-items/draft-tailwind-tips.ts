@@ -27,7 +27,7 @@ export const draftTailwindTips = {
 （待补充更多内容）`,
   type: 'TEXT' as const,
   uploaderId: 2,
-  uploaderName: '张三',
+  uploaderName: '小铭',
   uploaderAvatar: '/avatars/zzm.jpeg',
   categoryId: 12,
   categoryName: 'CSS',

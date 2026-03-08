@@ -7,7 +7,7 @@ export const deletedReactBasics: KnowledgeItem = {
   categoryId: 1,
   categoryName: '前端开发',
   uploaderId: 2,
-  uploaderName: '张三',
+  uploaderName: '小铭',
   shareCode: 'DEL001',
   tags: 'React,前端,教程',
   status: -2, // -2 表示已删除

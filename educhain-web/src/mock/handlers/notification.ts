@@ -4,9 +4,9 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { mockNotifications } from '../data/notifications';
+import { mockUsers } from '../data/users';
 
 export const notificationHandlers = [
   // 获取通知列表
@@ -18,14 +18,27 @@ export const notificationHandlers = [
     const type = url.searchParams.get('type');
     const isRead = url.searchParams.get('isRead');
 
-    let items = [...mockNotifications];
+    // 从 JWT token 中解析当前用户 ID
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
 
-    // 类型筛选
+    // 先按用户过滤 - 只返回当前用户的通知
+    let items = mockNotifications.filter(n => n.userId === currentUserId);
+
+    // 类型筛选 - 统一使用大写
     if (type) {
       const upperType = type.toUpperCase();
       if (upperType === 'INTERACTION') {
         // 互动类型包含：点赞、评论、关注
         items = items.filter(n => ['LIKE', 'COMMENT', 'FOLLOW'].includes(n.type));
+      } else if (upperType === 'SYSTEM') {
+        items = items.filter(n => n.type === 'SYSTEM');
       } else {
         items = items.filter(n => n.type === upperType);
       }
@@ -36,31 +49,58 @@ export const notificationHandlers = [
       items = items.filter(n => n.isRead === (isRead === 'true'));
     }
 
-    const pageData = createPageResponse(items, page, size);
+    // 动态添加发送者信息
+    const itemsWithSender = items.map(notification => {
+      if (notification.senderId) {
+        const sender = mockUsers.find(u => u.id === notification.senderId);
+        if (sender) {
+          return {
+            ...notification,
+            senderName: sender.fullName,
+            senderAvatar: sender.avatarUrl,
+            // 动态生成完整的通知内容
+            content: `${sender.fullName} ${notification.content}`,
+          };
+        }
+      }
+      return notification;
+    });
+
+    const pageData = createPageResponse(itemsWithSender, page, size);
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
 
   // 获取未读通知数量
-  http.get(`${API_BASE}/notifications/unread/count`, async () => {
+  http.get(`${API_BASE}/notifications/unread/count`, async ({ request }) => {
     await delay();
-    const unreadCount = mockNotifications.filter(n => !n.isRead).length;
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const unreadCount = mockNotifications.filter(n => n.userId === currentUserId && !n.isRead).length;
     return HttpResponse.json(createSuccessResponse({ unreadCount }));
   }),
 
   // 获取通知统计
-  http.get(`${API_BASE}/notifications/stats`, async () => {
+  http.get(`${API_BASE}/notifications/stats`, async ({ request }) => {
     await delay();
-    const totalNotifications = mockNotifications.length;
-    const unreadCount = mockNotifications.filter(n => !n.isRead).length;
-    const readCount = totalNotifications - unreadCount;
-
-    const typeStats = mockNotifications.reduce(
-      (acc, notification) => {
-        acc[notification.type] = (acc[notification.type] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>
-    );
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    const userNotifications = mockNotifications.filter(n => n.userId === currentUserId);
+    const totalNotifications = userNotifications.length;
+    const unreadCount = userNotifications.filter(n => !n.isRead).length;
 
     return HttpResponse.json(
       createSuccessResponse({
@@ -83,10 +123,22 @@ export const notificationHandlers = [
   }),
 
   // 标记所有通知为已读
-  http.put(`${API_BASE}/notifications/read-all`, async () => {
+  http.put(`${API_BASE}/notifications/read-all`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    // 只标记当前用户的通知为已读
     mockNotifications.forEach(n => {
-      n.isRead = true;
+      if (n.userId === currentUserId) {
+        n.isRead = true;
+      }
     });
     return HttpResponse.json(createSuccessResponse({ success: true }));
   }),
@@ -115,9 +167,23 @@ export const notificationHandlers = [
   }),
 
   // 清空所有通知
-  http.delete(`${API_BASE}/notifications/clear-all`, async () => {
+  http.delete(`${API_BASE}/notifications/clear-all`, async ({ request }) => {
     await delay();
-    mockNotifications.length = 0;
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
+    // 只删除当前用户的通知
+    for (let i = mockNotifications.length - 1; i >= 0; i--) {
+      if (mockNotifications[i].userId === currentUserId) {
+        mockNotifications.splice(i, 1);
+      }
+    }
     return HttpResponse.json(createSuccessResponse(null));
   }),
 

@@ -13,6 +13,7 @@ import {
   mockTrendData,
   mockSystemSettings,
 } from '../data/admin';
+import { mockUsers } from '../data/users';
 
 export const adminHandlers = [
   // 获取管理员统计数据
@@ -26,7 +27,32 @@ export const adminHandlers = [
     await delay();
     const url = new URL(request.url);
     const limit = Number(url.searchParams.get('limit')) || 10;
-    const activities = mockAdminActivities.slice(0, limit);
+    const activities = mockAdminActivities.slice(0, limit).map(activity => {
+      if (activity.userId) {
+        const user = mockUsers.find(u => u.id === activity.userId);
+        const username = user?.username || '未知用户';
+        const email = user?.email || '';
+        
+        // 根据活动类型动态生成完整的 title
+        let fullTitle = activity.title;
+        if (activity.type === 'user') {
+          if (activity.title === '新用户注册') {
+            fullTitle = `新用户注册: ${email}`;
+          } else if (activity.title === '更新个人资料') {
+            fullTitle = `用户 ${username} 更新个人资料`;
+          }
+        } else if (activity.type === 'content' && activity.title === '发布新知识') {
+          fullTitle = `用户 ${username} 发布新知识`;
+        }
+        
+        return {
+          ...activity,
+          title: fullTitle,
+          username,
+        };
+      }
+      return activity;
+    });
     return HttpResponse.json(createSuccessResponse(activities));
   }),
 

@@ -19,7 +19,6 @@ export interface AdminActivity {
   time: string;
   type: 'user' | 'content' | 'system' | 'blockchain';
   userId?: number;
-  username?: string;
 }
 
 export interface SystemStatus {
@@ -44,11 +43,10 @@ export const mockAdminStats: AdminStats = {
 export const mockAdminActivities: AdminActivity[] = [
   {
     id: 1,
-    title: '新用户注册: zhangsan@example.com',
+    title: '新用户注册',
     time: '2分钟前',
     type: 'user',
     userId: 2,
-    username: 'zhangsan',
   },
   {
     id: 2,
@@ -70,19 +68,17 @@ export const mockAdminActivities: AdminActivity[] = [
   },
   {
     id: 5,
-    title: '用户 lisi 发布新知识',
+    title: '发布新知识',
     time: '3小时前',
     type: 'content',
     userId: 3,
-    username: 'lisi',
   },
   {
     id: 6,
-    title: '新用户注册: wangwu@example.com',
+    title: '新用户注册',
     time: '4小时前',
     type: 'user',
     userId: 4,
-    username: 'wangwu',
   },
   {
     id: 7,
@@ -104,11 +100,10 @@ export const mockAdminActivities: AdminActivity[] = [
   },
   {
     id: 10,
-    title: '用户 zhaoliu 更新个人资料',
+    title: '更新个人资料',
     time: '8小时前',
     type: 'user',
     userId: 5,
-    username: 'zhaoliu',
   },
 ];
 

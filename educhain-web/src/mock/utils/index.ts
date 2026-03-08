@@ -6,3 +6,4 @@ export * from './response';
 export * from './delay';
 export * from './validation';
 export * from './shareCode';
+export * from './auth';

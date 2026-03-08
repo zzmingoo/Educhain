@@ -28,7 +28,7 @@ GraphQL 是一种用于 API 的查询语言，由 Facebook 开发...
 （草稿，需要添加更多示例代码）`,
   type: 'TEXT' as const,
   uploaderId: 2,
-  uploaderName: '张三',
+  uploaderName: '小铭',
   uploaderAvatar: '/avatars/zzm.jpeg',
   categoryId: 13,
   categoryName: 'API',

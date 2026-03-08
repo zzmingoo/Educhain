@@ -7,6 +7,8 @@ import { API_BASE } from '../config';
 import { delay } from '../utils/delay';
 import { createSuccessResponse, createPageResponse } from '../utils/response';
 import { mockTickets, mockTicketComments } from '../data/tickets';
+import { mockUsers } from '../data/users';
+import { getCurrentUserId } from '../utils/auth';
 
 export const ticketHandlers = [
   // 获取我的工单列表
@@ -44,7 +46,16 @@ export const ticketHandlers = [
     const ticket = mockTickets.find(t => t.id === Number(id));
 
     if (ticket) {
-      const comments = mockTicketComments.filter(c => c.ticketId === Number(id));
+      const comments = mockTicketComments
+        .filter(c => c.ticketId === Number(id))
+        .map(comment => {
+          const user = mockUsers.find(u => u.id === comment.userId);
+          return {
+            ...comment,
+            userName: user?.fullName || '未知用户',
+            userAvatar: user?.avatarUrl,
+          };
+        });
       const ticketDetail = {
         ...ticket,
         comments,
@@ -61,12 +72,20 @@ export const ticketHandlers = [
   // 创建工单
   http.post(`${API_BASE}/tickets`, async ({ request }) => {
     await delay();
+    const userId = getCurrentUserId(request);
+    if (!userId) {
+      return HttpResponse.json(
+        { success: false, message: '未登录', data: null },
+        { status: 401 }
+      );
+    }
+
     const data = (await request.json()) as Record<string, unknown>;
     const newTicket = {
       id: mockTickets.length + 1,
       ...data,
       status: 'OPEN',
-      userId: 2,
+      userId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -99,15 +118,25 @@ export const ticketHandlers = [
   // 添加评论
   http.post(`${API_BASE}/tickets/:id/comments`, async ({ params, request }) => {
     await delay();
+    const userId = getCurrentUserId(request);
+    if (!userId) {
+      return HttpResponse.json(
+        { success: false, message: '未登录', data: null },
+        { status: 401 }
+      );
+    }
+
     const { id } = params;
     const data = (await request.json()) as { content: string };
+    const user = mockUsers.find(u => u.id === userId);
     const newComment = {
       id: mockTicketComments.length + 1,
       ticketId: Number(id),
       content: data.content,
       createdAt: new Date().toISOString(),
-      userId: 2,
-      userName: '用户',
+      userId,
+      userName: user?.fullName || '未知用户',
+      userAvatar: user?.avatarUrl,
       isStaff: false,
     };
     mockTicketComments.push(newComment);
@@ -122,7 +151,16 @@ export const ticketHandlers = [
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    const comments = mockTicketComments.filter(c => c.ticketId === Number(id));
+    const comments = mockTicketComments
+      .filter(c => c.ticketId === Number(id))
+      .map(comment => {
+        const user = mockUsers.find(u => u.id === comment.userId);
+        return {
+          ...comment,
+          userName: user?.fullName || '未知用户',
+          userAvatar: user?.avatarUrl,
+        };
+      });
     const pageData = createPageResponse(comments, page, size);
     return HttpResponse.json(createSuccessResponse(pageData));
   }),

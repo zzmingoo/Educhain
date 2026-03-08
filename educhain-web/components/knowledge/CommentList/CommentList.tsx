@@ -66,7 +66,7 @@ export const CommentList: React.FC<CommentListProps> = ({
       setNewComment('');
     } catch (error) {
       console.error('Failed to add comment:', error);
-      alert(content.submitError);
+      alert(content.submitError.value);
     } finally {
       setSubmitting(false);
     }
@@ -102,7 +102,7 @@ export const CommentList: React.FC<CommentListProps> = ({
       });
     } catch (error) {
       console.error('Failed to reply:', error);
-      alert(content.replyError);
+      alert(content.replyError.value);
     }
   };
 
@@ -138,7 +138,7 @@ export const CommentList: React.FC<CommentListProps> = ({
       });
     } catch (error) {
       console.error('Failed to delete comment:', error);
-      alert(content.deleteError);
+      alert(content.deleteError.value);
     }
   };
 

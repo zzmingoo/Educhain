@@ -1,6 +1,5 @@
 /**
  * 文件上传 Mock 数据
- * 包含 30+ 条文件记录
  */
 
 export interface FileUpload {
@@ -14,7 +13,6 @@ export interface FileUpload {
   mimeType: string;
   fileHash: string;
   uploaderId: number;
-  uploaderName: string;
   knowledgeId?: number;
   downloadCount: number;
   lastAccessedAt?: string;
@@ -37,7 +35,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'image/png',
     fileHash: 'hash_abc123def456',
     uploaderId: 2,
-    uploaderName: '张三',
     knowledgeId: 1,
     downloadCount: 156,
     lastAccessedAt: '2026-02-05T09:30:00Z',
@@ -58,7 +55,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'application/pdf',
     fileHash: 'hash_def456ghi789',
     uploaderId: 5,
-    uploaderName: '赵六',
     knowledgeId: 2,
     downloadCount: 234,
     lastAccessedAt: '2026-02-05T08:45:00Z',
@@ -79,7 +75,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'application/pdf',
     fileHash: 'hash_ghi789jkl012',
     uploaderId: 3,
-    uploaderName: '李四',
     knowledgeId: 3,
     downloadCount: 189,
     lastAccessedAt: '2026-02-05T08:00:00Z',
@@ -100,7 +95,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'video/mp4',
     fileHash: 'hash_jkl012mno345',
     uploaderId: 4,
-    uploaderName: '王五',
     knowledgeId: 4,
     downloadCount: 312,
     lastAccessedAt: '2026-02-05T07:30:00Z',
@@ -121,7 +115,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'text/yaml',
     fileHash: 'hash_mno345pqr678',
     uploaderId: 10,
-    uploaderName: '陈一',
     knowledgeId: 5,
     downloadCount: 267,
     lastAccessedAt: '2026-02-05T07:00:00Z',
@@ -142,7 +135,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'application/x-ipynb+json',
     fileHash: 'hash_pqr678stu901',
     uploaderId: 15,
-    uploaderName: '高六',
     knowledgeId: 6,
     downloadCount: 198,
     lastAccessedAt: '2026-02-05T06:30:00Z',
@@ -163,7 +155,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'image/png',
     fileHash: 'hash_stu901vwx234',
     uploaderId: 9,
-    uploaderName: '郑十',
     knowledgeId: 7,
     downloadCount: 145,
     lastAccessedAt: '2026-02-05T06:00:00Z',
@@ -183,7 +174,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'text/plain',
     fileHash: 'hash_vwx234yza567',
     uploaderId: 23,
-    uploaderName: '李四二',
     knowledgeId: 8,
     downloadCount: 178,
     lastAccessedAt: '2026-02-05T05:30:00Z',
@@ -204,7 +194,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'text/plain',
     fileHash: 'hash_yza567bcd890',
     uploaderId: 4,
-    uploaderName: '王五',
     knowledgeId: 9,
     downloadCount: 156,
     lastAccessedAt: '2026-02-05T05:00:00Z',
@@ -225,7 +214,6 @@ export const mockFileUploads: FileUpload[] = [
     mimeType: 'text/yaml',
     fileHash: 'hash_bcd890efg123',
     uploaderId: 10,
-    uploaderName: '陈一',
     knowledgeId: 10,
     downloadCount: 223,
     lastAccessedAt: '2026-02-05T04:30:00Z',
@@ -236,17 +224,14 @@ export const mockFileUploads: FileUpload[] = [
   },
 ];
 
-// 获取用户上传的文件
 export const getFilesByUploader = (uploaderId: number) => {
   return mockFileUploads.filter(f => f.uploaderId === uploaderId);
 };
 
-// 获取知识条目的文件
 export const getFilesByKnowledge = (knowledgeId: number) => {
   return mockFileUploads.filter(f => f.knowledgeId === knowledgeId);
 };
 
-// 按文件类型获取
 export const getFilesByType = (fileType: string) => {
   return mockFileUploads.filter(f => f.fileType === fileType);
 };

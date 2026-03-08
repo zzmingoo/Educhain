@@ -105,8 +105,8 @@ const loginPageContent = {
       en: 'Development mode - One-click login',
     }),
     mockUserLogin: t({
-      'zh-CN': '普通用户登录 (张三)',
-      en: 'User Login (Zhang San)',
+      'zh-CN': '普通用户登录 (小铭)',
+      en: 'User Login (Xiaoming)',
     }),
     mockAdminLogin: t({
       'zh-CN': '跳转管理员登录页面',

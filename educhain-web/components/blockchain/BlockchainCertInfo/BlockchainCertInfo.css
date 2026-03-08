@@ -361,8 +361,9 @@
   }
 
   .cert-actions {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    gap: var(--spacing-sm);
   }
 
   .cert-action-btn {
@@ -370,11 +371,11 @@
     font-size: var(--text-xs);
     width: 100%;
     min-width: auto;
+    flex: 1;
   }
 
   .cert-action-btn svg {
-    width: 1rem;
-    height: 1rem;
+    display: none;
   }
 
   .cert-notice {

@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse, getCurrentUserId } from '../utils';
 import { mockInteractionStats, mockInteractions } from '../data/interactions';
 
 export const interactionHandlers = [
@@ -98,12 +97,21 @@ export const interactionHandlers = [
   // 获取用户互动记录
   http.get(`${API_BASE}/interactions/user`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
     const type = url.searchParams.get('type');
 
-    let items = mockInteractions.filter(i => i.userId === 2);
+    let items = mockInteractions.filter(i => i.userId === currentUserId);
     if (type) {
       items = items.filter(i => i.interactionType === type);
     }
@@ -115,12 +123,21 @@ export const interactionHandlers = [
   // 获取用户点赞列表
   http.get(`${API_BASE}/interactions/likes`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
     const items = mockInteractions.filter(
-      i => i.userId === 2 && i.interactionType === 'LIKE'
+      i => i.userId === currentUserId && i.interactionType === 'LIKE'
     );
 
     const pageData = createPageResponse(items, page, size);
@@ -130,12 +147,21 @@ export const interactionHandlers = [
   // 获取用户收藏列表
   http.get(`${API_BASE}/interactions/favorites`, async ({ request }) => {
     await delay();
+    const currentUserId = getCurrentUserId(request);
+    
+    if (!currentUserId) {
+      return HttpResponse.json(
+        { success: false, message: '未授权，请先登录', data: null },
+        { status: 401 }
+      );
+    }
+    
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
     const items = mockInteractions.filter(
-      i => i.userId === 2 && i.interactionType === 'FAVORITE'
+      i => i.userId === currentUserId && i.interactionType === 'FAVORITE'
     );
 
     const pageData = createPageResponse(items, page, size);

@@ -4,9 +4,9 @@
 
 import { http, HttpResponse } from 'msw';
 import { API_BASE } from '../config';
-import { delay } from '../utils/delay';
-import { createSuccessResponse, createPageResponse } from '../utils/response';
+import { delay, createSuccessResponse, createPageResponse } from '../utils';
 import { mockActivities } from '../data/activities';
+import { mockUsers } from '../data/users';
 
 export const activityHandlers = [
   // 获取用户活动列表
@@ -18,7 +18,18 @@ export const activityHandlers = [
     const size = Number(url.searchParams.get('size')) || 10;
 
     const userActivities = mockActivities.filter(a => a.userId === Number(userId));
-    const pageData = createPageResponse(userActivities, page, size);
+    
+    const activitiesWithUser = userActivities.map(activity => {
+      const user = mockUsers.find(u => u.id === activity.userId);
+      return {
+        ...activity,
+        username: user?.username,
+        userAvatar: user?.avatarUrl,
+        user,
+      };
+    });
+    
+    const pageData = createPageResponse(activitiesWithUser, page, size);
     
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
@@ -30,7 +41,17 @@ export const activityHandlers = [
     const page = Number(url.searchParams.get('page')) || 0;
     const size = Number(url.searchParams.get('size')) || 10;
 
-    const pageData = createPageResponse(mockActivities, page, size);
+    const activitiesWithUser = mockActivities.map(activity => {
+      const user = mockUsers.find(u => u.id === activity.userId);
+      return {
+        ...activity,
+        username: user?.username,
+        userAvatar: user?.avatarUrl,
+        user,
+      };
+    });
+    
+    const pageData = createPageResponse(activitiesWithUser, page, size);
     
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
@@ -49,7 +70,17 @@ export const activityHandlers = [
       activities = activities.filter(a => a.type === type);
     }
 
-    const pageData = createPageResponse(activities, page, size);
+    const activitiesWithUser = activities.map(activity => {
+      const user = mockUsers.find(u => u.id === activity.userId);
+      return {
+        ...activity,
+        username: user?.username,
+        userAvatar: user?.avatarUrl,
+        user,
+      };
+    });
+
+    const pageData = createPageResponse(activitiesWithUser, page, size);
     
     return HttpResponse.json(createSuccessResponse(pageData));
   }),
@@ -67,7 +98,15 @@ export const activityHandlers = [
       );
     }
 
-    return HttpResponse.json(createSuccessResponse(activity));
+    const user = mockUsers.find(u => u.id === activity.userId);
+    const activityWithUser = {
+      ...activity,
+      username: user?.username,
+      userAvatar: user?.avatarUrl,
+      user,
+    };
+
+    return HttpResponse.json(createSuccessResponse(activityWithUser));
   }),
 
   // 获取活动统计

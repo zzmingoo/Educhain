@@ -35,6 +35,18 @@ const commentItemContent = {
       'zh-CN': '确定要删除这条评论吗？',
       en: 'Are you sure you want to delete this comment?',
     }),
+    deleteConfirmTitle: t({
+      'zh-CN': '删除评论',
+      en: 'Delete Comment',
+    }),
+    deleteConfirmMessage: t({
+      'zh-CN': '确定要删除这条评论吗？此操作无法撤销。',
+      en: 'Are you sure you want to delete this comment? This action cannot be undone.',
+    }),
+    confirmDelete: t({
+      'zh-CN': '确认删除',
+      en: 'Confirm Delete',
+    }),
     replyPlaceholder: t({
       'zh-CN': '写下你的回复...',
       en: 'Write your reply...',

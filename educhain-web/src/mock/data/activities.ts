@@ -8,8 +8,6 @@ export const mockActivities: Activity[] = [
   {
     id: 1,
     userId: 2,
-    username: 'zhangsan',
-    userAvatar: null,
     type: 'KNOWLEDGE_CREATED',
     action: '发布了新知识',
     targetId: 1,
@@ -28,8 +26,6 @@ export const mockActivities: Activity[] = [
   {
     id: 2,
     userId: 2,
-    username: 'zhangsan',
-    userAvatar: null,
     type: 'KNOWLEDGE_LIKED',
     action: '点赞了知识',
     targetId: 5,
@@ -46,8 +42,6 @@ export const mockActivities: Activity[] = [
   {
     id: 3,
     userId: 2,
-    username: 'zhangsan',
-    userAvatar: null,
     type: 'USER_FOLLOWED',
     action: '关注了用户',
     targetId: 3,
@@ -65,8 +59,6 @@ export const mockActivities: Activity[] = [
   {
     id: 4,
     userId: 3,
-    username: 'lisi',
-    userAvatar: null,
     type: 'KNOWLEDGE_CREATED',
     action: '发布了新知识',
     targetId: 8,
@@ -85,8 +77,6 @@ export const mockActivities: Activity[] = [
   {
     id: 5,
     userId: 4,
-    username: 'wangwu',
-    userAvatar: null,
     type: 'KNOWLEDGE_COMMENTED',
     action: '评论了知识',
     targetId: 1,
@@ -103,8 +93,6 @@ export const mockActivities: Activity[] = [
   {
     id: 6,
     userId: 2,
-    username: 'zhangsan',
-    userAvatar: null,
     type: 'KNOWLEDGE_FAVORITED',
     action: '收藏了知识',
     targetId: 12,
@@ -121,8 +109,6 @@ export const mockActivities: Activity[] = [
   {
     id: 7,
     userId: 5,
-    username: 'zhaoliu',
-    userAvatar: null,
     type: 'KNOWLEDGE_CREATED',
     action: '发布了新知识',
     targetId: 15,
@@ -141,8 +127,6 @@ export const mockActivities: Activity[] = [
   {
     id: 8,
     userId: 3,
-    username: 'lisi',
-    userAvatar: null,
     type: 'KNOWLEDGE_SHARED',
     action: '分享了知识',
     targetId: 20,
@@ -160,8 +144,6 @@ export const mockActivities: Activity[] = [
   {
     id: 9,
     userId: 2,
-    username: 'zhangsan',
-    userAvatar: null,
     type: 'CERTIFICATE_OBTAINED',
     action: '获得了证书',
     targetId: 3,
@@ -179,8 +161,6 @@ export const mockActivities: Activity[] = [
   {
     id: 10,
     userId: 6,
-    username: 'sunqi',
-    userAvatar: null,
     type: 'KNOWLEDGE_CREATED',
     action: '发布了新知识',
     targetId: 25,

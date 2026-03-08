@@ -24,6 +24,14 @@ export default function NotificationsPage() {
   const [processingMarkAll, setProcessingMarkAll] = useState(false);
   const [processingClear, setProcessingClear] = useState(false);
   
+  // 各个标签的数量统计
+  const [tabCounts, setTabCounts] = useState({
+    all: 0,
+    unread: 0,
+    system: 0,
+    interaction: 0,
+  });
+  
   // 批量操作状态
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
@@ -57,6 +65,75 @@ export default function NotificationsPage() {
     yearsAgo: String(content.timeUnits.yearsAgo.value),
   }), [content.timeUnits]);
 
+  // 刷新标签数量统计
+  const refreshTabCounts = useCallback(async () => {
+    try {
+      const allResponse = await notificationService.getNotifications({});
+      const allCount = allResponse.success && allResponse.data ? allResponse.data.totalElements : 0;
+      
+      const unreadResponse = await notificationService.getNotifications({ isRead: false });
+      const unreadCount = unreadResponse.success && unreadResponse.data ? unreadResponse.data.totalElements : 0;
+      
+      const systemResponse = await notificationService.getNotifications({ type: 'SYSTEM' });
+      const systemCount = systemResponse.success && systemResponse.data ? systemResponse.data.totalElements : 0;
+      
+      const interactionResponse = await notificationService.getNotifications({ type: 'INTERACTION' });
+      const interactionCount = interactionResponse.success && interactionResponse.data ? interactionResponse.data.totalElements : 0;
+      
+      setTabCounts({
+        all: allCount,
+        unread: unreadCount,
+        system: systemCount,
+        interaction: interactionCount,
+      });
+    } catch (error) {
+      console.error('Failed to refresh tab counts:', error);
+    }
+  }, []);
+
+  // 获取所有通知数量统计
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchTabCounts = async () => {
+      try {
+        // 获取全部通知数量
+        const allResponse = await notificationService.getNotifications({});
+        const allCount = allResponse.success && allResponse.data ? allResponse.data.totalElements : 0;
+        
+        // 获取未读通知数量
+        const unreadResponse = await notificationService.getNotifications({ isRead: false });
+        const unreadCount = unreadResponse.success && unreadResponse.data ? unreadResponse.data.totalElements : 0;
+        
+        // 获取系统通知数量
+        const systemResponse = await notificationService.getNotifications({ type: 'SYSTEM' });
+        const systemCount = systemResponse.success && systemResponse.data ? systemResponse.data.totalElements : 0;
+        
+        // 获取互动通知数量
+        const interactionResponse = await notificationService.getNotifications({ type: 'INTERACTION' });
+        const interactionCount = interactionResponse.success && interactionResponse.data ? interactionResponse.data.totalElements : 0;
+        
+        if (isMounted) {
+          setTabCounts({
+            all: allCount,
+            unread: unreadCount,
+            system: systemCount,
+            interaction: interactionCount,
+          });
+        }
+      } catch (error) {
+        // 静默失败，不影响主要功能
+        console.error('Failed to fetch tab counts:', error);
+      }
+    };
+
+    fetchTabCounts();
+    
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // 获取通知列表
   useEffect(() => {
     let isMounted = true;
@@ -66,8 +143,8 @@ export default function NotificationsPage() {
       try {
         const params: { type?: string; isRead?: boolean } = {};
         if (activeTab === 'unread') params.isRead = false;
-        else if (activeTab === 'system') params.type = 'system';
-        else if (activeTab === 'interaction') params.type = 'interaction';
+        else if (activeTab === 'system') params.type = 'SYSTEM';
+        else if (activeTab === 'interaction') params.type = 'INTERACTION';
 
         const response = await notificationService.getNotifications(params);
         if (isMounted && response.success && response.data) {
@@ -97,13 +174,14 @@ export default function NotificationsPage() {
     try {
       await notificationService.markAllAsRead();
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+      await refreshTabCounts();
       handleSuccess(String(content.messages?.markAllReadSuccess?.value || content.messages?.markAllReadSuccess || '已标记全部为已读'));
     } catch (error) {
       handleError(error);
     } finally {
       setProcessingMarkAll(false);
     }
-  }, [handleSuccess, handleError, content.messages]);
+  }, [handleSuccess, handleError, content.messages, refreshTabCounts]);
 
   // 清空所有通知
   const handleClearAll = useCallback(async () => {
@@ -121,13 +199,14 @@ export default function NotificationsPage() {
     try {
       await notificationService.clearAllNotifications();
       setNotifications([]);
+      await refreshTabCounts();
       handleSuccess(String(content.messages?.clearAllSuccess?.value || content.messages?.clearAllSuccess || '已清空所有通知'));
     } catch (error) {
       handleError(error);
     } finally {
       setProcessingClear(false);
     }
-  }, [confirm, content, handleSuccess, handleError]);
+  }, [confirm, content, handleSuccess, handleError, refreshTabCounts]);
 
   // 打开设置对话框
   const handleOpenSettings = useCallback(async () => {
@@ -213,13 +292,14 @@ export default function NotificationsPage() {
       setNotifications(prev => prev.filter(n => !selectedIds.includes(n.id)));
       setSelectedIds([]);
       setIsAllSelected(false);
+      await refreshTabCounts();
       handleSuccess(String(content.messages?.batchDeleteSuccess?.value || '批量删除成功'));
     } catch (error) {
       handleError(error);
     } finally {
       setProcessingBatchDelete(false);
     }
-  }, [selectedIds, confirm, content, handleSuccess, handleError, notifications]);
+  }, [selectedIds, confirm, content, handleSuccess, handleError, refreshTabCounts]);
 
   // 格式化时间
   const formatTime = useCallback((dateStr: string) => {
@@ -228,20 +308,21 @@ export default function NotificationsPage() {
 
   // 获取通知图标
   const getNotificationIcon = useCallback((type: string) => {
-    switch (type) {
-      case 'like':
+    const upperType = type.toUpperCase();
+    switch (upperType) {
+      case 'LIKE':
         return (
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         );
-      case 'comment':
+      case 'COMMENT':
         return (
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
         );
-      case 'follow':
+      case 'FOLLOW':
         return (
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -255,11 +336,6 @@ export default function NotificationsPage() {
         );
     }
   }, []);
-
-  // 未读通知数量
-  const unreadCount = useMemo(() => {
-    return notifications.filter(n => !n.isRead).length;
-  }, [notifications]);
 
   return (
     <>
@@ -284,6 +360,11 @@ export default function NotificationsPage() {
                 onClick={() => setActiveTab('all')}
               >
                 {content.all.value}
+                {tabCounts.all > 0 && (
+                  <span className="unread-badge" aria-label={`${tabCounts.all}`}>
+                    {tabCounts.all}
+                  </span>
+                )}
               </button>
               <button 
                 role="tab"
@@ -292,9 +373,9 @@ export default function NotificationsPage() {
                 onClick={() => setActiveTab('unread')}
               >
                 {content.unread.value}
-                {unreadCount > 0 && (
-                  <span className="unread-badge" aria-label={`${unreadCount}`}>
-                    {unreadCount}
+                {tabCounts.unread > 0 && (
+                  <span className="unread-badge" aria-label={`${tabCounts.unread}`}>
+                    {tabCounts.unread}
                   </span>
                 )}
               </button>
@@ -305,6 +386,11 @@ export default function NotificationsPage() {
                 onClick={() => setActiveTab('system')}
               >
                 {content.system.value}
+                {tabCounts.system > 0 && (
+                  <span className="unread-badge" aria-label={`${tabCounts.system}`}>
+                    {tabCounts.system}
+                  </span>
+                )}
               </button>
               <button 
                 role="tab"
@@ -313,6 +399,11 @@ export default function NotificationsPage() {
                 onClick={() => setActiveTab('interaction')}
               >
                 {content.interaction.value}
+                {tabCounts.interaction > 0 && (
+                  <span className="unread-badge" aria-label={`${tabCounts.interaction}`}>
+                    {tabCounts.interaction}
+                  </span>
+                )}
               </button>
             </nav>
 
@@ -331,7 +422,7 @@ export default function NotificationsPage() {
               <button 
                 className="action-btn" 
                 onClick={handleMarkAllRead}
-                disabled={processingMarkAll || notifications.length === 0 || unreadCount === 0}
+                disabled={processingMarkAll || notifications.length === 0 || tabCounts.unread === 0}
                 aria-label={String(content.aria.markAllReadButton)}
                 aria-busy={processingMarkAll}
               >

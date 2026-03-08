@@ -6,7 +6,6 @@
 export interface AdminLog {
   id: number;
   adminId: number;
-  adminUsername: string;
   operationType:
     | 'CREATE'
     | 'UPDATE'
@@ -47,7 +46,6 @@ export interface SystemLog {
   logType: 'OPERATION' | 'ERROR' | 'SECURITY' | 'PERFORMANCE' | 'SYSTEM';
   level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
   userId?: number;
-  username?: string;
   operation: string;
   description: string;
   ipAddress?: string;
@@ -65,7 +63,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 1,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'APPROVE',
     targetType: 'KNOWLEDGE_ITEM',
     targetId: 1,
@@ -80,7 +77,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 2,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'UPDATE',
     targetType: 'USER',
     targetId: 15,
@@ -97,7 +93,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 3,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'DELETE',
     targetType: 'COMMENT',
     targetId: 99,
@@ -112,7 +107,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 4,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'CREATE',
     targetType: 'CATEGORY',
     targetId: 50,
@@ -127,7 +121,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 5,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'BACKUP',
     targetType: 'SYSTEM_CONFIG',
     operation: '系统备份',
@@ -140,7 +133,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 6,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'DISABLE',
     targetType: 'USER',
     targetId: 50,
@@ -155,7 +147,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 7,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'EXPORT',
     targetType: 'LOG',
     operation: '导出日志',
@@ -168,7 +159,6 @@ export const mockAdminLogs: AdminLog[] = [
   {
     id: 8,
     adminId: 1,
-    adminUsername: 'admin',
     operationType: 'UPDATE',
     targetType: 'SYSTEM_CONFIG',
     operation: '更新系统配置',
@@ -189,7 +179,6 @@ export const mockSystemLogs: SystemLog[] = [
     logType: 'OPERATION',
     level: 'INFO',
     userId: 2,
-    username: 'zhangsan',
     operation: '用户登录',
     description: '用户成功登录系统',
     ipAddress: '192.168.1.101',
@@ -205,7 +194,6 @@ export const mockSystemLogs: SystemLog[] = [
     logType: 'OPERATION',
     level: 'INFO',
     userId: 3,
-    username: 'lisi',
     operation: '创建知识内容',
     description: '用户创建了新的知识内容',
     ipAddress: '192.168.1.102',
@@ -221,7 +209,6 @@ export const mockSystemLogs: SystemLog[] = [
     logType: 'ERROR',
     level: 'ERROR',
     userId: 4,
-    username: 'wangwu',
     operation: '文件上传',
     description: '文件上传失败：文件大小超过限制',
     ipAddress: '192.168.1.103',
@@ -238,7 +225,6 @@ export const mockSystemLogs: SystemLog[] = [
     logType: 'SECURITY',
     level: 'WARN',
     userId: 10,
-    username: 'chenyi',
     operation: '密码错误',
     description: '用户登录失败：密码错误（第 3 次尝试）',
     ipAddress: '192.168.1.104',
@@ -274,7 +260,6 @@ export const mockSystemLogs: SystemLog[] = [
     logType: 'OPERATION',
     level: 'INFO',
     userId: 15,
-    username: 'gaoliu',
     operation: '搜索',
     description: '用户执行了搜索操作',
     ipAddress: '192.168.1.105',
