@@ -237,14 +237,15 @@
 /* ==================== 快速链接 ==================== */
 .quick-links {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-2xl);
   margin-top: var(--spacing-2xl);
 }
 
 @media (max-width: 1024px) {
   .quick-links {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
   }
 }
 
@@ -642,7 +643,8 @@
   }
 
   .quick-links {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
   }
 
   .subscribe-form {

@@ -117,6 +117,7 @@
   color: rgb(var(--color-text-secondary));
   line-height: 1.75;
   margin-bottom: var(--spacing-md);
+  text-align: center;
 }
 
 .company-card ul {
@@ -212,9 +213,21 @@
   margin-top: var(--spacing-2xl);
 }
 
+/* 单个成员时居中显示 */
+.team-grid:has(.team-member:only-child) {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (max-width: 1024px) {
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .team-grid:has(.team-member:only-child) {
+    grid-template-columns: 1fr;
   }
 }
 

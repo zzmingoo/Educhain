@@ -38,8 +38,8 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { icon: 'github', label: 'GitHub', url: 'https://github.com/ozemyn/EduChain' },
-    { icon: 'twitter', label: 'Twitter', url: 'https://twitter.com' },
+    { icon: 'github', label: 'GitHub', url: 'https://github.com/zzmingoo/educhain' },
+    { icon: 'twitter', label: 'Twitter', url: 'https://twitter.com/zzmingoo' },
     { icon: 'qq', label: 'QQ: 2622085435', url: 'tencent://message/?uin=2622085435&Site=&Menu=yes', copyText: '2622085435' },
     { icon: 'mail', label: '邮箱', url: 'mailto:ozemyn@icloud.com' },
   ];

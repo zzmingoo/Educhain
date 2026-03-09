@@ -1,6 +1,6 @@
 {
   "name": "educhain-web",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "EduChain - Blockchain-based Educational Knowledge Sharing Platform",
   "private": true,
   "scripts": {

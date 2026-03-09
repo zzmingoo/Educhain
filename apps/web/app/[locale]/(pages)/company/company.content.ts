@@ -68,24 +68,9 @@ const companyContent = {
         }),
         members: [
           {
-            name: t({ 'zh-CN': '张明', en: 'Ming Zhang' }),
-            role: t({ 'zh-CN': '创始人 & CEO', en: 'Founder & CEO' }),
-            bio: t({ 'zh-CN': '前阿里巴巴技术专家，10年教育科技经验', en: 'Former Alibaba tech expert, 10 years in EdTech' }),
-          },
-          {
-            name: t({ 'zh-CN': '李华', en: 'Hua Li' }),
-            role: t({ 'zh-CN': '技术总监', en: 'CTO' }),
-            bio: t({ 'zh-CN': '区块链技术专家，曾主导多个大型项目', en: 'Blockchain expert, led multiple large-scale projects' }),
-          },
-          {
-            name: t({ 'zh-CN': '王芳', en: 'Fang Wang' }),
-            role: t({ 'zh-CN': '产品总监', en: 'CPO' }),
-            bio: t({ 'zh-CN': '资深产品经理，专注用户体验设计', en: 'Senior PM, focused on UX design' }),
-          },
-          {
-            name: t({ 'zh-CN': '陈强', en: 'Qiang Chen' }),
-            role: t({ 'zh-CN': '运营总监', en: 'COO' }),
-            bio: t({ 'zh-CN': '互联网运营专家，擅长社区建设', en: 'Internet operations expert, skilled in community building' }),
+            name: t({ 'zh-CN': '小铭', en: 'Xiaoming' }),
+            role: t({ 'zh-CN': '创始人 & 开发者', en: 'Founder & Developer' }),
+            bio: t({ 'zh-CN': '大四学生，本项目作为毕业设计独立完成开发', en: 'Senior student, independently developed this project as graduation design' }),
           },
         ],
       },

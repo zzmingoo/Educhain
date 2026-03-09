@@ -9,6 +9,11 @@ export default function AboutPage() {
   const content = useIntlayer('company');
   const about = content.about;
 
+  // 团队成员头像映射
+  const memberAvatars: Record<number, string> = {
+    0: '/avatars/zzm.jpeg', // 小铭
+  };
+
   // SVG图标配置 - 核心价值观
   const valueIcons = [
     // 创新驱动
@@ -81,18 +86,32 @@ export default function AboutPage() {
             <section className="company-card glass-light motion-slide-in-up motion-delay-400">
               <h2>{about.team.title.value}</h2>
               <div className="team-grid">
-                {about.team.members.map((member, index) => (
-                  <div key={index} className="team-member glass-light motion-hover-lift" style={{ animationDelay: `${450 + index * 50}ms` }}>
-                    <div className="team-avatar">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} style={{ width: '48px', height: '48px' }}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                      </svg>
+                {about.team.members.map((member, index) => {
+                  const avatarUrl = memberAvatars[index];
+                  return (
+                    <div key={index} className="team-member glass-light motion-hover-lift" style={{ animationDelay: `${450 + index * 50}ms` }}>
+                      <div className="team-avatar">
+                        {avatarUrl ? (
+                          <img 
+                            src={avatarUrl} 
+                            alt={member.name.value} 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-full)' }}
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} style={{ width: '48px', height: '48px' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                          </svg>
+                        )}
+                      </div>
+                      <h4>{member.name.value}</h4>
+                      <p className="team-role">{member.role.value}</p>
+                      <p>{member.bio.value}</p>
                     </div>
-                    <h4>{member.name.value}</h4>
-                    <p className="team-role">{member.role.value}</p>
-                    <p>{member.bio.value}</p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
           </main>

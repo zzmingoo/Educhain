@@ -1,6 +1,9 @@
 'use client';
 
 import { useIntlayer } from 'next-intlayer';
+import { useLocale } from 'next-intlayer';
+import Link from 'next/link';
+import { getLocalizedUrl } from '../../../../../src/lib/i18n-utils';
 import Navbar from '../../../../../components/layout/Navbar';
 import Footer from '../../../../../components/layout/Footer';
 import '../resources.css';
@@ -8,6 +11,7 @@ import '../resources.css';
 export default function DocsPage() {
   const content = useIntlayer('resources');
   const docs = content.docs;
+  const { locale } = useLocale();
 
   // SVG 图标
   const quickStartIcon = (
@@ -64,7 +68,7 @@ export default function DocsPage() {
                   <p>{docs.quickStart.description.value}</p>
                 </div>
               </a>
-              <a href="/api-docs" className="quick-link glass-light motion-hover-lift">
+              <Link href={getLocalizedUrl('/resources/api-docs', locale)} className="quick-link glass-light motion-hover-lift">
                 <div className="quick-link-icon" style={{ background: iconColors[1] }}>
                   {apiIcon}
                 </div>
@@ -72,7 +76,7 @@ export default function DocsPage() {
                   <h4>{docs.apiReference.title.value}</h4>
                   <p>{docs.apiReference.description.value}</p>
                 </div>
-              </a>
+              </Link>
               <a href="#sdk" className="quick-link glass-light motion-hover-lift">
                 <div className="quick-link-icon" style={{ background: iconColors[2] }}>
                   {sdkIcon}
@@ -118,7 +122,7 @@ export default function DocsPage() {
                   <h2>{docs.nextSteps.title.value}</h2>
                   <p>{docs.nextSteps.description.value}</p>
                   <div className="quick-links" style={{ marginTop: 'var(--spacing-xl)' }}>
-                    <a href="/api-docs" className="quick-link glass-light motion-hover-lift">
+                    <Link href={getLocalizedUrl('/resources/api-docs', locale)} className="quick-link glass-light motion-hover-lift">
                       <div className="quick-link-icon" style={{ background: iconColors[1] }}>
                         {apiIcon}
                       </div>
@@ -126,8 +130,8 @@ export default function DocsPage() {
                         <h4>{docs.apiDocs.title.value}</h4>
                         <p>{docs.apiDocs.description.value}</p>
                       </div>
-                    </a>
-                    <a href="/changelog" className="quick-link glass-light motion-hover-lift">
+                    </Link>
+                    <Link href={getLocalizedUrl('/resources/changelog', locale)} className="quick-link glass-light motion-hover-lift">
                       <div className="quick-link-icon" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
                         {changelogIcon}
                       </div>
@@ -135,7 +139,7 @@ export default function DocsPage() {
                         <h4>{docs.changelogLink.title.value}</h4>
                         <p>{docs.changelogLink.description.value}</p>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </section>
               </div>
