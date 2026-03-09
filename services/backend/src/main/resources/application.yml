@@ -1,0 +1,236 @@
+spring:
+  application:
+    name: EduChain
+  main:
+    allow-bean-definition-overriding: true
+  
+  # Database Configuration
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/educhain_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:your_password_here}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-init-sql: SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO'
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: false
+  
+  # Redis Configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+  
+  # Jackson Configuration - 使用Spring Boot默认配置
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  
+  # File Upload Configuration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+  
+  # Security Configuration - 已通过 SecurityConfig 自定义配置
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:educhain-jwt-secret-key-please-change-this-in-production}
+  expiration: 86400000 # 24 hours in milliseconds
+  refresh-expiration: 604800000 # 7 days in milliseconds
+
+# Rate Limiting Configuration
+rate-limit:
+  enabled: false
+  default-algorithm: sliding_window
+  default-limit: 100
+  default-window: 60
+  # 不同接口的默认限流配置
+  endpoints:
+    auth:
+      limit: 10
+      window: 60
+      type: IP
+      algorithm: sliding_window
+    upload:
+      limit: 20
+      window: 60
+      type: IP
+      algorithm: token_bucket
+    search:
+      limit: 50
+      window: 60
+      type: IP
+      algorithm: sliding_window
+    api:
+      limit: 200
+      window: 60
+      type: IP
+      algorithm: sliding_window
+
+# File Storage Configuration
+app:
+  file:
+    upload:
+      path: uploads
+      max-size: 10485760 # 10MB
+      allowed-types: image/jpeg,image/png,image/gif,video/mp4,application/pdf,text/plain
+    base-url: http://localhost:8080
+
+# Logging Configuration
+logging:
+  level:
+    root: WARN
+    com.example.educhain: INFO
+    org.springframework.security: WARN
+    org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer: ERROR
+    org.hibernate.SQL: WARN
+    org.hibernate.type: WARN
+    org.hibernate.orm.deprecation: ERROR
+    org.springframework.web: WARN
+    org.springframework.boot: WARN
+    io.netty.resolver.dns: ERROR
+  pattern:
+    console: "%clr(%d{HH:mm:ss}){faint} %clr(%-5level) %clr(%logger{36}){cyan} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{40} - %msg%n"
+  file:
+    name: logs/educhain.log
+  # 启用彩色输出
+  ansi:
+    enabled: always
+
+# Blockchain Service Configuration
+blockchain:
+  service:
+    url: ${BLOCKCHAIN_SERVICE_URL:http://localhost:8000}
+    timeout: ${BLOCKCHAIN_SERVICE_TIMEOUT:5000}
+    retry:
+      enabled: ${BLOCKCHAIN_RETRY_ENABLED:true}
+      max-attempts: ${BLOCKCHAIN_RETRY_MAX_ATTEMPTS:3}
+      backoff: ${BLOCKCHAIN_RETRY_BACKOFF:1000}
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+    disable-swagger-default-url: true
+  default-produces-media-type: application/json
+  show-actuator: false
+
+# Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/educhain_db_dev?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+# 开发环境日志配置
+logging:
+  level:
+    com.example.educhain: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%clr(%d{HH:mm:ss}){blue} %clr(%-5level){highlight} %clr(%logger{36}){cyan} - %clr(%msg){green}%n"
+  ansi:
+    enabled: always
+
+---
+# Test Profile
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    # 生产环境数据库配置（请使用环境变量）
+    url: ${DB_URL:jdbc:mysql://your-db-host:3306/educhain_db?useSSL=true&serverTimezone=Asia/Shanghai}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  # 生产环境禁用Swagger
+  springdoc:
+    api-docs:
+      enabled: false
+    swagger-ui:
+      enabled: false
+
+# 生产环境日志配置
+logging:
+  level:
+    root: ERROR
+    com.example.educhain: WARN
+    org.springframework.security: ERROR
+    org.hibernate.SQL: ERROR
+  pattern:
+    console: "%d{HH:mm:ss} %-5level %logger{40} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{40} - %msg%n"
+  ansi:
+    enabled: never

@@ -6,12 +6,12 @@
   <img src="https://img.shields.io/badge/Python-3.9+-yellow?style=flat-square" alt="Python">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
   <br/>
-  <img src="https://img.shields.io/github/stars/ozemyn/EduChain?style=social" alt="GitHub stars">
-  <img src="https://img.shields.io/github/forks/ozemyn/EduChain?style=social" alt="GitHub forks">
-  <img src="https://img.shields.io/github/issues/ozemyn/EduChain?style=flat-square" alt="GitHub issues">
-  <img src="https://img.shields.io/github/last-commit/ozemyn/EduChain?style=flat-square" alt="Last commit">
-  <img src="https://img.shields.io/github/languages/top/ozemyn/EduChain?style=flat-square" alt="Top Language">
-  <img src="https://img.shields.io/github/repo-size/ozemyn/EduChain?style=flat-square" alt="Repo Size">
+  <img src="https://img.shields.io/github/stars/zzmingoo/educhain?style=social" alt="GitHub stars">
+  <img src="https://img.shields.io/github/forks/zzmingoo/educhain?style=social" alt="GitHub forks">
+  <img src="https://img.shields.io/github/issues/zzmingoo/educhain?style=flat-square" alt="GitHub issues">
+  <img src="https://img.shields.io/github/last-commit/zzmingoo/educhain?style=flat-square" alt="Last commit">
+  <img src="https://img.shields.io/github/languages/top/zzmingoo/educhain?style=flat-square" alt="Top Language">
+  <img src="https://img.shields.io/github/repo-size/zzmingoo/educhain?style=flat-square" alt="Repo Size">
 </p>
 
 <h1 align="center">🎓 EduChain</h1>
@@ -31,7 +31,51 @@
 
 > 🎯 **使命**: 利用区块链技术革新教育知识分享，保护原创内容，激励优质贡献
 > 
-> 🔗 **官网**: [educhain.cc](https://educhain.cc) | **GitHub**: [EduChain Repository](https://github.com/ozemyn/EduChain)
+> 🔗 **GitHub**: [EduChain Repository](https://github.com/zzmingoo/educhain)
+
+---
+
+## 📸 系统预览
+
+<p align="center">
+  <img src="./docs/images/screenshots/home-page.png" alt="EduChain 系统首页" width="100%"/>
+  <br/>
+  <em>EduChain 系统首页 - 现代化的知识分享平台</em>
+</p>
+
+<details>
+<summary><b>🖼️ 查看更多截图</b></summary>
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="./docs/images/screenshots/knowledge-list.png" alt="知识列表" width="100%"/>
+      <p align="center"><em>知识列表 - 浏览和筛选</em></p>
+    </td>
+    <td width="50%">
+      <img src="./docs/images/screenshots/knowledge-detail.png" alt="知识详情" width="100%"/>
+      <p align="center"><em>知识详情 - 内容展示</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="./docs/images/screenshots/blockchain-verify.png" alt="区块链验证" width="100%"/>
+      <p align="center"><em>区块链验证 - 内容存证</em></p>
+    </td>
+    <td width="50%">
+      <img src="./docs/images/screenshots/certificate-view.png" alt="存证证书" width="100%"/>
+      <p align="center"><em>存证证书 - PDF证书</em></p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <a href="./docs/项目介绍.md#8-系统截图汇总">📷 查看完整截图汇总 →</a>
+</p>
+
+</details>
+
+---
 
 ## ✨ 核心特性
 
@@ -59,9 +103,10 @@
 
 | 模块 | 文档 |
 |------|------|
-| 后端服务 | [后端文档](./src/main/java/com/example/educhain/docs/README.md) |
-| 前端应用 | [前端文档](./frontend/docs/README.md) |
-| 区块链服务 | [区块链文档](./blockchain-service/docs/README.md) |
+| 后端服务 | [后端文档](./services/backend/src/main/java/com/example/educhain/docs/README.md) |
+| 前端应用 (主要) | [前端文档](./apps/web/docs/README.md) |
+| 前端应用 (旧版) | [前端文档 Legacy](./apps/web-legacy/docs/README.md) |
+| 区块链服务 | [区块链文档](./services/blockchain/docs/README.md) |
 | 数据库设计 | [数据库文档](./db/数据库设计文档.md) |
 
 ## 🏗️ 技术架构
@@ -94,7 +139,15 @@
 - **认证**: JWT (jjwt 0.11.5)
 - **文档**: SpringDoc OpenAPI 2.5.0
 
-### 前端
+### 前端 (主要版本)
+- **框架**: Next.js 16, React 19
+- **语言**: TypeScript 5.9
+- **样式**: Tailwind CSS 4
+- **国际化**: Intlayer
+- **Mock**: MSW (Mock Service Worker)
+- **部署**: Cloudflare Pages (静态导出)
+
+### 前端 (旧版本)
 - **框架**: React 19, React Router 7
 - **语言**: TypeScript
 - **UI库**: Ant Design 6.0
@@ -119,8 +172,8 @@
 ### 克隆项目
 
 ```bash
-git clone https://github.com/ozemyn/EduChain.git
-cd EduChain
+git clone https://github.com/zzmingoo/educhain.git
+cd educhain
 ```
 
 ### 启动后端
@@ -129,6 +182,9 @@ cd EduChain
 # 配置数据库
 mysql -u root -p < db/database_schema.sql
 
+# 进入后端目录
+cd services/backend
+
 # 启动服务
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
@@ -136,16 +192,29 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ### 启动前端
 
 ```bash
-cd frontend
+# 进入前端目录
+cd apps/web
+
+# 安装依赖
 npm install
+
+# Mock 模式开发（推荐）
+npm run dev:mock
+
+# 或连接真实后端
 npm run dev
 ```
 
 ### 启动区块链服务
 
 ```bash
-cd blockchain-service
+# 进入区块链服务目录
+cd services/blockchain
+
+# 安装依赖
 pip install -r requirements.txt
+
+# 启动服务
 python main.py
 ```
 
@@ -153,7 +222,8 @@ python main.py
 
 | 服务 | 地址 |
 |------|------|
-| 前端应用 | http://localhost:5173 |
+| 前端应用 (主要) | http://localhost:3000 |
+| 前端应用 (旧版) | http://localhost:5173 |
 | 后端API | http://localhost:8080/api |
 | API文档 | http://localhost:8080/api/swagger-ui.html |
 | 区块链服务 | http://localhost:8000 |
@@ -161,33 +231,47 @@ python main.py
 ## 📁 项目结构
 
 ```
-EduChain/
-├── src/                          # 后端源码 (Spring Boot)
-│   └── main/java/com/example/educhain/
-│       ├── controller/           # 控制器 (21个)
-│       ├── service/              # 服务层 (22个)
-│       ├── entity/               # 实体类 (21个)
-│       ├── repository/           # 数据访问层
-│       ├── config/               # 配置类
-│       ├── dto/                  # 数据传输对象
-│       └── docs/                 # 后端文档
-├── frontend/                     # 前端源码 (React)
-│   ├── src/
-│   │   ├── components/           # 组件 (50+)
-│   │   ├── pages/                # 页面 (25+)
-│   │   ├── services/             # API服务
-│   │   └── mock/                 # Mock数据
-│   └── docs/                     # 前端文档
-├── blockchain-service/           # 区块链服务 (Python)
-│   ├── app/
-│   │   ├── blockchain.py         # 区块链核心
-│   │   ├── api.py                # API接口
-│   │   └── certificate.py        # 证书生成
-│   └── docs/                     # 区块链文档
+educhain/
+├── apps/                         # 应用目录
+│   ├── web/                      # 前端应用 (Next.js 16 + React 19 + Intlayer) ⭐ 主要版本
+│   │   ├── src/                  # 源代码
+│   │   │   ├── app/              # Next.js App Router
+│   │   │   ├── components/       # React 组件
+│   │   │   ├── services/         # API 服务层
+│   │   │   └── mocks/            # MSW Mock 数据
+│   │   ├── docs/                 # 前端文档 (8篇)
+│   │   └── package.json
+│   └── web-legacy/               # 前端应用 (React 19 + Vite) - 旧版本，仅供参考
+│       ├── src/                  # 源代码
+│       ├── docs/                 # 前端文档 (7篇)
+│       └── package.json
+├── services/                     # 服务目录
+│   ├── backend/                  # 后端服务 (Spring Boot 3.2 + Java 21)
+│   │   ├── src/main/java/com/example/educhain/
+│   │   │   ├── controller/       # 控制器 (21个)
+│   │   │   ├── service/          # 服务层 (22个)
+│   │   │   ├── entity/           # 实体类 (21个)
+│   │   │   ├── repository/       # 数据访问层
+│   │   │   ├── config/           # 配置类
+│   │   │   └── dto/              # 数据传输对象
+│   │   ├── docs/                 # 后端文档 (11篇)
+│   │   └── pom.xml               # Maven 配置
+│   └── blockchain/               # 区块链服务 (Python 3.9+ + FastAPI)
+│       ├── app/
+│       │   ├── blockchain.py     # 区块链核心
+│       │   ├── api.py            # API接口
+│       │   └── certificate.py    # 证书生成
+│       ├── docs/                 # 区块链文档 (11篇)
+│       └── requirements.txt
 ├── db/                           # 数据库脚本
 │   ├── database_schema.sql       # 建表脚本
 │   └── 数据库设计文档.md
 └── docs/                         # 项目文档
+    ├── 项目介绍.md
+    ├── 系统架构.md
+    ├── 快速开始.md
+    ├── 部署指南.md
+    └── API文档.md
 ```
 
 ## 📊 功能模块
@@ -215,7 +299,7 @@ EduChain/
 
 ## 👨‍💻 作者
 
-- **ozemyn** - [GitHub](https://github.com/ozemyn)
+- **小铭** - [GitHub](https://github.com/zzmingoo) - zzmingoo@gmail.com
 
 ## 🙏 致谢
 

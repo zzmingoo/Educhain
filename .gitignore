@@ -42,3 +42,29 @@ logs/
 ### Uploads ###
 uploads/
 dump.rdb
+
+### Environment Variables ###
+.env
+.env.local
+.env.*.local
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+
+### Frontend (Node.js) ###
+node_modules/
+.next/
+out/
+dist/
+.cache/
+.intlayer/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+### macOS ###
+.DS_Store

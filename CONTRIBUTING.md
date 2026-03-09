@@ -24,7 +24,7 @@
 
 ### 报告 Bug
 
-1. 在 [Issues](https://github.com/ozemyn/EduChain/issues) 中搜索是否已有相同问题
+1. 在 [Issues](https://github.com/zzmingoo/educhain/issues) 中搜索是否已有相同问题
 2. 如果没有，创建新的 Issue
 3. 使用 Bug 报告模板
 4. 提供详细的复现步骤
@@ -48,11 +48,11 @@
 
 ```bash
 # Fork 仓库后克隆到本地
-git clone https://github.com/YOUR_USERNAME/EduChain.git
-cd EduChain
+git clone https://github.com/YOUR_USERNAME/educhain.git
+cd educhain
 
 # 添加上游仓库
-git remote add upstream https://github.com/ozemyn/EduChain.git
+git remote add upstream https://github.com/zzmingoo/educhain.git
 ```
 
 ### 2. 创建分支
@@ -251,7 +251,7 @@ npm run dev
 ### 区块链服务
 
 ```bash
-cd blockchain-service
+cd services/blockchain
 
 # 安装依赖
 pip install -r requirements.txt
@@ -267,7 +267,7 @@ python main.py
 
 如有任何问题，请通过以下方式联系：
 
-- 创建 [Issue](https://github.com/ozemyn/EduChain/issues)
-- 发送邮件至项目维护者
+- 创建 [Issue](https://github.com/zzmingoo/educhain/issues)
+- 发送邮件至项目维护者：zzmingoo@gmail.com
 
 感谢你的贡献！🎉
