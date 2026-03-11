@@ -18,12 +18,6 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
         data-scroll-behavior="smooth"
       >
         <head>
-          {/* Favicon and Icons */}
-          <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
-          <link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512" />
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-          
           {/* PWA Manifest */}
           <link rel="manifest" href="/manifest.json" />
           
