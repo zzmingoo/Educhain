@@ -131,6 +131,10 @@ blockchain:
       enabled: ${BLOCKCHAIN_RETRY_ENABLED:true}
       max-attempts: ${BLOCKCHAIN_RETRY_MAX_ATTEMPTS:3}
       backoff: ${BLOCKCHAIN_RETRY_BACKOFF:1000}
+    # 认证配置
+    auth:
+      enabled: ${BLOCKCHAIN_AUTH_ENABLED:false}
+      jwt-secret: ${JWT_SECRET:educhain-jwt-secret-key-please-change-this-in-production}
 
 # Swagger/OpenAPI Configuration
 springdoc:

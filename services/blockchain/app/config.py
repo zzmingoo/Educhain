@@ -1,5 +1,6 @@
 """配置文件"""
 import os
+import logging
 
 
 class Config:
@@ -27,4 +28,32 @@ class Config:
     
     # 基础URL配置
     BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+    
+    # JWT认证配置（与后端共享）
+    JWT_SECRET = os.getenv("JWT_SECRET")
+    JWT_ALGORITHM = "HS512"  # 与后端保持一致
+    
+    # 认证配置
+    AUTH_ENABLED = os.getenv("AUTH_ENABLED", "false").lower() == "true"
+    
+    # Redis配置（与后端共享，用于黑名单等）
+    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+    REDIS_DB = int(os.getenv("REDIS_DB", 0))
+    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
+    
+    @classmethod
+    def validate_config(cls):
+        """验证配置"""
+        if cls.AUTH_ENABLED and not cls.JWT_SECRET:
+            raise ValueError("JWT_SECRET is required when AUTH_ENABLED=true")
+        
+        if cls.JWT_SECRET and len(cls.JWT_SECRET) < 32:
+            raise ValueError("JWT_SECRET must be at least 32 characters long")
+        
+        # 配置日志
+        logging.basicConfig(
+            level=getattr(logging, cls.LOG_LEVEL.upper()),
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
 

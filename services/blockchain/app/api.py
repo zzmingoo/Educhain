@@ -1,5 +1,5 @@
 """FastAPI REST API 接口"""
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any, List
 from datetime import datetime
 import os
 import io
+import logging
 
 from .blockchain import Blockchain
 from .transaction import Transaction
@@ -15,6 +16,14 @@ from .certificate import CertificateGenerator, CertificateData
 from .certificate_pdf import pdf_generator
 from .qr_code import qr_generator
 from .config import Config
+from .auth import jwt_auth
+from .middleware import LoggingMiddleware, SecurityHeadersMiddleware, setup_cors_middleware
+
+# 验证配置
+Config.validate_config()
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 # 使用配置中的 BASE_URL 初始化证书生成器
 certificate_generator = CertificateGenerator(base_url=Config.BASE_URL)
@@ -23,17 +32,15 @@ certificate_generator = CertificateGenerator(base_url=Config.BASE_URL)
 app = FastAPI(
     title="EduChain Blockchain Service",
     description="基于区块链存证的教育知识共享与智能检索系统区块链服务",
-    version="1.0.0"
+    version="2.0.0"
 )
 
-# CORS配置
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=Config.CORS_ORIGINS,  # 从配置读取
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# 添加中间件
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(LoggingMiddleware)
+
+# 设置CORS
+setup_cors_middleware(app, Config.CORS_ORIGINS)
 
 # 初始化区块链和数据库
 blockchain = Blockchain()
@@ -136,17 +143,70 @@ async def health_check():
     return {
         "status": "healthy",
         "chain_length": len(blockchain.chain),
-        "is_valid": blockchain.is_chain_valid()
+        "is_valid": blockchain.is_chain_valid(),
+        "auth_enabled": Config.AUTH_ENABLED,
+        "version": "2.0.0"
+    }
+
+
+@app.get("/api/auth/status")
+async def auth_status():
+    """认证状态检查"""
+    return {
+        "auth_enabled": Config.AUTH_ENABLED,
+        "jwt_configured": jwt_auth.is_enabled(),
+        "version": "2.0.0"
+    }
+
+
+@app.get("/api/auth/verify")
+async def verify_auth(current_user: Dict[str, Any] = Depends(jwt_auth.require_auth)):
+    """验证当前用户认证状态"""
+    return {
+        "authenticated": True,
+        "user": {
+            "user_id": current_user.get("user_id"),
+            "username": current_user.get("username"),
+            "role": current_user.get("role")
+        }
     }
 
 
 @app.post("/api/blockchain/certify", response_model=TransactionResponse)
-async def certify(request: CertifyRequest, background_tasks: BackgroundTasks):
+async def certify(
+    request: CertifyRequest, 
+    background_tasks: BackgroundTasks,
+    http_request: Request,
+    current_user: Optional[Dict[str, Any]] = Depends(jwt_auth.get_current_user)
+):
     """存证接口
     
     将知识内容、用户成就等信息存证到区块链
+    支持可选的JWT认证，认证启用时验证用户权限
     """
     try:
+        # 如果启用了认证，验证用户权限
+        if Config.AUTH_ENABLED:
+            if not current_user:
+                raise HTTPException(
+                    status_code=401, 
+                    detail="Authentication required"
+                )
+            
+            # 验证用户是否有权限为指定用户存证
+            if not jwt_auth.verify_user_permission(current_user, request.user_id):
+                raise HTTPException(
+                    status_code=403, 
+                    detail="Insufficient permissions to certify for this user"
+                )
+            
+            logger.info(
+                f"Authenticated user {current_user['username']} (ID: {current_user['user_id']}) "
+                f"requesting certification for user {request.user_id}"
+            )
+        else:
+            logger.info(f"Unauthenticated certification request for user {request.user_id}")
+        
         # 创建交易
         transaction = Transaction(
             type=request.type,
@@ -170,6 +230,14 @@ async def certify(request: CertifyRequest, background_tasks: BackgroundTasks):
             # 后台保存到数据库
             background_tasks.add_task(save_block_to_db, block)
             
+            # 记录成功日志
+            client_ip = http_request.client.host if http_request.client else "unknown"
+            logger.info(
+                f"Knowledge certified successfully: knowledge_id={request.knowledge_id}, "
+                f"user_id={request.user_id}, block_index={block.index}, "
+                f"client_ip={client_ip}"
+            )
+            
             return TransactionResponse(
                 transaction_id=len(block.transactions),
                 block_index=block.index,
@@ -184,7 +252,10 @@ async def certify(request: CertifyRequest, background_tasks: BackgroundTasks):
                 timestamp=transaction.timestamp
             )
     
+    except HTTPException:
+        raise
     except Exception as e:
+        logger.error(f"Error in certify endpoint: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -323,12 +394,37 @@ async def get_stats():
 
 # 证书相关API
 @app.post("/api/blockchain/certificates", response_model=CertificateResponse)
-async def create_certificate(request: CertificateRequest):
+async def create_certificate(
+    request: CertificateRequest,
+    http_request: Request,
+    current_user: Optional[Dict[str, Any]] = Depends(jwt_auth.get_current_user)
+):
     """生成存证证书
     
     为已存证的知识内容生成PDF证书
+    支持可选的JWT认证，认证启用时验证用户权限
     """
     try:
+        # 如果启用了认证，验证用户权限
+        if Config.AUTH_ENABLED:
+            if not current_user:
+                raise HTTPException(
+                    status_code=401, 
+                    detail="Authentication required"
+                )
+            
+            # 验证用户是否有权限为指定用户生成证书
+            if not jwt_auth.verify_user_permission(current_user, request.user_id):
+                raise HTTPException(
+                    status_code=403, 
+                    detail="Insufficient permissions to generate certificate for this user"
+                )
+            
+            logger.info(
+                f"Authenticated user {current_user['username']} (ID: {current_user['user_id']}) "
+                f"requesting certificate for knowledge {request.knowledge_id}"
+            )
+        
         # 查找知识内容的交易
         transaction = blockchain.get_transaction_by_knowledge_id(request.knowledge_id)
         if not transaction:
@@ -377,6 +473,14 @@ async def create_certificate(request: CertificateRequest):
         pdf_url = f"{Config.BASE_URL}/api/blockchain/certificates/{certificate.certificate_id}/download"
         qr_code_url = f"{Config.BASE_URL}/qrcodes/cert_{certificate.certificate_id}.png"
         
+        # 记录成功日志
+        client_ip = http_request.client.host if http_request.client else "unknown"
+        logger.info(
+            f"Certificate generated successfully: certificate_id={certificate.certificate_id}, "
+            f"knowledge_id={request.knowledge_id}, user_id={request.user_id}, "
+            f"client_ip={client_ip}"
+        )
+        
         return CertificateResponse(
             certificate_id=certificate.certificate_id,
             knowledge_id=certificate.knowledge_id,
@@ -390,6 +494,7 @@ async def create_certificate(request: CertificateRequest):
     except HTTPException:
         raise
     except Exception as e:
+        logger.error(f"Error in create_certificate endpoint: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 

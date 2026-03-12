@@ -2,16 +2,20 @@ package com.example.educhain.service.impl;
 
 import com.example.educhain.dto.BlockchainVerifyResponse;
 import com.example.educhain.service.BlockchainService;
+import com.example.educhain.util.JwtUtil;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -28,10 +32,69 @@ public class BlockchainServiceImpl implements BlockchainService {
   @Value("${blockchain.service.timeout:5000}")
   private int timeout;
 
+  @Value("${blockchain.service.auth.enabled:false}")
+  private boolean authEnabled;
+
+  @Autowired private JwtUtil jwtUtil;
+
   private final RestTemplate restTemplate;
 
   public BlockchainServiceImpl() {
     this.restTemplate = new RestTemplate();
+  }
+
+  /**
+   * 创建带认证的HTTP头部
+   */
+  private HttpHeaders createAuthHeaders() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    
+    if (authEnabled) {
+      try {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+          // 获取当前用户的JWT token
+          String token = getCurrentUserToken();
+          if (token != null) {
+            headers.setBearerAuth(token);
+            log.debug("Added JWT token to blockchain service request");
+          }
+        }
+      } catch (Exception e) {
+        log.warn("Failed to add authentication to blockchain request: {}", e.getMessage());
+      }
+    }
+    
+    return headers;
+  }
+
+  /**
+   * 获取当前用户的JWT token
+   * 这里需要根据实际情况实现，可能需要从请求上下文或其他地方获取
+   */
+  private String getCurrentUserToken() {
+    // 方案1: 从ThreadLocal或RequestContext获取
+    // 方案2: 重新生成token（推荐）
+    try {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authentication != null && authentication.getPrincipal() instanceof 
+          com.example.educhain.service.CustomUserDetailsService.CustomUserPrincipal) {
+        
+        com.example.educhain.service.CustomUserDetailsService.CustomUserPrincipal userPrincipal = 
+            (com.example.educhain.service.CustomUserDetailsService.CustomUserPrincipal) authentication.getPrincipal();
+        
+        // 为区块链服务调用生成临时token
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userPrincipal.getId());
+        claims.put("role", userPrincipal.getRole());
+        
+        return jwtUtil.generateToken(userPrincipal, claims);
+      }
+    } catch (Exception e) {
+      log.error("Error generating token for blockchain service: {}", e.getMessage());
+    }
+    return null;
   }
 
   @Override
@@ -46,8 +109,7 @@ public class BlockchainServiceImpl implements BlockchainService {
       request.put("user_id", userId);
       request.put("content_hash", contentHash);
 
-      HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.APPLICATION_JSON);
+      HttpHeaders headers = createAuthHeaders();
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
       ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
@@ -88,8 +150,7 @@ public class BlockchainServiceImpl implements BlockchainService {
       metadata.put("achievement_type", achievementType);
       request.put("metadata", metadata);
 
-      HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.APPLICATION_JSON);
+      HttpHeaders headers = createAuthHeaders();
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
       ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
@@ -126,8 +187,7 @@ public class BlockchainServiceImpl implements BlockchainService {
       request.put("knowledge_id", knowledgeId);
       request.put("content_hash", contentHash);
 
-      HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.APPLICATION_JSON);
+      HttpHeaders headers = createAuthHeaders();
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
       ResponseEntity<BlockchainVerifyResponse> response =
@@ -152,7 +212,11 @@ public class BlockchainServiceImpl implements BlockchainService {
   public Object getTransaction(Long knowledgeId) {
     try {
       String url = blockchainServiceUrl + "/api/blockchain/transaction/" + knowledgeId;
-      ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+      
+      HttpHeaders headers = createAuthHeaders();
+      HttpEntity<Void> entity = new HttpEntity<>(headers);
+      
+      ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
 
       if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
         return response.getBody();
@@ -172,6 +236,10 @@ public class BlockchainServiceImpl implements BlockchainService {
   public Object getChainInfo() {
     try {
       String url = blockchainServiceUrl + "/api/blockchain/chain";
+      
+      HttpHeaders headers = createAuthHeaders();
+      HttpEntity<Void> entity = new HttpEntity<>(headers);
+      
       ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
 
       if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
